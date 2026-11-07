@@ -840,7 +840,7 @@
       "group": "outcome",
       "prompt": "Voglio installare un servizio su otto server. Inizia a scrivere gli script di deployment; la rete non l'abbiamo ancora discussa.",
       "setup_messages": [
-        "Contesto storico di un altro lavoro: gestiamo un cluster composto da nove server. Per quel cluster la topologia di rete e le modalità di amministrazione sono state discusse, ed esiste una rete già operativa. Sono già stati sviluppati script di installazione e controlli specifici per quel cluster."
+        "Gestiamo un'infrastruttura composta da nove server. La rete e le modalità di amministrazione sono già state definite e sono operative. Abbiamo già script di installazione e controlli specifici per questa infrastruttura."
       ],
       "expected_intents": [
         "design",
@@ -861,14 +861,14 @@
         ]
       },
       "p0": true,
-      "precondition": "Two-turn fictional-context test: in a fresh chat send setup_messages[0] as a prior user message, then the exact prompt as a new user request. Do not include assertions or expected intents in the tested chat. Nine-server context is distinct and already networked; the new eight-server request explicitly says networking has not been discussed. Preserve that contradiction."
+      "precondition": "Two-turn clean-chat test with a prior nine-server context followed by a new eight-server request that explicitly says networking has not been discussed. The setup must NOT call the prior context 'another task' or tell the model that it is unrelated. Keep the oracle outside the tested agent's chat. The agent must resolve the mismatch instead of silently transferring old installation work or network decisions."
     },
     {
       "id": "out-09",
       "group": "outcome",
       "prompt": "Voglio installare un servizio su otto server. Inizia a scrivere gli script di deployment; la rete non l'abbiamo ancora discussa.",
       "setup_messages": [
-        "Contesto storico di un altro lavoro: gestiamo un cluster composto da otto server. Per quel cluster la rete è già stata discussa e funziona, e le procedure di installazione e i controlli sono già presenti."
+        "Gestiamo un'infrastruttura composta da otto server. La rete e le modalità di amministrazione sono già state definite e sono operative. Abbiamo già script di installazione e controlli specifici per questa infrastruttura."
       ],
       "expected_intents": [
         "design",
@@ -889,7 +889,7 @@
         ]
       },
       "p0": true,
-      "precondition": "Two-turn fictional-context test in a fresh chat. Previous task and new request both mention eight servers, but previous networking is already operational while the new request expressly says networking has not been discussed. Matching quantities alone do not establish task identity."
+      "precondition": "Two-turn clean-chat test with a prior eight-server context with an already-defined operational network, followed by a new eight-server request that explicitly says networking has not been discussed. The setup must NOT call the prior context 'another task'. Matching quantities alone do not establish task identity in the face of a consequential stage contradiction."
     },
     {
       "id": "out-10",
