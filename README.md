@@ -21,11 +21,12 @@ Projects and does not replace RumiAI's bootstrap.
 - [Commands](routing/commands.md): `!aw` grammar and diagnostic `route`.
 - [Intents](routing/intents.yaml): open-set, multi-intent and modality-aware catalog.
 - [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
+- [Project-scope example definitions](contexts/example/project-boundaries.md): contrasting single-infrastructure and multi-cluster scopes; these are optional project context, not a global hierarchy.
 - [Example state](contexts/example/demo-state.md): isolated header-first fixture.
 - [Acceptance scenarios](evaluations/bootstrap-routing.md): early examples.
 - [Reproducible evaluation protocol](evaluations/test-protocol.md) and [structured test cases](evaluations/test-cases.json): clean-chat trials, outcome oracles and scoring. Selected responses have been reported by the operator; the full repeated pilot remains incomplete.
-- [Task-identity and contradiction regression runbook](evaluations/context-identity-runbook.md): three prepared two-turn tests, **not yet executed**, with a separate [lesson and proposed decision gate](evaluations/lessons/task-identity-contradictions.md).
-- [Cross-chat context identity runbook](evaluations/cross-chat-identity-runbook.md): separate-conversation experiments `out-11`/`out-12` and named-project retrieval control `out-13` (**not yet run**). These differ from same-chat continuity tests and require a separate exposure assessment.
+- [Task-identity and contradiction regression runbook](evaluations/context-identity-runbook.md): same-chat cases; `out-08`/`out-09` produced observed critical failures. See [finding and proposed applicability method](evaluations/lessons/task-identity-contradictions.md).
+- [Cross-chat context identity runbook](evaluations/cross-chat-identity-runbook.md): `out-11` produced an observed critical failure; `out-12` and named-project control `out-13` remain unrun. The operator ended this focused test series in favor of a systemic revision.
 - [Earlier routing comparison](evaluations/routing-protocols.md): exploratory alternatives.
 
 Reusable method documents live in `behavior/`; mutable task/project state
@@ -48,9 +49,8 @@ deterministic resolver, validated classifier or portable host integration.
 A GitHub URL is only a document location, not proof that an agent can fetch,
 interpret or enforce the protocol. Any such claim requires client-specific tests.
 
-## Next step
+## Current direction
 
-Test the accepted experimental candidate in **isolated, clean-chat** runs,
-including source-pinned historical Keycloak/rsudo scenarios and a comparison
-with the unchanged RumiAI baseline. The prototype bootstrap exists, but it
-remains unvalidated, non-active and unsuitable for silent installation.
+An **experimental successor** now checks both the *scope of a project* and the *identity of the current task* before applying earlier state. It treats explicit contradictions as evidence about applicability, not as facts to explain away. The user elected to stop the highly repetitive network/server-count test series and develop this general method instead. Earlier observed results remain attributable to the previously pinned `c9d12ce` bootstrap; they are not validation of the successor.
+
+Project owners must define whether their project describes one stable managed subject, a family of independent task instances, or another explicit scope. The examples are optional aids, not automatic Project Instructions. No connected ChatGPT Project configuration or RumiAI production contract is changed by these repository edits.
