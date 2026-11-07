@@ -1,5 +1,7 @@
 # out-01 baseline comparison and independently verified experiment archive
 
+> **CORRECTION — comparative judgment superseded (2026-11-07).** The initial claim that both workflows passed was **wrong**. The original user request explicitly said the eight-server task's network had not yet been discussed; RumiAI silently misidentified it as its earlier cluster task whose network had been discussed/used. This was a **critical task-identity and contradiction failure**, not a benefit of project-specific context. The evaluator also failed by verifying source existence without verifying task applicability. See [corrective audit](2026-11-07-out-01-baseline-correction.md). **This historical report's original favorable comparison must not be cited as a valid finding.** Its independently reproduced ZIP tests remain valid for the inspected archive.
+
 Date: 2026-11-07
 Status: **Comparative report; supplied baseline response and ZIP, local isolated replay performed**
 Experimental ChatGPT Project bootstrap pin: `ai-workflow@c9d12ce28f9948fe48625777e4d691dd8b4d5221` (as configured by user).
