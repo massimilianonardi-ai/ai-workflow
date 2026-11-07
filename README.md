@@ -11,11 +11,24 @@ RumiAI bootstrap in `rumiai-dev` remains the active baseline. No ChatGPT Project
 Instructions, agent configurations, runtime products or memory services are
 changed by material in this repository.
 
-## Current investigation
+## Experimental bootstrap pilot (opt-in only)
 
-- [Routing and authority protocol comparison](evaluations/routing-protocols.md)
-  compares alternative progressive-disclosure and context-graph protocols.
-  Both are *candidates*, not approved contracts.
+The operator accepted this **first experimental implementation** of the
+command/natural-language dispatcher. It is not active in existing ChatGPT
+Projects and does not replace RumiAI's bootstrap.
+
+- [Bootstrap](bootstrap.md): short two-level selective-disclosure router.
+- [Commands](routing/commands.md): `!aw` grammar and diagnostic `route`.
+- [Intents](routing/intents.yaml): open-set, multi-intent and modality-aware catalog.
+- [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
+- [Example state](contexts/example/demo-state.md): isolated header-first fixture.
+- [Acceptance scenarios](evaluations/bootstrap-routing.md): awaiting real-agent tests.
+- [Earlier routing comparison](evaluations/routing-protocols.md): exploratory alternatives.
+
+Reusable method documents live in `behavior/`; mutable task/project state
+belongs in `contexts/`. Folder nesting does not determine logical hierarchy.
+The pilot consists of model-readable instructions and fixtures, **not** a
+deterministic resolver, validated classifier or portable host integration.
 
 ## Design intent under evaluation
 

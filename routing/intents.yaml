@@ -1,0 +1,60 @@
+# Candidate open-set, multi-label catalog. These are routing hints, not authority.
+version: 1
+status: experimental
+dimensions:
+  interaction: [ask, act, express, unknown]
+  operations: [ask, research, reflect, design, plan, develop, diagnose, review, validate, operate, resume, create, unknown]
+  input_modalities: [text, image, audio, video, structured, unknown]
+  output_modalities: [text, code, document, image, audio, video, structured, system_change, unknown]
+  continuity: [new, continue, resume, unknown]
+  effects: [none, read, local_write, external_action, irreversible, unknown]
+  uncertainty: [resolved, discoverable, consequential_decision, unknown]
+
+# Several operations may apply at once. Combine references without inventing
+# additional permissions. State-header workflow references remain scoped.
+operation_routes:
+  ask:
+    workflow_refs: []
+  research:
+    workflow_refs: [behavior/intent.md, behavior/evidence.md]
+  reflect:
+    workflow_refs: [behavior/intent.md, behavior/evidence.md]
+  design:
+    workflow_refs: [behavior/intent.md, behavior/decisions.md]
+  plan:
+    workflow_refs: [behavior/intent.md, behavior/decisions.md]
+  develop:
+    workflow_refs: [behavior/intent.md, behavior/decisions.md, behavior/execution.md, behavior/evidence.md]
+  diagnose:
+    workflow_refs: [behavior/intent.md, behavior/evidence.md, behavior/execution.md]
+  review:
+    workflow_refs: [behavior/intent.md, behavior/evidence.md]
+  validate:
+    workflow_refs: [behavior/evidence.md]
+  operate:
+    workflow_refs: [behavior/intent.md, behavior/decisions.md, behavior/execution.md, behavior/evidence.md]
+  resume:
+    workflow_refs: []
+    resolution: state_header_first
+  create:
+    workflow_refs: [behavior/intent.md]
+  unknown:
+    workflow_refs: []
+    resolution: investigate_or_clarify_if_material
+
+modality_specializations:
+  image_generation:
+    condition: requested_image_output
+    capability: host_image_generation
+  image_analysis:
+    condition: supplied_image_input_for_interpretation
+    capability: host_visual_understanding
+
+routing_principles:
+  - determine_user_outcome_before_route
+  - recognize_compound_and_unknown_intents
+  - classify_input_and_output_separately
+  - honor_explicit_user_constraints
+  - use_fast_path_for_self_contained_requests
+  - retrieve_only_material_detail
+  - separate_relevance_authority_and_permission
