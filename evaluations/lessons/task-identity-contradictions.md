@@ -1,6 +1,6 @@
 # Candidate improvement — task identity and contradiction gate
 
-Status: **Proposed evaluation finding; not promoted to active bootstrap behavior**
+Status: **Observed failure + experimental successor implemented; no host activation or successor behavioral validation**
 Date: 2026-11-07
 Related: `out-01`, subsequent operator correction of the baseline comparison
 Experimental candidate held fixed: `bootstrap.md@c9d12ce28f9948fe48625777e4d691dd8b4d5221`
@@ -59,6 +59,20 @@ New, separately scoped **unexecuted** tests `out-11` and `out-12` use Chat A and
 2. If so, did it test the older task's identity, applicability, and explicit contradictions before importing its decisions?
 
 A Chat B that does not see Chat A may give the right fresh-task answer for a trivial reason. That is a safe visible outcome, **not proof of correct context discrimination**. The cross-chat trial is a complement, not a retroactive replacement, for the same-chat contrast.
+
+## Operator's final synthesis and implementation decision
+
+The operator ended the narrowly repeated network/server-count trials after observing failures in same-chat and cross-chat conditions. The correct next level is not a global ban on carrying context across chats and not an endless series of near-identical isolated prompts: **project scope determines which earlier facts are candidates for reuse**. A project for a single named server fleet and a project for a deployment system serving many unrelated clusters have different task-identity expectations. These conditions interact with chat continuity, current explicit constraints, authority and retrieval, and cannot be reduced to one fixed server-count rule.
+
+A **successor experimental method** was incorporated into `ai-workflow/bootstrap.md` and `routing/resolution.md` on the current development branch, and alternative scope declarations were illustrated in `contexts/example/project-boundaries.md`:
+
+- available history can suggest candidate context, not prove current-task identity;
+- distinguish project-wide invariants from facts local to one environment/task;
+- compare explicit contradictions before importing task-specific network/installation state;
+- reuse matching relevant prior context without excessive confirmation;
+- if identity changes architecture, permissions or irreversible effects, ask a focused question; otherwise continue safe independent work.
+
+The earlier opt-in ChatGPT Project **remains pinned to `c9d12ce28f9948fe48625777e4d691dd8b4d5221` unless its owner explicitly changes it**. Repository edits do not automatically activate new Project Instructions. This successor is a **candidate design response to observed failures**, not evidence that the model will obey it consistently. The user asked to **stop this repetitive test series**; do not suggest another near-identical network-count trial as the immediate step. Resume work on general project/task scope modelling and use later real-task observations when useful.
 
 ## Change strategy and boundaries
 
