@@ -25,6 +25,7 @@ Projects and does not replace RumiAI's bootstrap.
 - [Acceptance scenarios](evaluations/bootstrap-routing.md): early examples.
 - [Reproducible evaluation protocol](evaluations/test-protocol.md) and [structured test cases](evaluations/test-cases.json): clean-chat trials, outcome oracles and scoring. Selected responses have been reported by the operator; the full repeated pilot remains incomplete.
 - [Task-identity and contradiction regression runbook](evaluations/context-identity-runbook.md): three prepared two-turn tests, **not yet executed**, with a separate [lesson and proposed decision gate](evaluations/lessons/task-identity-contradictions.md).
+- [Cross-chat context identity runbook](evaluations/cross-chat-identity-runbook.md): separate-conversation experiments `out-11`/`out-12` and named-project retrieval control `out-13` (**not yet run**). These differ from same-chat continuity tests and require a separate exposure assessment.
 - [Earlier routing comparison](evaluations/routing-protocols.md): exploratory alternatives.
 
 Reusable method documents live in `behavior/`; mutable task/project state
