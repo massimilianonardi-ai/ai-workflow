@@ -6,6 +6,14 @@ contexts:
     path: contexts/example/demo-state.md
     match: explicit_id_only
     authority: experimental_fixture
+  - id: task:blocked
+    path: contexts/example/blocked-state.md
+    match: explicit_id_only
+    authority: experimental_fixture
+  - id: task:untrusted
+    path: contexts/example/untrusted-state.md
+    match: explicit_id_only
+    authority: experimental_fixture
 
 # Unknown IDs remain unresolved; do not infer nonexistence.
 # Exact user-supplied accessible state documents can bypass this registry.

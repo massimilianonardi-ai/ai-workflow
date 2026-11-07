@@ -22,7 +22,8 @@ Projects and does not replace RumiAI's bootstrap.
 - [Intents](routing/intents.yaml): open-set, multi-intent and modality-aware catalog.
 - [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
 - [Example state](contexts/example/demo-state.md): isolated header-first fixture.
-- [Acceptance scenarios](evaluations/bootstrap-routing.md): awaiting real-agent tests.
+- [Acceptance scenarios](evaluations/bootstrap-routing.md): early examples.
+- [Reproducible evaluation protocol](evaluations/test-protocol.md) and [structured test cases](evaluations/test-cases.json): independent clean-chat trials, outcomes and scoring, not yet executed.
 - [Earlier routing comparison](evaluations/routing-protocols.md): exploratory alternatives.
 
 Reusable method documents live in `behavior/`; mutable task/project state
