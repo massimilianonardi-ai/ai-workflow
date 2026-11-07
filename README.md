@@ -23,7 +23,8 @@ Projects and does not replace RumiAI's bootstrap.
 - [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
 - [Example state](contexts/example/demo-state.md): isolated header-first fixture.
 - [Acceptance scenarios](evaluations/bootstrap-routing.md): early examples.
-- [Reproducible evaluation protocol](evaluations/test-protocol.md) and [structured test cases](evaluations/test-cases.json): independent clean-chat trials, outcomes and scoring, not yet executed.
+- [Reproducible evaluation protocol](evaluations/test-protocol.md) and [structured test cases](evaluations/test-cases.json): clean-chat trials, outcome oracles and scoring. Selected responses have been reported by the operator; the full repeated pilot remains incomplete.
+- [Task-identity and contradiction regression runbook](evaluations/context-identity-runbook.md): three prepared two-turn tests, **not yet executed**, with a separate [lesson and proposed decision gate](evaluations/lessons/task-identity-contradictions.md).
 - [Earlier routing comparison](evaluations/routing-protocols.md): exploratory alternatives.
 
 Reusable method documents live in `behavior/`; mutable task/project state
