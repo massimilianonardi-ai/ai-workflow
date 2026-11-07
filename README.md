@@ -47,6 +47,7 @@ interpret or enforce the protocol. Any such claim requires client-specific tests
 
 ## Next step
 
-Agree on a testable candidate and run isolated, source-pinned routing and
-clean-chat resumption trials. Until then there is no stable manifest or
-universal bootstrap instruction to install.
+Test the accepted experimental candidate in **isolated, clean-chat** runs,
+including source-pinned historical Keycloak/rsudo scenarios and a comparison
+with the unchanged RumiAI baseline. The prototype bootstrap exists, but it
+remains unvalidated, non-active and unsuitable for silent installation.
