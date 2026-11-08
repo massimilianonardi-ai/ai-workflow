@@ -76,3 +76,11 @@ Policy: append-only factual event summaries. Original private chat/message URLs 
 - **Decision status:** implementation of previously approved scope.
 - **Evidence:** current task-state blob `5e04b3b41b0efb0944a13ef0e2cc2709689e3be7`, state update commit `f46d3e315e6fe0afeca6eab53f55709cdd329e1d`; pre-handoff repository HEAD `f46d3e315e6fe0afeca6eab53f55709cdd329e1d`.
 - **Effect:** records contain an auditable current state, events and exact remaining checkpoint action. No running client was modified and no automatic per-turn persistence was measured.
+
+### EV-0010 — 2026-11-08 — corrected specification status labeling
+
+- **Source:** fresh source inspection and GitHub commit `48de398f2e12527700ed60d9b3e8f63efd0d5f52`.
+- **What happened:** changed the section heading from “current open decisions” to “resolved decisions and deliberately deferred integration” because approval, storage and task-identity choices were already settled; only the exporter integration remains deferred. No behavioral or architectural requirement changed.
+- **Decision status:** editorial correction of current document.
+- **Evidence:** `task-specification.md` at the cited commit.
+- **Effect:** current specification no longer presents settled choices as open.
