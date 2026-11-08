@@ -113,9 +113,9 @@ To prevent drift, the task-state owns only current accepted intent/decisions; de
 - [x] Operator explicitly approved the proposed universal task-document structure and initial repository location for implementation in the experimental candidate.
 
 **Approval evidence:** User confirmed explicit approval for substantive implementation, then explicitly accepted the three universal task files, fourth conditional specification and `ai-workflow/contexts/tasks/` storage on 2026-11-08. This does **not** activate a ChatGPT Project.  
-**Permitted next phase:** Finish the approved repository-level per-task traceability implementation and independently check its observable file/document relationships; future host deployment requires separate authorization.  
+**Permitted next phase:** The operator has explicitly authorized release and activation of the experimental bootstrap. Publish the approved Git release without another consent request. Actual ChatGPT Project Instructions cannot be edited from this connector's tools; deliver a ready-to-paste installer and report activation as **not performed**, not as denied or unauthorized.  
 **Deferred:** Further research-method design and other workflow concerns.
 
 ## 8. Execution status
 
-Repository-level candidate prepared; no new ChatGPT Project configuration or independent behavioral validation claimed. Next meaningful action: finalize documentation and this task's state/log/handoff, then report observed repository checks and the unresolved host-activation boundary.
+Repository-level task-record method implemented. Following the operator's further instruction to **execute and release**, prepared `releases/2026-11-08-task-continuity.md` and `deploy/chatgpt-project-instructions.md`. A frozen Git branch will pin the release after final task checkpointing. The ChatGPT client itself has not been changed or behaviorally verified. No broader legacy verification system is used.
