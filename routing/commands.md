@@ -18,9 +18,9 @@ The `!aw` prefix is **plain text**; it is not a native slash command or a platfo
 | `help` | `!aw help` | Explain command syntax; no side effects |
 | `route` | `!aw route [--context ID] -- REQUEST` | Show a proposed route; **never execute REQUEST** |
 | `resume` | `!aw resume --context ID [-- REQUEST]` | Read selected state header and resume authorized work |
-| `design` | `!aw design [--context ID] -- REQUEST` | Route to design; no implicit implementation |
+| `design` | `!aw design [--context ID] -- REQUEST` | Refine/update task specification with the user before substantive design; never implicitly implement |
 | `reflect` | `!aw reflect [--context ID] -- REQUEST` | Route to exploration/critique |
-| `develop` | `!aw develop [--context ID] -- REQUEST` | Route to development; existing permissions still apply |
+| `develop` | `!aw develop [--context ID] -- REQUEST` | Start or resume the interactive task-specification gate; implement only after approval, within authorization |
 
 Examples:
 
@@ -34,3 +34,5 @@ Examples:
 ```
 
 The `route` diagnostic reports likely intents, input/output modalities, candidate workflow/state references and unresolved consequential decisions, but never writes, deploys or acts on its payload. `route`, `design`, `reflect` and `develop` require a nonempty payload; `resume` requires context and accepts an optional payload; `help` takes no options or payload.
+
+A command verb is **not** an approval of an incomplete task specification. A previously approved specification for the same task may be resumed; otherwise `design` and `develop` enter the interactive refinement method in `behavior/specification.md`. `route` remains an inert diagnostic. An ordinary natural-language request can express multiple intents simultaneously and follows the same relevant gates.
