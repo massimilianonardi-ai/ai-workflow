@@ -19,6 +19,7 @@ Projects and does not replace RumiAI's bootstrap.
 
 - [Bootstrap](bootstrap.md): short two-level selective-disclosure router.
 - [Interactive design/development specification method](behavior/specification.md) and [task-specification template](templates/task-specification.md): mandatory task-owned draft, user-approved use cases and concrete acceptance scenarios before dependent implementation.
+- [Current feature specification](contexts/tasks/ai-workflow-design-development/task-specification.md): concrete use cases for this mode, review status and still-open approval decision.
 - [Commands](routing/commands.md): `!aw` grammar and diagnostic `route`.
 - [Intents](routing/intents.yaml): open-set, multi-intent and modality-aware catalog.
 - [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
