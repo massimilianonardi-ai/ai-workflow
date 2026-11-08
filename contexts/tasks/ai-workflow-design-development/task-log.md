@@ -1,3 +1,17 @@
+---
+id: task:ai-workflow-design-development
+kind: task_log
+status: implemented_in_repository
+scope: massimilianonardi-ai/ai-workflow
+subject: experimental AI workflow
+workflow_refs:
+  - behavior/task-records.md
+state_refs: []
+source:
+  authority: verified_user_task
+  revision: main
+---
+
 # Task log — AI workflow design/development and continuity
 
 Task ID: `task:ai-workflow-design-development`  
@@ -107,3 +121,19 @@ Policy: append-only factual event summaries. Original private chat/message URLs 
 - **What happened:** verified that GitHub supports a branch ref pinned to a concrete commit; no ChatGPT Project settings mutation action is available. Planned final step: publish a frozen `release/2026-11-08-task-continuity` branch **after** updating the handoff checkpoint, then re-read the released files. Do not represent GitHub publication as client activation.
 - **Decision status:** implementation plan, not evidence of final branch creation.
 - **Effect:** keep the exact branch/publication verification separate from any future actual client activation.
+
+### EV-0014 — 2026-11-08 — operator explicitly demands full product implementation
+
+- **Source:** current operator message in this conversation after the audit: implementation from bootstrap.md covering the complained-about problems, no tests or collateral activities.
+- **What happened:** the operator ordered direct implementation of the functional workflow method, not another audit or validation project; existing multi-intent, explicit user architecture decision and approved-scope boundaries remain.
+- **Decision status:** accepted and authorized work.
+- **Evidence:** current user request; no external runtime activation implied.
+- **Effect:** update the same ai-workflow task and implement necessary behavior documents on main.
+
+### EV-0015 — 2026-11-08 — operational method and state continuity published
+
+- **Source:** GitHub tree, commit and branch-ref write results in this conversation.
+- **What happened:** committed outcome-first operational bootstrap, multi-intent routing, architecture and specification gate, sustained execution, research, causal diagnosis, independent review, real-outcome evidence and strengthened state/header rules in commit 19f23d87db496f9edd09a7fd86995012a5d12bee. Published state-header templates, current task scope, README, installer and registry documentation in commit de4d4bcd283900098ddf3004430f4b76c2cf598c. Created fixed release branch release/2026-11-08-outcome-first from the latter implementation commit.
+- **Decision status:** implemented within the operator's requested repository scope.
+- **Evidence:** actual GitHub commits and successful ref update; release branch creation result.
+- **Effect:** product sources are present in main; this is implementation of a model-readable method, **not** verified ChatGPT host compliance or an automatically activated Project. No testing campaign was created or run.

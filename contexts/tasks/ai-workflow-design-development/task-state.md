@@ -1,7 +1,7 @@
 ---
 id: task:ai-workflow-design-development
 kind: task
-status: implementing
+status: implemented_in_repository
 scope: massimilianonardi-ai/ai-workflow
 subject: experimental AI workflow
 workflow_refs:
@@ -24,7 +24,7 @@ source:
 # Task state — AI workflow design/development and continuity
 
 Task ID: `task:ai-workflow-design-development`  
-Status: **operational workflow methods implemented on main; ChatGPT Project settings unchanged**  
+Status: **implementation delivered on main and fixed experimental release branch; ChatGPT Project settings unchanged**  
 Scope: `massimilianonardi-ai/ai-workflow`, experimental model-readable bootstrap  
 Updated: 2026-11-08
 
@@ -76,3 +76,11 @@ Deliver the actual ai-workflow method starting at bootstrap.md: resolve intended
 - Existing constraints still apply: retain the multidimensional matrix; do not import legacy project validation; do not equate passing internal checks with delivery; do not ask for another approval for already authorized work.
 - Product methods implemented on main in commit 19f23d87db496f9edd09a7fd86995012a5d12bee: outcome-first routing; architectural decision checkpoint; approved specification; autonomous execution; causal diagnosis; effective research; independent review; evidence grounded in user-visible outcomes; stronger continuity rules.
 - This task update adds consistent state-document headers, real task context and a restart checkpoint. This remains a **model-readable GitHub workflow product**, not a guarantee of host tool capabilities, automatic writes or client activation.
+
+## Delivery checkpoint
+
+- Core workflow product committed as 19f23d87db496f9edd09a7fd86995012a5d12bee.
+- State-header/template, specification, context registry, README and install instructions committed as de4d4bcd283900098ddf3004430f4b76c2cf598c.
+- The frozen release branch release/2026-11-08-outcome-first has been created from the implementation and will receive the final log/handoff checkpoint.
+- No client settings were changed, and no new tests, evaluations, runtime harnesses or automatic chat-exporter integrations were created.
+- Actual output of this task: updated model-readable workflow files and task continuity in the repository. Host-level behavior and automatic execution remain contingent on client tools; those are not represented as installed.
