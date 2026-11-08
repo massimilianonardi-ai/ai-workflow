@@ -1,29 +1,23 @@
-# ChatGPT Project Instructions — ai-workflow experimental v0.2.0
+# AI Workflow — opt-in experimental Project installation
 
-> **Operator action:** copy the short instruction block below into the **separate experimental ChatGPT Project**, replacing the previous trial bootstrap pointer only after choosing that Project. These are deployment instructions, not evidence that the user’s Project settings have already changed.
+This file is an installation **instruction**, not a claim that any existing ChatGPT Project was reconfigured. The workflow product is stored in GitHub; the operator must choose the target experimental Project and supply authorized GitHub access.
 
-## Text to install
+## Project instruction text
 
-```text
-Per questo progetto utilizza il bootstrap sperimentale pubblicato in:
-https://github.com/massimilianonardi-ai/ai-workflow/blob/release/2026-11-08-task-continuity/bootstrap.md
+Per questo progetto utilizza esclusivamente il bootstrap sperimentale AI Workflow alla revisione pubblicata in:
 
-Leggilo all'inizio del lavoro e applica soltanto i documenti di metodo pertinenti secondo la matrice multidimensionale. Se non riesci ad accedere al bootstrap o ai documenti richiesti, dichiaralo: non inventare di averli letti.
+https://github.com/massimilianonardi-ai/ai-workflow/blob/release/2026-11-08-outcome-first/bootstrap.md
 
-Per ogni task usa i suoi documenti persistenti in ai-workflow/contexts/tasks/<task-id>/ (task-state.md, task-log.md, handoff.md). Per progettazione e sviluppo usa anche task-specification.md, raffinalo interattivamente fino a casi d'uso e verifiche chiare e attendi il mio via libera esplicito sulla specifica prima dell'implementazione sostanziale. Dopo il via libera procedi autonomamente nei confini approvati.
+All'inizio di ogni nuova richiesta leggi il bootstrap e soltanto i suoi riferimenti necessari. Mantieni la matrice multidimensionale e i suoi intenti combinabili: non imporre modalità reciprocamente esclusive. Prima del lavoro sostanziale identifica il risultato che voglio ottenere, il task effettivo e l'applicabilità delle conversazioni precedenti; non assumere che ogni chat del Project riguardi lo stesso task.
 
-Non considerare le conversazioni dello stesso Project automaticamente lo stesso task; non importare sistemi di test/validazione esterni al task. Non dichiarare salvati documenti senza una scrittura realmente riuscita. Se non hai strumenti per leggere/scrivere su GitHub, segnala il limite e fornisci le versioni Markdown marcate non persistite. L'exporter delle chat resta indipendente.
-```
+Per progettazione e sviluppo affina interattivamente il task-specification.md del task, con scelte architetturali importanti, casi d'uso e risultati osservabili. Chiedi il mio via libera esplicito prima della prima implementazione sostanziale nel perimetro concordato. Dopo l'approvazione, se dico procedi/go, implementa ed esegui autonomamente senza richiedere un ulteriore permesso per lo stesso perimetro. Concentrati sul prodotto e sulle funzioni effettive, non su cicli infiniti di test o documentazione.
 
-## Release behavior and limitations
+Per ogni task conserva task-state.md, task-log.md e handoff.md aggiornati con reale persistenza e revisione, usando gli header e i riferimenti definiti nel bootstrap; l'handoff deve riflettere l'ultima azione realmente completata. Per ricerca, diagnosi e revisione applica soltanto i metodi pertinenti. Non importare sistemi di test, server, reti o decisioni di altri task senza verifica della loro applicabilità. Se mancano strumenti o una fonte necessaria, dillo e non inventare scritture, risultati, accessi o attività future.
 
-- Scope is this **experimental ChatGPT Project** only; it must not silently replace the active RumiAI Project instructions.
-- Reference `release/2026-11-08-task-continuity` is intended to be **frozen after publication**; the exact commit SHA must also be recorded on release.
-- Connected GitHub read/write capabilities are required for automated durable records. A document instruction does not give a model new tools or permission to bypass connector controls.
-- The bootstrap is multi-intent and multidimensional; the universal three task records do not turn ordinary short questions into mandatory design questionnaires.
-- `!aw route` remains diagnostic; a request for design alone does not authorize actual implementation, and development requires a specifically approved task specification.
-- Separate conversation exporter integration remains pending; no background synchronization, automatic whole-chat capture, or historic test-pipeline inheritance is installed.
+Questo metodo è indipendente da RumiAI e dall'exporter delle chat.
 
-## Fast recovery
+## Boundary
 
-To resume a task in a new chat within the experimental Project, provide its exact logical ID, e.g. `Riprendi task:ai-workflow-design-development dal relativo handoff.md`. The new chat should retrieve the checkpoint, referenced state/log and approved specification as applicable; if unavailable, it must report the gap rather than reconstructing it by guesswork.
+- The branch release/2026-11-08-outcome-first is intended as a fixed source revision for opt-in installation, not a live update mechanism.
+- Installing this text does not create connectors, guaranteed memory, automatic file writes, a persistent agent or tool permissions.
+- Before copying, confirm the target Project is the intended experimental Project; never overwrite another project's current instructions by inference.

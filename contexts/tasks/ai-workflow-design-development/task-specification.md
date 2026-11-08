@@ -1,3 +1,24 @@
+---
+id: task:ai-workflow-design-development
+kind: task_specification
+status: approved_for_implementation
+scope: massimilianonardi-ai/ai-workflow
+subject: experimental AI workflow
+workflow_refs:
+  - behavior/specification.md
+  - behavior/decisions.md
+  - behavior/intent.md
+  - behavior/execution.md
+  - behavior/evidence.md
+  - behavior/research.md
+  - behavior/diagnosis.md
+  - behavior/review.md
+state_refs: []
+source:
+  authority: verified_user_task
+  revision: main
+---
+
 # Task specification — interactive design and development bootstrap
 
 Status: **approved for this documentation work — implementation in repository; experimental bootstrap not activated in ChatGPT**  
@@ -119,3 +140,17 @@ To prevent drift, the task-state owns only current accepted intent/decisions; de
 ## 8. Execution status
 
 Repository-level task-record method implemented. Following the operator's further instruction to **execute and release**, prepared `releases/2026-11-08-task-continuity.md` and `deploy/chatgpt-project-instructions.md`. A frozen Git branch will pin the release after final task checkpointing. The ChatGPT client itself has not been changed or behaviorally verified. No broader legacy verification system is used.
+
+## Current product directive — 2026-11-08
+
+The operator explicitly requested **implementation**, rather than another round of evaluations, covering all problems identified in the two earlier conversations and the audit of main. This extends the repository's model-readable operating methods within the already agreed scope; no unapproved external runtime deployment is implied.
+
+Deliverable behavior across combined intents:
+- Clarify real expected operator outcome and resolve consequential architecture/usage decisions before dependent work.
+- Verify task/project identity and resolve contradictions instead of importing an irrelevant prior cluster or service state.
+- Maintain the same task's current decisions/history/restart checkpoint and link selected workflow methods through explicit state headers.
+- Perform approved implementation autonomously through the actual artifact, not repeated permission requests or internal testing cycles.
+- Diagnose repeated failures from causal evidence and revisit invalid premises rather than retry blindly.
+- Research material questions to decision-ready conclusions and independently review task relevance, authority and actual outcomes.
+
+The operator explicitly ruled out new tests or collateral evaluation work in this delivery. Existing historical test reports are not new acceptance gates. Current repository implementation is a model-readable workflow and must be described honestly as such, without claims of automatic host enforcement or activation.

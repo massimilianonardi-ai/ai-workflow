@@ -1,13 +1,36 @@
+---
+id: task:ai-workflow-design-development
+kind: task
+status: implementing
+scope: massimilianonardi-ai/ai-workflow
+subject: experimental AI workflow
+workflow_refs:
+  - behavior/intent.md
+  - behavior/decisions.md
+  - behavior/specification.md
+  - behavior/execution.md
+  - behavior/evidence.md
+  - behavior/task-records.md
+  - behavior/research.md
+  - behavior/diagnosis.md
+  - behavior/review.md
+  - routing/resolution.md
+state_refs: []
+source:
+  authority: verified_user_task
+  revision: main
+---
+
 # Task state — AI workflow design/development and continuity
 
 Task ID: `task:ai-workflow-design-development`  
-Status: **experimental repository release prepared; ChatGPT Project setting not remotely modified**  
+Status: **operational workflow methods implemented on main; ChatGPT Project settings unchanged**  
 Scope: `massimilianonardi-ai/ai-workflow`, experimental model-readable bootstrap  
 Updated: 2026-11-08
 
 ## Current objective
 
-Make the existing **multidimensional, multi-intent** AI bootstrap effective for genuine design/development tasks: refine incomplete requests interactively into one approved `task-specification.md` with user-relevant use cases and outcome checks; after explicit user go-ahead, work as autonomously as possible. In addition, preserve enough distinct durable task records for **every request type** to resume correctly across chats.
+Deliver the actual ai-workflow method starting at bootstrap.md: resolve intended user outcomes before architecture, identify the right task and prior context, elicit consequential decisions early, execute approved development autonomously to a usable result, investigate/recover from repeated failures, research and review independently, and preserve exact cross-chat continuity. Maintain the existing multidimensional matrix and explicit approval boundary; introduce no unrelated test suites.
 
 ## Accepted scope and distinctions
 
@@ -46,3 +69,10 @@ Make the existing **multidimensional, multi-intent** AI bootstrap effective for 
 
 - The user has authorized release and experimental activation. No available ChatGPT Project-settings write capability exists in this chat; GitHub publication does **not** change that setting. A Markdown instruction alone cannot guarantee automatic creation or update for each user request.
 - No new legacy validation apparatus is to be imported; checks should be small and tied to this task's use cases.
+
+## Current operator implementation order — 2026-11-08
+
+- The operator explicitly requested implementation of everything needed from bootstrap.md to address the complaints in the prior conversations, with **no testing program or collateral activities**.
+- Existing constraints still apply: retain the multidimensional matrix; do not import legacy project validation; do not equate passing internal checks with delivery; do not ask for another approval for already authorized work.
+- Product methods implemented on main in commit 19f23d87db496f9edd09a7fd86995012a5d12bee: outcome-first routing; architectural decision checkpoint; approved specification; autonomous execution; causal diagnosis; effective research; independent review; evidence grounded in user-visible outcomes; stronger continuity rules.
+- This task update adds consistent state-document headers, real task context and a restart checkpoint. This remains a **model-readable GitHub workflow product**, not a guarantee of host tool capabilities, automatic writes or client activation.

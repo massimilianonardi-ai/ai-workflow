@@ -1,3 +1,17 @@
+---
+id: "task:<stable-logical-id>"
+kind: task_log
+status: draft
+scope: "<declared project / subject scope>"
+subject: "<specific task subject>"
+workflow_refs:
+  - behavior/task-records.md
+state_refs: []
+source:
+  authority: "<verified operator/source>"
+  revision: "unverified until written"
+---
+
 # Task log — <title>
 
 Task ID: <scoped stable id>  

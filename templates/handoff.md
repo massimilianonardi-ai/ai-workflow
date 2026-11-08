@@ -1,3 +1,17 @@
+---
+id: "task:<stable-logical-id>"
+kind: handoff
+status: draft
+scope: "<declared project / subject scope>"
+subject: "<specific task subject>"
+workflow_refs:
+  - behavior/task-records.md
+state_refs: []
+source:
+  authority: "<verified operator/source>"
+  revision: "unverified until written"
+---
+
 # Handoff — <title>
 
 Task ID: <scoped stable id>  
@@ -26,3 +40,7 @@ Checkpoint: <timestamp or revision>
 ## Resume note
 
 The next chat must read this checkpoint and the referenced task documents. If refs cannot be accessed or the latest turn was not persisted, disclose the gap and do not infer completion. An unapproved design/development specification does **not** authorize dependent implementation.
+
+## Restart correctness
+
+This file is written **after** the other task documents and after the last external action represented as completed. Before resuming, compare the stated next action and revisions with current authoritative sources; correct a stale checkpoint rather than repeating completed work. When verification is impossible, label the checkpoint unverified.

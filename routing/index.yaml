@@ -22,3 +22,11 @@ contexts:
 
 # Unknown IDs remain unresolved; do not infer nonexistence.
 # Exact user-supplied accessible state documents can bypass this registry.
+
+# Operational registry maintenance for future persisted tasks:
+# On creation with authorized GitHub write access, register stable logical ID,
+# path to task-state.md, path to handoff.md and applicable declared scope.
+# Never reuse an ID for another subject; read existing entries before writing.
+# A registry entry is a locator only, never an authority to inherit the task.
+# If index updates are unavailable, an exact supplied task ID/path may still
+# be used, but do not claim the task is discoverable by registry search.

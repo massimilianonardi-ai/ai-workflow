@@ -1,3 +1,18 @@
+---
+id: "task:<stable-logical-id>"
+kind: task
+status: draft
+scope: "<declared project / subject scope>"
+subject: "<specific task subject>"
+workflow_refs:
+  - behavior/intent.md
+  - behavior/task-records.md
+state_refs: []
+source:
+  authority: "<verified operator/source>"
+  revision: "unverified until written"
+---
+
 # Task state — <title>
 
 Task ID: <scoped stable id>  
@@ -32,3 +47,7 @@ Updated: <timestamp/revision>
 - <blocking question or resource>
 - Specification: <relative path/revision, if applicable>
 - Latest log event: <EV-...>
+
+## State header rules
+
+Replace all placeholders with the actual scoped identity, current phase and verified source. Include only the workflow_refs genuinely needed for the task, and state_refs to explicitly related contexts with known relation and authority. Header fields are not a reason to infer implicit hierarchy or copy obsolete project assumptions.

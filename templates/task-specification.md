@@ -1,3 +1,19 @@
+---
+id: "task:<stable-logical-id>"
+kind: task_specification
+status: draft
+scope: "<declared project / subject scope>"
+subject: "<specific task subject>"
+workflow_refs:
+  - behavior/specification.md
+  - behavior/decisions.md
+  - behavior/evidence.md
+state_refs: []
+source:
+  authority: "<verified operator/source>"
+  revision: "unverified until written"
+---
+
 # Task specification — <short task title>
 
 Status: **draft**  
@@ -72,3 +88,7 @@ Define checks that are feasible in the actual environment. Automated checks, man
 
 **Completion:** <which agreed outcomes have been demonstrated; what remains>  
 **Next meaningful action:** <only if ongoing>
+
+## End-to-end result and architecture checkpoint
+
+For significant work, capture the operator's actual usage path (entry, execution, integration, delivery and observable result) and the material design choices that must be decided early. A complete internal unit or a passing check is not itself proof that the use case is usable. The agent must not promote its own implementation hypothesis to an accepted architecture. Existing explicit approval remains valid when the scope is unchanged.

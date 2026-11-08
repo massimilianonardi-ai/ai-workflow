@@ -1,79 +1,29 @@
-# AI Workflow — experimental lab
+# AI Workflow — independent experimental workflow product
 
-**Experimental release v0.2.0:** [release description](releases/2026-11-08-task-continuity.md) · [installation instructions for the experimental ChatGPT Project](deploy/chatgpt-project-instructions.md). The release is a reviewed **Git branch**, not an automatic ChatGPT Project configuration change.
+**Current source:** main, beginning at [bootstrap.md](bootstrap.md). The previous **v0.2.0** remains an immutable historical release at [release/2026-11-08-task-continuity](https://github.com/massimilianonardi-ai/ai-workflow/tree/release/2026-11-08-task-continuity). This repository is independent of RumiAI and other project-specific workflows.
 
-Status: **Experimental / not activated**
+This is a **model-readable operational workflow**, not a native ChatGPT feature, background agent, permission engine or automatic persistence service. It requires the host to provide actual source access, tool execution and authorized storage. Repository publication does not change ChatGPT Project Instructions.
 
-This repository is an isolated design and evaluation space for a provider-agnostic
-AI workflow bootstrap, separated from individual project and task state.
+## Operational entrypoint and methods
 
-It is **not** an adopted agent instruction set, an executable bootstrap, or a
-replacement for any project's current authority. In particular, the existing
-RumiAI bootstrap in `rumiai-dev` remains the active baseline. No ChatGPT Project
-Instructions, agent configurations, runtime products or memory services are
-changed by material in this repository.
+- [Bootstrap](bootstrap.md): outcome-first routing, task identity, decision/approval boundary, autonomous work, recovery, real delivery and truthful continuity.
+- [Multidimensional open matrix](routing/intents.yaml) and [context resolution](routing/resolution.md): combine applicable intents, check provenance/contradictions and do not transplant another task's architecture.
+- [Intent and usage](behavior/intent.md), [architectural decisions](behavior/decisions.md), [interactive design/development agreement](behavior/specification.md): ask consequential questions early and bind implementation to accepted use cases.
+- [Execution](behavior/execution.md), [failure diagnosis](behavior/diagnosis.md), [evidence](behavior/evidence.md): work to the operator-visible outcome, recover from causal failures and stop rather than entering an infinite validation loop.
+- [Research](behavior/research.md) and [independent review](behavior/review.md): produce justified conclusions and detect when an apparently correct artifact is solving the wrong task.
+- [Task continuity](behavior/task-records.md) and [templates](templates/): state with explicit header/method refs, append-only log, last-written handoff and conditional design/development specification. Actual state lives under contexts/tasks.
+- [Explicit commands](routing/commands.md): optional !aw grammar; diagnostic help/route never executes its payload.
 
-## Experimental bootstrap pilot (opt-in only)
+## Delivery contract
 
-The operator accepted this **first experimental implementation** of the
-command/natural-language dispatcher. It is not active in existing ChatGPT
-Projects and does not replace RumiAI's bootstrap.
+For substantial design/development: identify the real use case and architectural boundaries, refine a single task-owned specification, obtain the operator's explicit approval of its scope, then **implement and deliver autonomously**. Once approved, procedi/go means continue authorized execution. Verify the actual requested product/result to the extent tools allow; no unrelated inherited test system is a completion requirement.
 
-- [Bootstrap](bootstrap.md): short two-level selective-disclosure router.
-- [Universal task records](behavior/task-records.md): three separate, durable task-state/log/handoff files for **all request types**, with templates for [current state](templates/task-state.md), [event log](templates/task-log.md), and [restart checkpoint](templates/handoff.md).
-- [Interactive design/development specification method](behavior/specification.md) and [task-specification template](templates/task-specification.md): mandatory task-owned draft, user-approved use cases and concrete acceptance scenarios before dependent implementation.
-- [Current feature specification](contexts/tasks/ai-workflow-design-development/task-specification.md): user-approved design/development and universal task-document requirements; current [task state](contexts/tasks/ai-workflow-design-development/task-state.md), [chronology](contexts/tasks/ai-workflow-design-development/task-log.md), and [handoff](contexts/tasks/ai-workflow-design-development/handoff.md).
-- [Commands](routing/commands.md): `!aw` grammar and diagnostic `route`.
-- [Intents](routing/intents.yaml): open-set, multi-intent and modality-aware catalog.
-- [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
-- [Project-scope example definitions](contexts/example/project-boundaries.md): contrasting single-infrastructure and multi-cluster scopes; these are optional project context, not a global hierarchy.
-- [Example state](contexts/example/demo-state.md): isolated header-first fixture.
-- [Acceptance scenarios](evaluations/bootstrap-routing.md): early examples.
-- [Reproducible evaluation protocol](evaluations/test-protocol.md) and [structured test cases](evaluations/test-cases.json): clean-chat trials, outcome oracles and scoring. Selected responses have been reported by the operator; the full repeated pilot remains incomplete.
-- [Task-identity and contradiction regression runbook](evaluations/context-identity-runbook.md): same-chat cases; `out-08`/`out-09` produced observed critical failures. See [finding and proposed applicability method](evaluations/lessons/task-identity-contradictions.md).
-- [Cross-chat context identity runbook](evaluations/cross-chat-identity-runbook.md): `out-11` produced an observed critical failure; `out-12` and named-project control `out-13` remain unrun. The operator ended this focused test series in favor of a systemic revision.
-- [Earlier routing comparison](evaluations/routing-protocols.md): exploratory alternatives.
+For all substantive tasks, maintain distinct current truth, historical events and next-step handoff using real verified writes. A missing writable store must be disclosed as **not persisted**. Resolve subject/task identity before using earlier chats or memory as task authority. Short self-contained user requests remain direct; administrative files are not a reason to hold up the answer.
 
-Reusable method documents live in `behavior/`; mutable task/project state
-belongs in `contexts/`. Folder nesting does not determine logical hierarchy.
-The pilot consists of model-readable instructions and fixtures, **not** a
-deterministic resolver, validated classifier or portable host integration.
+## Installation
 
-## Design intent under evaluation
+See [experimental ChatGPT Project instructions](deploy/chatgpt-project-instructions.md), which target the new opt-in release branch. Install manually in the intended project if desired; no host settings are modified by these repository commits. Source-level implementation alone cannot guarantee consistent model behavior, durable storage, cross-chat recall or automatic execution.
 
-- Keep relatively stable **workflow behavior** documents separate from mutable,
-  structured **context/state** documents.
-- Let each state document start with references to the applicable workflow
-  and relevant state, so direct state resumption is possible.
-- Select context by declared identifiers, relationships and evidence rather
-  than fixed project/task/chat directory nesting.
-- Keep source relevance, source authority and decision authorization distinct.
-- Verify first operator-visible outcomes, not merely internal task progress.
-- Compare with an unchanged RumiAI baseline before any opt-in pilot.
+## Historical material
 
-A GitHub URL is only a document location, not proof that an agent can fetch,
-interpret or enforce the protocol. Any such claim requires client-specific tests.
-
-## Universal task continuity — approved experimental design
-
-For **every task**, including ordinary single-turn requests, the candidate workflow keeps three distinct files under `contexts/tasks/<task-id>/`:
-
-- `task-state.md`: current approved outcome, constraints and decisions, without discarded alternatives.
-- `task-log.md`: append-only event history, including actions, Q/A, rejected proposals and actual evidence.
-- `handoff.md`: minimal exact cross-chat restart checkpoint, written **after** other changes.
-
-The optional fourth file `task-specification.md` is required for genuine design/development. Approval of a particular specification revision before substantive implementation is explicit. The existing **multi-intent, multidimensional matrix remains unchanged**. Even short tasks receive minimal records without forcing a long conversation. No unrelated inherited testing or validation process is incorporated.
-
-This is a **model-readable Markdown protocol**, not a durable-write agent runtime or an automatic chat exporter: actual creation/readback depends on authorized storage tools, and missing persistence must be disclosed. No automatic chat mirroring, Project configuration change or background sync is implied.
-
-## Newly implemented experimental design/development path
-
-The same **multidimensional, multi-intent matrix** remains the routing model. When an actual task includes design/development, the agent creates or updates **one task-scoped `task-specification.md`**, refines the user's request interactively, and establishes concrete use cases and directly linked verification scenarios. The agent cannot treat its own assumptions as approval: the user accepts the sufficiently complete specification before dependent implementation begins. After approval, execution is autonomous inside the established boundaries. Ordinary direct requests remain free of this process; compound tasks can combine methods.
-
-Acceptance is derived **only from the current task's agreed use cases**, not from automatic inheritance of any unrelated historical testing/validation apparatus. Verification has an explicit completion condition; a perpetually growing test backlog is not the product. The template and behavior documents are experimental; their publication **does not configure any existing ChatGPT Project** or prove actual model compliance.
-
-## Current direction
-
-An **experimental successor** now checks both the *scope of a project* and the *identity of the current task* before applying earlier state. It treats explicit contradictions as evidence about applicability, not as facts to explain away. The user elected to stop the highly repetitive network/server-count test series and develop this general method instead. Earlier observed results remain attributable to the previously pinned `c9d12ce` bootstrap; they are not validation of the successor.
-
-Project owners must define whether their project describes one stable managed subject, a family of independent task instances, or another explicit scope. The examples are optional aids, not automatic Project Instructions. No connected ChatGPT Project configuration or RumiAI production contract is changed by these repository edits.
+Earlier exploratory routing trials and failures remain under evaluations/ for provenance only; they are **not automatically inherited by current tasks**, are not a production test pipeline, and do not establish the behavior of this revision. Chat-exporter integration remains independent and undecided.
