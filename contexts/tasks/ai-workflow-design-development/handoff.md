@@ -1,42 +1,45 @@
-# Handoff — AI workflow design/development and continuity
+---
+id: task:ai-workflow-design-development
+kind: handoff
+status: implemented_in_repository
+scope: massimilianonardi-ai/ai-workflow
+subject: experimental AI workflow
+workflow_refs:
+  - behavior/task-records.md
+  - behavior/execution.md
+state_refs: []
+source:
+  authority: verified_user_task
+  revision: main
+---
 
-Task ID: `task:ai-workflow-design-development`  
-Status: **v0.2.0 release assets prepared; experimental ChatGPT Project not yet changed**  
+# Handoff — AI Workflow implementation delivered
+
+Task ID: task:ai-workflow-design-development
+State: **implementation delivered on GitHub main; optional client installation is separate**
 Checkpoint date: 2026-11-08
 
-## Resume pointers
+## Verified restart pointers
 
-- **Current task state:** [task-state.md](task-state.md), blob `177a7be8aed0d26305c71f2ad2b62355ed30147f`.
-- **Chronology:** [task-log.md](task-log.md), blob `f06dae589a415341d1d4278142d06a573d7c66f0`; latest event **EV-0013**, editorial specification-status correction after the state was finalized.
-- **Approved feature specification:** [task-specification.md](task-specification.md), blob `ec5c2082b929d49203830cbce4eab78a5bc01e2d`; contains use cases and task-document decisions, including explicit operator go-ahead.
-- **Experimental bootstrap:** [bootstrap.md](../../../bootstrap.md), blob `5ec0aa505efc80e0e2621093086b282331daabbc`.
-- **Universal task-record method:** [behavior/task-records.md](../../../behavior/task-records.md), blob `06170cb7c12d77893908c9a7e036a010b0a85244`.
-- **Context registry:** [routing/index.yaml](../../../routing/index.yaml), blob `c0b12a685cb6f35c6308d7df3aa7af5a80a1d73d`; this task is registered.
-- **Repository snapshot before this handoff refresh:** `0231e5871b2f62eacd0c4c0cb04a6372dd7b4d04`. This handoff's own commit will be later than that snapshot.
+- **Current truth:** [task-state.md](task-state.md), blob db192f08ba848645a0ad152fe13ef184530ab2ca.
+- **History:** [task-log.md](task-log.md), blob e86f62f000bf8480176536628226250b14ba86da, latest event EV-0015, describing the implementation and its actual GitHub results.
+- **Scope and user approval:** [task-specification.md](task-specification.md), blob b2294cb429800125c4058ffd16c2268bfeb18a29; includes the user's instruction to implement the missing workflow functions without a new testing program.
+- **Operational entrypoint:** [bootstrap.md](../../../bootstrap.md), blob f38eab363f77a5c79c3991859029d8b52f58b713.
+- **Source history:** core implementation commit 19f23d87db496f9edd09a7fd86995012a5d12bee; state/templates/installer commit de4d4bcd283900098ddf3004430f4b76c2cf598c; final state and log checkpoint commit bbacf8fca7820223390ae2767495d89dc7a392bc.
+- **Release locator:** release/2026-11-08-outcome-first, a branch already created from the implemented product and intended to be fast-forwarded to the final handoff commit. Always read the current ref rather than treating an anticipated SHA as already verified.
 
-## Exact point reached
+## Outcome delivered
 
-The user approved the general document architecture and the initial `contexts/tasks/<task-id>/` storage. A model-readable method now requires three separate documents for **every task**, with a fourth `task-specification.md` for real design/development. The prior multidimensional intent matrix remains. The three templates, bootstrap integration, current task state, append-only log and registered task locator are published. Source-level assertions checked 13 relevant invariants successfully (one initial faulty literal matcher was corrected); no end-to-end ChatGPT client behavior was observed.
+Implemented the model-readable AI Workflow product requested by the operator: outcome-first intent handling, multidimensional compound routing, task/project scope discrimination and contradiction handling, consequential design-decision elicitation, explicit approval of task-owned development specification, autonomous authorized execution to usable result, causal failure recovery, bounded research, independent review of relevance/authority/outcome, explicit task-state headers, current/history separation and exact restart records. Updated the main repository documentation and opt-in installation pointer. No new tests, evaluation suite or other collateral program was introduced.
 
-## Release handoff (2026-11-08)
+## Limits and truth boundary
 
-- **Operator approval:** existing `procedi` confirmed to mean proceed, execute, implement and release; see task log **EV-0011**. No additional permission question is needed.
-- **Version:** `v0.2.0`, frozen Git branch intended as `release/2026-11-08-task-continuity`.
-- **Release documentation:** [release notes](../../../releases/2026-11-08-task-continuity.md), blob `cf8183763158b099f0aabff8840b5bb4cca93bbe`.
-- **Project installation file:** [deployment instructions](../../../deploy/chatgpt-project-instructions.md), blob `9e63aa898b20b9032cc5a2f82c7b90c39eb80e51`.
-- **Publication boundary:** this handoff is the final in-task write before the Git release branch is created. The branch must be **created and verified after this write**; it is not yet a proven client installation. GitHub publication does not modify ChatGPT Project settings.
-
-## Current limits and authorization
-
-- **No remaining operator decision is required** to consider the repository-level, user-approved implementation delivered.
-- The user has authorized release and experimental activation, but **the available client tools cannot change ChatGPT Project Instructions**; no actual Project has been switched to the new bootstrap. A Markdown convention cannot by itself guarantee automatic per-turn persistence or private-chat retrieval.
-- The chat exporter is being reimplemented and its integration remains **deliberately undecided**, with no hidden sync or background work.
-- Legacy testing/validation workflows are **not part of** this new method; verification is tied only to this task's approved use cases.
+This delivery consists of versioned Markdown/YAML methods and task-state documents. It is **not** an installed executor, client-native mode, writable storage service, guaranteed cross-chat memory, background orchestration or activated ChatGPT Project setting. GitHub writes have succeeded; behavioral outcomes in an actual client have not been claimed. The chat exporter remains independent. Existing historical RumiAI tests and scripts are not part of this task's acceptance.
 
 ## Next authorized action
 
-**Complete the already authorized release by creating and verifying** frozen branch `release/2026-11-08-task-continuity` at this handoff's resulting commit. The repository-level implementation is complete. If the operator later requests activation, first verify current repository revisions, confirm the target opt-in client/project and only then select/pin the new experimental bootstrap. For real deployment behavior, check a small representative end-to-end task without inheriting unrelated legacy validation programs. If the operator instead opens a new chat to continue designing the wider workflow, resume from this handoff and current task state; ask only genuinely new, consequential questions.
+**None — the requested repository implementation is delivered.** Only if the operator separately opts to activate it in a particular client/Project, read [installation instructions](../../../deploy/chatgpt-project-instructions.md), verify the pinned release ref and its target Project, and install using the tools/permissions actually available. Never ask the user to repeat existing approved design decisions or restart this completed implementation as if it were pending.
 
-## Resume caveat
+## Resume rule
 
-Start from these **persisted** files, not claims about unobservable earlier chats. If any cited revision or required file cannot be fetched, report the gap and retrieve the authoritative current source before acting. Do not treat an additional task's documents as this task's state merely because both are in one Project.
+Read this handoff first and compare it with current GitHub revisions and the new request. Do not repeat work already committed; if a later action or changed source supersedes this checkpoint, record the true update rather than carrying stale next steps.
