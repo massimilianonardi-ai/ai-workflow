@@ -28,7 +28,7 @@ Updated: 2026-11-08
 | C-09 | `task-state.md` records objectives, current refinements, distinctions, and **accepted** decisions; discarded options remain historical, not current state. | User requirement, 2026-11-08 |
 | C-10 | Chat exporter exists and is being reimplemented; integration choice stays **open**. | User statement, 2026-11-08 |
 
-## 3. Current open decisions
+## 3. Resolved decisions and deliberately deferred integration
 
 | ID | Decision | Consequence | Status |
 | --- | --- | --- | --- |
