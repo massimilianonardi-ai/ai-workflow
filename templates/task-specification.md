@@ -3,6 +3,7 @@
 Status: **draft**  
 Task ID / scope: <identifier or explicit unknown>  
 Owner / source: <user and directly relevant task sources>  
+Task records: [current state](task-state.md) · [history](task-log.md) · [resume checkpoint](handoff.md)  
 Last updated: <date or revision>
 
 > This is a **working agreement**, not an automatically approved implementation order. Update this same file as the discussion evolves. Label facts, assumptions and unresolved decisions accurately.
@@ -59,8 +60,8 @@ Define checks that are feasible in the actual environment. Automated checks, man
 - [ ] Verification means are available or their limitations are explicitly accepted.
 - [ ] **User has reviewed and accepted the current specification for the next phase.**
 
-**Approval evidence:** <user message and version/revision, or "not yet approved">  
-**Permitted next phase:** <refine / design only / develop within agreed bounds>  
+**Approval evidence:** <explicit user go-ahead identifying the accepted specification revision, or "not yet approved">  
+**Permitted next phase:** <refine / design only / develop within specifically approved bounds>; explicit go-ahead required for substantive dependent implementation  
 **Unapproved or deferred items:** <none or references>
 
 ## 8. Execution and outcome (populate only after approval)
