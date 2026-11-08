@@ -33,6 +33,6 @@ Examples:
 !aw develop -- Implementa e testa il parser
 ```
 
-The `route` diagnostic reports likely intents, input/output modalities, candidate workflow/state references and unresolved consequential decisions, but never writes, deploys or acts on its payload. `route`, `design`, `reflect` and `develop` require a nonempty payload; `resume` requires context and accepts an optional payload; `help` takes no options or payload.
+The `route` diagnostic reports likely intents, input/output modalities, candidate workflow/state references and unresolved consequential decisions, but **never writes, deploys or acts on its payload**. The universally required task-history records are **administrative metadata only**, not execution of the payload or permission to change target resources; when a diagnostic is truly read-only in the host or durable writing is unavailable, do not claim any task files were saved. Avoid side effects outside the scoped task-record store. `route`, `design`, `reflect` and `develop` require a nonempty payload; `resume` requires context and accepts an optional payload; `help` takes no options or payload.
 
 A command verb is **not** an approval of an incomplete task specification. A previously approved specification for the same task may be resumed; otherwise `design` and `develop` enter the interactive refinement method in `behavior/specification.md`. `route` remains an inert diagnostic. An ordinary natural-language request can express multiple intents simultaneously and follows the same relevant gates.
