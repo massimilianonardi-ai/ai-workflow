@@ -7,12 +7,12 @@ Checkpoint date: 2026-11-08
 ## Resume pointers
 
 - **Current task state:** [task-state.md](task-state.md), blob `5e04b3b41b0efb0944a13ef0e2cc2709689e3be7`.
-- **Chronology:** [task-log.md](task-log.md), blob `2874805983861da4b92b4964020359d00f10b7f9`; latest event **EV-0009**, state finalized ahead of handoff.
-- **Approved feature specification:** [task-specification.md](task-specification.md), blob `add802c3cc0bd76343d840b699a7cc5d6bd8d13d`; contains use cases and task-document decisions, including explicit operator go-ahead.
+- **Chronology:** [task-log.md](task-log.md), blob `52895f223fd61ff646139623e71218778d2e6576`; latest event **EV-0010**, editorial specification-status correction after the state was finalized.
+- **Approved feature specification:** [task-specification.md](task-specification.md), blob `6fc6fe229b4e7bc295d0601e3c2bebd69e69dc5c`; contains use cases and task-document decisions, including explicit operator go-ahead.
 - **Experimental bootstrap:** [bootstrap.md](../../../bootstrap.md), blob `5ec0aa505efc80e0e2621093086b282331daabbc`.
 - **Universal task-record method:** [behavior/task-records.md](../../../behavior/task-records.md), blob `06170cb7c12d77893908c9a7e036a010b0a85244`.
 - **Context registry:** [routing/index.yaml](../../../routing/index.yaml), blob `c0b12a685cb6f35c6308d7df3aa7af5a80a1d73d`; this task is registered.
-- **Repository snapshot immediately before creating this handoff:** `360f9b85f9fc3bbdb584fee3e127887cc1c941e8`. This handoff's own commit will be later than that snapshot.
+- **Repository snapshot immediately before updating this handoff:** `845be9150bb9b37990b4347803a86f097af65a1f`. This handoff's own commit will be later than that snapshot.
 
 ## Exact point reached
 
