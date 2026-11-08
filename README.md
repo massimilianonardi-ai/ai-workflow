@@ -18,6 +18,7 @@ command/natural-language dispatcher. It is not active in existing ChatGPT
 Projects and does not replace RumiAI's bootstrap.
 
 - [Bootstrap](bootstrap.md): short two-level selective-disclosure router.
+- [Interactive design/development specification method](behavior/specification.md) and [task-specification template](templates/task-specification.md): mandatory task-owned draft, user-approved use cases and concrete acceptance scenarios before dependent implementation.
 - [Commands](routing/commands.md): `!aw` grammar and diagnostic `route`.
 - [Intents](routing/intents.yaml): open-set, multi-intent and modality-aware catalog.
 - [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
@@ -48,6 +49,12 @@ deterministic resolver, validated classifier or portable host integration.
 
 A GitHub URL is only a document location, not proof that an agent can fetch,
 interpret or enforce the protocol. Any such claim requires client-specific tests.
+
+## Newly implemented experimental design/development path
+
+The same **multidimensional, multi-intent matrix** remains the routing model. When an actual task includes design/development, the agent creates or updates **one task-scoped `task-specification.md`**, refines the user's request interactively, and establishes concrete use cases and directly linked verification scenarios. The agent cannot treat its own assumptions as approval: the user accepts the sufficiently complete specification before dependent implementation begins. After approval, execution is autonomous inside the established boundaries. Ordinary direct requests remain free of this process; compound tasks can combine methods.
+
+Acceptance is derived **only from the current task's agreed use cases**, not from automatic inheritance of any unrelated historical testing/validation apparatus. Verification has an explicit completion condition; a perpetually growing test backlog is not the product. The template and behavior documents are experimental; their publication **does not configure any existing ChatGPT Project** or prove actual model compliance.
 
 ## Current direction
 
