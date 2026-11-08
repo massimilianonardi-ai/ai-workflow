@@ -60,7 +60,7 @@ For **every task**, including ordinary single-turn requests, the candidate workf
 - `task-log.md`: append-only event history, including actions, Q/A, rejected proposals and actual evidence.
 - `handoff.md`: minimal exact cross-chat restart checkpoint, written **after** other changes.
 
-The optional fourth file `task-specification.md` is required for genuine design/development. Approval of a particular specification revision before substantive implementation is explicit. The existing **multi-intent, multidimensional matrix remains unchanged**. Even short tasks receive minimal records without forcing a long conversation. No current RumiAI testing/validation framework is incorporated.
+The optional fourth file `task-specification.md` is required for genuine design/development. Approval of a particular specification revision before substantive implementation is explicit. The existing **multi-intent, multidimensional matrix remains unchanged**. Even short tasks receive minimal records without forcing a long conversation. No unrelated inherited testing or validation process is incorporated.
 
 This is a **model-readable Markdown protocol**, not a durable-write agent runtime or an automatic chat exporter: actual creation/readback depends on authorized storage tools, and missing persistence must be disclosed. No automatic chat mirroring, Project configuration change or background sync is implied.
 
