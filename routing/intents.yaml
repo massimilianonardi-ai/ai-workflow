@@ -20,11 +20,14 @@ operation_routes:
   reflect:
     workflow_refs: [behavior/intent.md, behavior/evidence.md]
   design:
-    workflow_refs: [behavior/intent.md, behavior/decisions.md]
+    workflow_refs: [behavior/intent.md, behavior/specification.md, behavior/decisions.md]
+    phase_gate: task_specification_reviewed_and_approved
   plan:
     workflow_refs: [behavior/intent.md, behavior/decisions.md]
+    # Add specification.md when the plan entails actual design/development.
   develop:
-    workflow_refs: [behavior/intent.md, behavior/decisions.md, behavior/execution.md, behavior/evidence.md]
+    workflow_refs: [behavior/intent.md, behavior/specification.md, behavior/decisions.md, behavior/execution.md, behavior/evidence.md]
+    phase_gate: task_specification_reviewed_and_approved
   diagnose:
     workflow_refs: [behavior/intent.md, behavior/evidence.md, behavior/execution.md]
   review:
@@ -58,3 +61,6 @@ routing_principles:
   - use_fast_path_for_self_contained_requests
   - retrieve_only_material_detail
   - separate_relevance_authority_and_permission
+  - compose_all_applicable_intents_without_exclusive_route
+  - refine_design_development_interactively_until_task_use_cases_and_checks_are_approved
+  - once_approved_execute_autonomously_within_task_boundaries
