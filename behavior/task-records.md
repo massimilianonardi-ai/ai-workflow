@@ -31,4 +31,4 @@ Use stable IDs and links to exact source message or exporter archive **only if a
 
 A text-only bootstrap **cannot guarantee** that ChatGPT exposes writable storage, intercepts every turn or can fetch previous private chats. Execute document writes only with real authorized capabilities; verify each write/read when possible and never claim completion when an operation failed. If durable writes are unavailable, maintain a clear Markdown fallback that can be handed to the user, label it **not persisted**, and explicitly report the limitation. Do not pretend that a URL, Project memory or a chat response itself constitutes a durable three-file checkpoint.
 
-No import of inherited RumiAI test/validation programs. Any outcome checks remain task-scoped and driven by user-agreed use cases. Historical documents do not become current authority merely by being linked.
+Do not import any unrelated legacy testing or validation process. Any outcome checks remain task-scoped and driven by user-agreed use cases. Historical documents do not become current authority merely by being linked.
