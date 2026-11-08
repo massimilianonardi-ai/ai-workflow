@@ -68,3 +68,11 @@ Policy: append-only factual event summaries. Original private chat/message URLs 
 - **Decision status:** implementation.
 - **Evidence:** `task-state.md`; commit above.
 - **Effect:** current task can be resumed from the persisted state once log/handoff are saved.
+
+### EV-0009 — 2026-11-08 — current task state finalized before handoff
+
+- **Source:** GitHub create/update results and current source fetch.
+- **What happened:** the universal task method and three templates, current task state/log, bootstrap routing integration, task registry and approved specification are persisted. The current `task-state.md` has been updated to distinguish completed repository-level implementation from **unperformed ChatGPT host activation**. An actual `handoff.md` file is the remaining final write for this task.
+- **Decision status:** implementation of previously approved scope.
+- **Evidence:** current task-state blob `5e04b3b41b0efb0944a13ef0e2cc2709689e3be7`, state update commit `f46d3e315e6fe0afeca6eab53f55709cdd329e1d`; pre-handoff repository HEAD `f46d3e315e6fe0afeca6eab53f55709cdd329e1d`.
+- **Effect:** records contain an auditable current state, events and exact remaining checkpoint action. No running client was modified and no automatic per-turn persistence was measured.
