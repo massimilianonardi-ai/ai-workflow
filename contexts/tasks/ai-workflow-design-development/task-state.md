@@ -1,7 +1,7 @@
 # Task state — AI workflow design/development and continuity
 
 Task ID: `task:ai-workflow-design-development`  
-Status: **implementing approved experimental task-record method**  
+Status: **experimental repository method implemented; not activated in a ChatGPT client**  
 Scope: `massimilianonardi-ai/ai-workflow`, experimental model-readable bootstrap  
 Updated: 2026-11-08
 
@@ -35,10 +35,10 @@ Make the existing **multidimensional, multi-intent** AI bootstrap effective for 
 ## Actual state and references
 
 - Experimental routing/bootstrap design and interactive specification method exist in the repository.
-- The universal task-record protocol and three templates have been committed; remaining work is to complete this task's real records and verify their exact links/readback.
+- The universal task-record method and templates have been committed. The bootstrap, commands, resolver and README now reference them; the selected task is registered for direct resume. Readback and focused structural assertions have been performed (13 checks passed after correcting one faulty matcher).
 - Source specification: `task-specification.md`, explicitly approved for implementation of this documentation architecture, **not** a claim of real host enforcement.
-- Task chronology: `task-log.md` (being initialized).
-- Resume pointer: `handoff.md` (written after all other files).
+- Task chronology: `task-log.md`, persisted with event IDs and commit/source references.
+- Resume pointer: `handoff.md`, published **as the final per-task write** after this state and its log are updated.
 
 ## Active boundaries
 
