@@ -23,13 +23,20 @@ Updated: 2026-11-08
 | C-04 | Do not begin dependent implementation until principal use cases and observable checks are clear. | Current user request |
 | C-05 | After sufficient refinement, execute inside boundaries with strong autonomy. | Prior and current user direction |
 | C-06 | No dependency on legacy/global test and validation machinery; use only checks derived from task use cases. | Current user restriction |
+| C-07 | Explicit user go-ahead is mandatory before the substantive implementation phase. | User confirmation, 2026-11-08 |
+| C-08 | Every task, of every request type, must have `handoff.md`, `task-log.md`, `task-state.md` with traceability across chats. | User requirement, 2026-11-08 |
+| C-09 | `task-state.md` records objectives, current refinements, distinctions, and **accepted** decisions; discarded options remain historical, not current state. | User requirement, 2026-11-08 |
+| C-10 | Chat exporter exists and is being reimplemented; integration choice stays **open**. | User statement, 2026-11-08 |
 
 ## 3. Current open decisions
 
 | ID | Decision | Consequence | Status |
 | --- | --- | --- | --- |
-| Q-01 | Should the user explicitly approve the sufficiently complete specification before implementation, rather than the assistant declaring readiness alone? | Determines exact approval transition | **Provisional default: explicit approval; not yet accepted** |
+| Q-01 | Explicit approval before substantive design/development execution? | Approval transition | **Decided: required explicit user go-ahead** |
 | Q-02 | What is the preferred durable storage location when the active task has no writable repository? | Cross-chat persistence | **Fallback specified: complete Markdown in chat, report not saved** |
+| Q-03 | Where should the per-task directory live, and should it be repository-based, external, or dual? | Defines durable persistence and cross-chat access | **Open, requires user decision** |
+| Q-04 | What counts as a new task vs continuation when the user sends another message or chat? | Avoids unnecessary fragmentation and context leakage | **Proposed: stable task identity based on actual objective; subject to approval** |
+| Q-05 | How/when to integrate the separately reimplemented ChatGPT conversation exporter? | Preserve complete originals without making exporter a precondition for task progress | **Deferred by user; do not bind now** |
 
 ## 4. Use cases
 
@@ -61,18 +68,34 @@ Updated: 2026-11-08
 
 Current experimental draft is implemented in `bootstrap.md`, `routing/intents.yaml`, `routing/commands.md`, `behavior/specification.md`, `behavior/execution.md`, `behavior/evidence.md` and `templates/task-specification.md`. Use-case acceptance is task-local, and the matrix dimensions are unchanged.
 
+## Proposed task documentation model (awaiting approval)
+
+Every request maps to a task with durable identity; if it genuinely continues the same task, update its three existing files rather than creating a duplicate. Even a one-turn free-form task receives short versions of the three mandatory files. This is a **design proposal**, not yet an implemented router or storage mechanism.
+
+```text
+tasks/<task-id>/
+  task-state.md          # Current agreed goal/scope, accepted decisions, active work status
+  task-log.md            # Chronological append-only factual events, including questions, tests and corrections
+  handoff.md             # Minimal restart state: latest relevant revisions, blockers, last event, exact next step
+  task-specification.md  # Only for actual design/development requiring use cases + acceptance scenarios
+```
+
+To prevent drift, the task-state owns only current accepted intent/decisions; detailed approved design/use cases and verification scenarios remain in task-specification, and state links them rather than duplicating them. Task-log owns history of proposals (including rejected ones), changes, tests and evidence with provenance. Handoff owns *resume mechanics*, not a second timeline. Each references stable task/event IDs and artifact revisions. The exporter, when the operator decides, can contribute immutable source archives linked from the log; **exporter operation is not currently a prerequisite**. No automatic cloud sync/background logging is claimed.
+
+**Implementation status:** proposal only; do not create workflow rules or new task-directory structure until explicitly approved.
+
 ## 7. Readiness and approval
 
 - [x] Goal, scope and intended output captured.
 - [x] Main use cases and observable checks drafted.
 - [x] Architecture boundaries preserved in document-level implementation.
-- [ ] Operator has reviewed and accepted the readiness/approval rule.
+- [x] Operator has decided explicit go-ahead is required for substantial implementation.
 - [ ] Operator has accepted this specification for broader usage.
 
-**Approval evidence:** Not yet approved.  
-**Permitted next phase:** User review and adjustment of the experimental candidate; do not assert activation or end-to-end validation.  
+**Approval evidence:** User approved the mandatory explicit go-ahead rule on 2026-11-08; the **new documentation architecture** is still a proposal, not approved for implementation.  
+**Permitted next phase:** Refine and seek approval for per-task traceability architecture, while keeping implemented bootstrap in experimental state.  
 **Deferred:** Further research-method design and other workflow concerns.
 
 ## 8. Execution status
 
-Repository-level candidate prepared; no new ChatGPT Project configuration or independent behavioral validation claimed. Next meaningful action: clarify the approval transition if the operator disagrees with the provisional explicit-review default.
+Repository-level candidate prepared; no new ChatGPT Project configuration or independent behavioral validation claimed. Next meaningful action: confirm the task-doc architecture and durable storage boundary; then request explicit implementation go-ahead.
