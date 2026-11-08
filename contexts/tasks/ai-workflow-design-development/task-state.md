@@ -1,7 +1,7 @@
 # Task state — AI workflow design/development and continuity
 
 Task ID: `task:ai-workflow-design-development`  
-Status: **experimental repository method implemented; not activated in a ChatGPT client**  
+Status: **experimental repository release prepared; ChatGPT Project setting not remotely modified**  
 Scope: `massimilianonardi-ai/ai-workflow`, experimental model-readable bootstrap  
 Updated: 2026-11-08
 
@@ -31,16 +31,18 @@ Make the existing **multidimensional, multi-intent** AI bootstrap effective for 
 | D-04 | For **every task** keep separate `task-state.md`, `task-log.md` and `handoff.md`; use task-specific `task-specification.md` when design/development applies. | User directive, 2026-11-08 |
 | D-05 | Use `ai-workflow/contexts/tasks/` as initial experimental task-document store; implement the proposed roles. | User message `si approvo tutto, procedi`, 2026-11-08 |
 | D-06 | Leave exporter integration undecided and non-blocking. | User directive, 2026-11-08 |
+| D-07 | Earlier `procedi` is authorization to execute, implement and release the approved experimental work; do not ask for redundant permission. | Explicit operator correction, 2026-11-08 |
 
 ## Actual state and references
 
 - Experimental routing/bootstrap design and interactive specification method exist in the repository.
-- The universal task-record method and templates have been committed. The bootstrap, commands, resolver and README now reference them; the selected task is registered for direct resume. Readback and focused structural assertions have been performed (13 checks passed after correcting one faulty matcher).
+- The universal task-record method and templates are implemented. The bootstrap, commands, resolver and README reference them; this task is registered for direct resume. Previous focused readbacks checked 15/15 task references and 10/10 checkpoint pointers; these are document checks, not ChatGPT runtime enforcement.
+- Release notes and a ready-to-paste Project Instruction have been published in `releases/2026-11-08-task-continuity.md` and `deploy/chatgpt-project-instructions.md`. Final frozen branch will identify the released snapshot.
 - Source specification: `task-specification.md`, explicitly approved for implementation of this documentation architecture, **not** a claim of real host enforcement.
 - Task chronology: `task-log.md`, persisted with event IDs and commit/source references.
 - Resume pointer: `handoff.md`, published **as the final per-task write** after this state and its log are updated.
 
 ## Active boundaries
 
-- No general cross-chat background mechanism is installed; Markdown instructions alone cannot guarantee automatic creation or update for each user request.
+- The user has authorized release and experimental activation. No available ChatGPT Project-settings write capability exists in this chat; GitHub publication does **not** change that setting. A Markdown instruction alone cannot guarantee automatic creation or update for each user request.
 - No new legacy validation apparatus is to be imported; checks should be small and tied to this task's use cases.
