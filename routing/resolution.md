@@ -33,6 +33,14 @@ Before allowing retrieved task state to determine the requested action:
 
 This is a **decision method**, not a deterministic classifier, global cross-chat memory guarantee, automatic retrieval mandate or rule to ask every user for task identity. The project's own scope declaration remains mutable context, not permission to override the workflow or explicit current user instructions.
 
+## Operational state/header compatibility and staleness
+
+The current task's state, log, specification and handoff use explicit headers and links under behavior/task-records.md. The legacy demonstration fixture already uses workflow_refs/state_refs; real task templates and files must do likewise. Treat missing headers in older documents as a format gap to normalize when authorized, **not** as a license to infer implicit workflow inheritance. Resolve referenced state and method independently and only when relevant.
+
+A handoff is a resume checkpoint, not immortal authority. Compare its recorded last event and next action with the current repository state, current user instruction and later observed effects. If a branch, deployment or artifact named as pending has already been verified, do not perform it again; update the checkpoint before continuation. If a source is inaccessible, report the exact gap.
+
+A user who approves an explicit task specification does not need to approve unchanged implementation a second time. Conversely, an unrelated old task's approval is not transferable merely because it appears in the same Project or directory.
+
 ## Limits
 
 This Markdown/YAML prototype is not a deterministic LLM classifier, semantic search system, permission engine, persistent orchestrator or automatic background executor. Static or paper tests do not establish client behavior; validate opt-in new-chat routing separately.

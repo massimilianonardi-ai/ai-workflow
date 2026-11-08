@@ -29,3 +29,11 @@ The universal `task-state.md`, `task-log.md` and `handoff.md` records are requir
 ## Bounded verification and completion
 
 Verification exists to decide whether the **approved use cases actually work**. Prefer a representative complete usage path early, then check the agreed significant alternatives and failure paths. Do not grow an endless validation program, expand scope because a tool offers more checks, or hold a delivered outcome hostage to unrelated improvements. Stop when the agreed criteria have sufficient genuine evidence; disclose untested or blocked claims honestly. Any newly discovered issue that changes the expected behavior or architecture returns to focused refinement, not indefinite unstructured retries.
+
+## Operational contract: no design-by-accident
+
+Before the assistant commits to a platform or implementation, the same task specification must explicitly connect **operator and scenario → complete usage path → consequential architecture/integration constraints → expected observable result**. For a service this includes how it is reached, administered, integrated and operated when those are material; a working internal component alone is not acceptance. Capture competing architectural options and their actual user decision, not an agent-selected assumption.
+
+A specification is not a substitute for implementation: after the user explicitly approves its current scope, the assistant must execute the authorized task through the requested artifact and usable outcome under behavior/execution.md. When the operator has already approved that same scope and says procedi/go, do the work without a repeated approval request. On material changes reopen the affected agreement only. An operator expressly ordering implementation of an already agreed method is not authorizing endless re-specification.
+
+The user-facing completion evidence must link back to specific accepted use cases. Do not replace a missing delivery with extra test documents, plans or a newly invented quality program. When the user expressly excludes tests or collateral work, implement the requested product, verify real writes and label runtime behavior as unobserved where necessary without generating a testing project.
