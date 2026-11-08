@@ -1,5 +1,7 @@
 # AI Workflow — experimental lab
 
+**Experimental release v0.2.0:** [release description](releases/2026-11-08-task-continuity.md) · [installation instructions for the experimental ChatGPT Project](deploy/chatgpt-project-instructions.md). The release is a reviewed **Git branch**, not an automatic ChatGPT Project configuration change.
+
 Status: **Experimental / not activated**
 
 This repository is an isolated design and evaluation space for a provider-agnostic
