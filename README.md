@@ -18,8 +18,9 @@ command/natural-language dispatcher. It is not active in existing ChatGPT
 Projects and does not replace RumiAI's bootstrap.
 
 - [Bootstrap](bootstrap.md): short two-level selective-disclosure router.
+- [Universal task records](behavior/task-records.md): three separate, durable task-state/log/handoff files for **all request types**, with templates for [current state](templates/task-state.md), [event log](templates/task-log.md), and [restart checkpoint](templates/handoff.md).
 - [Interactive design/development specification method](behavior/specification.md) and [task-specification template](templates/task-specification.md): mandatory task-owned draft, user-approved use cases and concrete acceptance scenarios before dependent implementation.
-- [Current feature specification](contexts/tasks/ai-workflow-design-development/task-specification.md): concrete use cases for this mode, review status and still-open approval decision.
+- [Current feature specification](contexts/tasks/ai-workflow-design-development/task-specification.md): user-approved design/development and universal task-document requirements; current [task state](contexts/tasks/ai-workflow-design-development/task-state.md), [chronology](contexts/tasks/ai-workflow-design-development/task-log.md), and [handoff](contexts/tasks/ai-workflow-design-development/handoff.md).
 - [Commands](routing/commands.md): `!aw` grammar and diagnostic `route`.
 - [Intents](routing/intents.yaml): open-set, multi-intent and modality-aware catalog.
 - [Context index](routing/index.yaml) and [reference resolution](routing/resolution.md).
@@ -50,6 +51,18 @@ deterministic resolver, validated classifier or portable host integration.
 
 A GitHub URL is only a document location, not proof that an agent can fetch,
 interpret or enforce the protocol. Any such claim requires client-specific tests.
+
+## Universal task continuity — approved experimental design
+
+For **every task**, including ordinary single-turn requests, the candidate workflow keeps three distinct files under `contexts/tasks/<task-id>/`:
+
+- `task-state.md`: current approved outcome, constraints and decisions, without discarded alternatives.
+- `task-log.md`: append-only event history, including actions, Q/A, rejected proposals and actual evidence.
+- `handoff.md`: minimal exact cross-chat restart checkpoint, written **after** other changes.
+
+The optional fourth file `task-specification.md` is required for genuine design/development. Approval of a particular specification revision before substantive implementation is explicit. The existing **multi-intent, multidimensional matrix remains unchanged**. Even short tasks receive minimal records without forcing a long conversation. No current RumiAI testing/validation framework is incorporated.
+
+This is a **model-readable Markdown protocol**, not a durable-write agent runtime or an automatic chat exporter: actual creation/readback depends on authorized storage tools, and missing persistence must be disclosed. No automatic chat mirroring, Project configuration change or background sync is implied.
 
 ## Newly implemented experimental design/development path
 
