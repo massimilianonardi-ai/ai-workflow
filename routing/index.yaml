@@ -2,6 +2,11 @@
 version: 1
 status: experimental
 contexts:
+  - id: task:ai-workflow-design-development
+    path: contexts/tasks/ai-workflow-design-development/task-state.md
+    handoff: contexts/tasks/ai-workflow-design-development/handoff.md
+    match: explicit_id_only
+    authority: experimental_task_state
   - id: task:demo
     path: contexts/example/demo-state.md
     match: explicit_id_only
