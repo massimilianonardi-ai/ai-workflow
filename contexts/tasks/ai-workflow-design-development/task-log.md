@@ -84,3 +84,26 @@ Policy: append-only factual event summaries. Original private chat/message URLs 
 - **Decision status:** editorial correction of current document.
 - **Evidence:** `task-specification.md` at the cited commit.
 - **Effect:** current specification no longer presents settled choices as open.
+
+### EV-0011 — 2026-11-08 — operator confirms execution and release authorization
+
+- **Source:** user: “ho già detto procedi prima. procedi significa vai, esegui, implementa e rilascia, go.”
+- **What happened:** user clarified that the earlier explicit `procedi` already authorized completing the approved experimental implementation and **releasing it**, without asking again. This updates the authorized next action, not the approved functional scope.
+- **Decision status:** accepted; current state D-07.
+- **Evidence:** current user turn, exact text above (native message URL unavailable).
+- **Effect:** GitHub publication and release packaging may proceed immediately. This permission does not create a missing ChatGPT Project-settings API.
+
+### EV-0012 — 2026-11-08 — v0.2.0 release package prepared
+
+- **Source:** actual GitHub writes this turn.
+- **What happened:** published `releases/2026-11-08-task-continuity.md` and `deploy/chatgpt-project-instructions.md` (copyable experimental Project configuration), linked release docs from README, updated this task specification and state with the explicit release authorization and truthful host boundary.
+- **Decision status:** execution within approved scope.
+- **Evidence:** commits `b657f36e546a6a4c47fa99c3db24d7f2ecf72164`, `12931f3c1202a1e8a5321ddd285d547b0c96021c`, `6cb0d06fdf8868e68ded0f7c8b82a0f0c1c1f48d`, `bb977f094bc5ef377c284a0494d5e157181e2cce`, `e3a71851fed3019eacdc54df3ed9708163a7a952`.
+- **Effect:** release contents prepared for stable branch publication. The GitHub connector can write repository contents, but this chat has no capability to edit ChatGPT Project Instructions.
+
+### EV-0013 — 2026-11-08 — release-readiness boundary
+
+- **Source:** available connector capability discovery and source inspection.
+- **What happened:** verified that GitHub supports a branch ref pinned to a concrete commit; no ChatGPT Project settings mutation action is available. Planned final step: publish a frozen `release/2026-11-08-task-continuity` branch **after** updating the handoff checkpoint, then re-read the released files. Do not represent GitHub publication as client activation.
+- **Decision status:** implementation plan, not evidence of final branch creation.
+- **Effect:** keep the exact branch/publication verification separate from any future actual client activation.
