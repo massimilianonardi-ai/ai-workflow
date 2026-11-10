@@ -1,6 +1,6 @@
 # State and checkpoint protocol — alpha-dev
 
-**Status:** pilot interface and recovery method, not proof that storage exists. The authoritative persistent data belongs in `massimilianonardi-ai/ai-work-state`. Follow the approved `doc/conversation-identity.md` for identity/branch semantics. This alpha does not initialize or modify that repository's `main`.
+**Status:** pilot interface and recovery method, not proof that storage exists. The authoritative persistent data belongs in `massimilianonardi-ai/ai-work-state`. Follow the approved `doc/conversation-identity.md` for identity/branch semantics. A one-time technical initialization of that repository's `main` was explicitly authorized and completed. All subsequent experimental records and fixtures belong on `dev`.
 
 ## Minimal logical records
 
@@ -35,4 +35,4 @@ Only report persistence complete after read-back of the branch checkpoint and re
 
 A model-readable Markdown bootstrap cannot intercept every response, provide an always-on event loop, generate a UUID v4 without a suitable tool, or guarantee persistence across chats. `!aw audit` is a command interpreted by the model when this branch's bootstrap is active; it is not a native ChatGPT command.
 
-**Preparation requirement:** `ai-work-state` currently has no initial commit, so a GitHub `dev` branch cannot be forked from `main`. Establish the first commit through an explicitly approved initialization process, then create `dev`; until then, no working remote state or automatic checkpoint claim is possible.
+**Preparation status:** `ai-work-state/main` now contains only the authorized technical initialization README, and its `dev` branch has been created. Synthetic checkpoint writes, branch reconstruction and read-back have been demonstrated on `dev`. A stale expected-head update failed without moving the branch, but the connector returned a generic error, so full concurrency behavior needs further tests. This does **not** establish real host-wide conversation tracking or automatic persistence.

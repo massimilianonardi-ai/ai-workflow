@@ -52,7 +52,7 @@ test("persistence never claims writes without verification", () => {
   const s = read("state/alpha-protocol.md");
   assert.match(s, /read-back/i);
   assert.match(s, /NOT PERSISTED/);
-  assert.match(s, /dev.*branch.*cannot be forked/i);
+  assert.match(s, /dev.*branch.*has been created/i);
   assert.match(s, /m == h/);
   assert.match(s, /m < h/);
 });

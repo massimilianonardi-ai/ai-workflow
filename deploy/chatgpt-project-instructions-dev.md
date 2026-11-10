@@ -17,7 +17,7 @@ Le regole sono indipendenti da altri progetti. Non dichiarare come effettuate pe
 
 - Choose a **dedicated experimental** ChatGPT Project; do not replace another project's instructions by inference.
 - Provide actual GitHub read/write access only within the intended repositories and branches.
-- Initialize `ai-work-state` safely before expecting durable checkpoints. Until then, audit and routing can be explored with transparent `sync = pending` handling, but cross-chat continuity is not validated.
+- The `ai-work-state/dev` branch is initialized and synthetic checkpoint writes have been verified. Cross-chat continuity still requires real host installation, identity establishment, and behavioral validation; unavailable writes must still be reported as pending.
 - Run `!aw route -- Design a small system` to inspect a plan without executing it.
 - Run `!aw audit` on an unambiguous active task to inspect actual evidence. No command alone grants permission to deploy.
 - Validate at least one new task, phase change, requirement revision, manual audit, and resume/branch conflict before considering wider use.

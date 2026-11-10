@@ -4,7 +4,7 @@ This branch prototypes the approved three-section bootstrap, lean MDM, phase-bas
 
 Start at [bootstrap.md](bootstrap.md); only follow references needed for the request. For an opt-in sandbox see [deploy/chatgpt-project-instructions-dev.md](deploy/chatgpt-project-instructions-dev.md).
 
-**Do not confuse the branches:** `main` preserves the existing operational product, while `dev` is an experimental model-readable implementation. `ai-work-state` has no initial Git commit and therefore its `dev` branch is blocked until explicitly initialized. No persistent conversation/task record is claimed.
+**Do not confuse the branches:** `main` preserves the existing operational product, while `dev` is an experimental model-readable implementation. `ai-work-state/main` has been initialized once with a technical README and `ai-work-state/dev` now exists. Only synthetic checkpoint fixtures have been written and tested; no live conversation/task identity is claimed.
 
 ## Alpha smoke scenarios (to perform with an actual configured host)
 
@@ -18,7 +18,7 @@ Start at [bootstrap.md](bootstrap.md); only follow references needed for the req
 8. Every response runs section 3; Git persistence and branch detection are only claimed after real read-back; failed writes are disclosed and marked pending.
 9. No automatic deployment, no phantom agent work, no task baselines revised from informal conversation, and no independent-auditor claim.
 
-**Test status:** structural checks passed; actual runtime, connector and cross-chat behavioral tests remain pending.
+**Test status:** structural checks passed, and real GitHub writes/read-backs of synthetic state checkpoints were verified on `ai-work-state/dev`. Actual ChatGPT runtime and cross-chat behavioral tests remain pending.
 
 ## Structural checks
 
@@ -31,3 +31,11 @@ node --test tests/alpha-contract.test.mjs
 A read-back of the published `dev` files and an in-memory execution of the seven contract test callbacks passed **7/7** on 2026-11-10. This is a **static contract check**, not an observed ChatGPT routing/audit execution, end-to-end Git persistence test or independently confirmed Node CLI invocation.
 
 See `evaluations/alpha-dev-static-checks-2026-11-10.md` for scope and limitations.
+
+## State-store integration
+
+See [alpha state integration verification](evaluations/alpha-dev-state-integration-2026-11-10.md) and [ai-work-state/dev](https://github.com/massimilianonardi-ai/ai-work-state/tree/dev).
+
+The state repository has a technical README on `main` and a dedicated `dev` branch. In a synthetic fixture only, a multi-file checkpoint was written in one Git commit, and a branch was derived from the historical checkpoint rather than current task associations. A stale expected-head write did not advance the ref, but returned a generic connector error; this is not proof that every concurrency failure is handled.
+
+No experimental Project has been installed, and no live conversation marker or task checkpoint has been established by these tests.
