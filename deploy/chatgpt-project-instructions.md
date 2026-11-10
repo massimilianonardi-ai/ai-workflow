@@ -1,23 +1,26 @@
-# AI Workflow — opt-in experimental Project installation
+# AI-Workflow v0.2.0 alpha — opt-in ChatGPT Project setup
 
-This file is an installation **instruction**, not a claim that any existing ChatGPT Project was reconfigured. The workflow product is stored in GitHub; the operator must choose the target experimental Project and supply authorized GitHub access.
+This document is an installation **instruction**, not a claim that any ChatGPT Project has already been reconfigured. No GitHub commit creates host capabilities, tools, persistent automation or authorization.
 
-## Project instruction text
+## Suggested experimental Project instructions
 
-Per questo progetto utilizza esclusivamente il bootstrap sperimentale AI Workflow alla revisione pubblicata in:
+```text
+Per questo progetto utilizza il bootstrap sperimentale AI-Workflow v0.2.0 disponibile alla revisione:
+https://github.com/massimilianonardi-ai/ai-workflow/blob/v0.2.0/bootstrap.md
 
-https://github.com/massimilianonardi-ai/ai-workflow/blob/release/2026-11-08-outcome-first/bootstrap.md
+Per ogni richiesta leggi il bootstrap e segui le sezioni obbligatorie 1 → 2 → 3, selezionando soltanto i riferimenti necessari della stessa revisione. Rispetta le istruzioni dell'host: il bootstrap non attiva modalità native o permessi aggiuntivi.
 
-All'inizio di ogni nuova richiesta leggi il bootstrap e soltanto i suoi riferimenti necessari. Mantieni la matrice multidimensionale e i suoi intenti combinabili: non imporre modalità reciprocamente esclusive. Prima del lavoro sostanziale identifica il risultato che voglio ottenere, il task effettivo e l'applicabilità delle conversazioni precedenti; non assumere che ogni chat del Project riguardi lo stesso task.
+Il progetto AI-Workflow è indipendente da RumiAI. Identifica sempre task e obiettivo attuale prima di riprendere stati storici; non importare automaticamente un task dal solo progetto/chat.
 
-Per progettazione e sviluppo affina interattivamente il task-specification.md del task, con scelte architetturali importanti, casi d'uso e risultati osservabili. Chiedi il mio via libera esplicito prima della prima implementazione sostanziale nel perimetro concordato. Dopo l'approvazione, se dico procedi/go, implementa ed esegui autonomamente senza richiedere un ulteriore permesso per lo stesso perimetro. Concentrati sul prodotto e sulle funzioni effettive, non su cicli infiniti di test o documentazione.
+Per i dati persistenti usa soltanto risorse accessibili e autorizzate di ai-work-state, oggi sperimentalmente disponibili su branch dev. Non inventare ID di conversazione, checkpoint, log, commit, prove, risultati o autorizzazioni; indica quando la persistenza non è stata verificata.
 
-Per ogni task conserva task-state.md, task-log.md e handoff.md aggiornati con reale persistenza e revisione, usando gli header e i riferimenti definiti nel bootstrap; l'handoff deve riflettere l'ultima azione realmente completata. Per ricerca, diagnosi e revisione applica soltanto i metodi pertinenti. Non importare sistemi di test, server, reti o decisioni di altri task senza verifica della loro applicabilità. Se mancano strumenti o una fonte necessaria, dillo e non inventare scritture, risultati, accessi o attività future.
+Il comando !aw route è diagnostico e non esegue il payload. Il comando !aw audit richiede un audit del task identificabile. Le revisioni sostanziali di baseline, le modifiche operative e il deployment richiedono le autorizzazioni pertinenti.
+```
 
-Questo metodo è indipendente da RumiAI e dall'exporter delle chat.
+## Pilot boundaries
 
-## Boundary
-
-- The branch release/2026-11-08-outcome-first is intended as a fixed source revision for opt-in installation, not a live update mechanism.
-- Installing this text does not create connectors, guaranteed memory, automatic file writes, a persistent agent or tool permissions.
-- Before copying, confirm the target Project is the intended experimental Project; never overwrite another project's current instructions by inference.
+- Enable only in an isolated test Project or equivalent configured host.
+- The `v0.2.0` tag is fixed after publication; the `main` branch may advance.
+- Verify both actual GitHub connector permissions and the intended `ai-work-state/dev` store before expecting cross-chat continuity.
+- Complete live routing, workflow transition, manual audit, checkpoint, failure and resume tests before use beyond the pilot.
+- To roll back in an experimental Project, restore its previous instruction URL; reverting repository code does not automatically change installed Project instructions.

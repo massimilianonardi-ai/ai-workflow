@@ -1,6 +1,6 @@
-# AI-Workflow alpha — dev bootstrap
+# AI-Workflow v0.2.0 alpha — operational bootstrap
 
-**Status:** experimental, opt-in, `dev` only. This is a model-readable workflow, not an autonomous service, a ChatGPT mode switch, a permission grant, or a promise of background work. Host instructions and tool capabilities always take precedence. Do not import a separate project's context without verifying applicability.
+**Status:** experimental alpha v0.2.0, opt-in from the versioned tag or `main`. This is a model-readable workflow, not an autonomous service, a ChatGPT mode switch, a permission grant, or a promise of background work. Host instructions and tool capabilities always take precedence. Do not import a separate project's context without verifying applicability.
 
 ## 1. Universal premises and initialization
 

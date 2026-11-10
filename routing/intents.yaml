@@ -1,7 +1,7 @@
 # AI-Workflow alpha-dev — open, multi-label MDM routing catalog.
 # Modality/effects are hints, NEVER authority. No forced match.
 version: 3
-status: alpha_dev
+status: alpha_0_2_0_experimental
 dimensions:
   operation: [research, design, develop, diagnose, validate, operate, other]
   input: [text, structured, image, audio, video, other]

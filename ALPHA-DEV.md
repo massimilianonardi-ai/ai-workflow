@@ -1,10 +1,10 @@
-# AI-Workflow experimental alpha on dev
+# AI-Workflow experimental alpha — dev staging history
 
 This branch prototypes the approved three-section bootstrap, lean MDM, phase-based `system-design`, progressive continuity audit, manual `!aw audit` and a recoverable state protocol. **It is not installed into any ChatGPT Project and has not passed behavioral tests.**
 
 Start at [bootstrap.md](bootstrap.md); only follow references needed for the request. For an opt-in sandbox see [deploy/chatgpt-project-instructions-dev.md](deploy/chatgpt-project-instructions-dev.md).
 
-**Do not confuse the branches:** `main` preserves the existing operational product, while `dev` is an experimental model-readable implementation. `ai-work-state/main` has been initialized once with a technical README and `ai-work-state/dev` now exists. Only synthetic checkpoint fixtures have been written and tested; no live conversation/task identity is claimed.
+**Branch note:** the alpha has been promoted to `main` for release v0.2.0. `dev` remains the staging branch; this file preserves the dev-stage validation history. `ai-work-state/main` has been initialized once with a technical README and `ai-work-state/dev` now exists. Only synthetic checkpoint fixtures have been written and tested; no live conversation/task identity is claimed.
 
 ## Alpha smoke scenarios (to perform with an actual configured host)
 

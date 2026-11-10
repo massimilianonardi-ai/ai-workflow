@@ -1,4 +1,4 @@
-# Continuity controller — alpha-dev
+# Continuity controller — v0.2.0 alpha
 
 **Responsibility, not a separate always-running agent.** Evaluate the *current* message against the relevant task, active phase, recent verified decisions, checkpoint and authorization boundary. Do not assume background monitoring or a reliable independent watchdog.
 
