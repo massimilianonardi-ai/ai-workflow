@@ -31,7 +31,7 @@ test("audit command exists; route remains a nonexecuting diagnostic", () => {
   assert.match(commands, /!aw audit \[--context ID\]/);
   assert.match(commands, /!aw route \[--context ID\] -- REQUEST/);
   assert.match(commands, /never execute REQUEST/i);
-  assert.match(commands, /requires nonempty payload/i);
+  assert.match(commands, /require nonempty payload/i);
 });
 
 test("workflow includes two phases, optional compositional variant, five revision invariants", () => {
