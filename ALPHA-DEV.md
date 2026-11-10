@@ -18,4 +18,16 @@ Start at [bootstrap.md](bootstrap.md); only follow references needed for the req
 8. Every response runs section 3; Git persistence and branch detection are only claimed after real read-back; failed writes are disclosed and marked pending.
 9. No automatic deployment, no phantom agent work, no task baselines revised from informal conversation, and no independent-auditor claim.
 
-**Test status:** design-level expectations only; runtime, connector and cross-chat tests remain pending.
+**Test status:** structural checks passed; actual runtime, connector and cross-chat behavioral tests remain pending.
+
+## Structural checks
+
+Run the dependency-free structural suite after checking out the branch locally:
+
+```sh
+node --test tests/alpha-contract.test.mjs
+```
+
+A read-back of the published `dev` files and an in-memory execution of the seven contract test callbacks passed **7/7** on 2026-11-10. This is a **static contract check**, not an observed ChatGPT routing/audit execution, end-to-end Git persistence test or independently confirmed Node CLI invocation.
+
+See `evaluations/alpha-dev-static-checks-2026-11-10.md` for scope and limitations.
