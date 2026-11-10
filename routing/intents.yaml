@@ -1,72 +1,34 @@
-# Open, multidimensional request matrix; operation labels may be combined.
-version: 2
-status: model_readable_operational
+# AI-Workflow alpha-dev — open, multi-label MDM routing catalog.
+# Modality/effects are hints, NEVER authority. No forced match.
+version: 3
+status: alpha_dev
 dimensions:
-  interaction: [ask, act, express, unknown]
-  operations: [ask, research, reflect, design, plan, develop, diagnose, review, validate, operate, resume, create, unknown]
-  input_modalities: [text, image, audio, video, structured, unknown]
-  output_modalities: [text, code, document, image, audio, video, structured, system_change, unknown]
-  continuity: [new, continue, resume, unknown]
-  effects: [none, read, local_write, external_action, irreversible, unknown]
-  uncertainty: [resolved, discoverable, consequential_decision, unknown]
+  operation: [research, design, develop, diagnose, validate, operate, other]
+  input: [text, structured, image, audio, video, other]
+  output: [text, document, code, structured, image, audio, video, other]
+  effects: [read, artifact_write, environment_change]
 
-universal:
-  outcome_first: behavior/intent.md
-  continuity: behavior/task-records.md
-  consequential_decisions: behavior/decisions.md
-  context_applicability: routing/resolution.md
+# Only real, present workflow definitions belong here.
+workflow_routes:
+  design: workflows/system-design.md
 
-operation_routes:
-  ask:
-    workflow_refs: []
-  research:
-    workflow_refs: [behavior/research.md, behavior/evidence.md]
-  reflect:
-    workflow_refs: [behavior/research.md, behavior/review.md]
-  design:
-    workflow_refs: [behavior/specification.md, behavior/decisions.md, behavior/evidence.md]
-    phase_gate: task_specification_approved_for_dependent_implementation
-  plan:
-    workflow_refs: [behavior/intent.md, behavior/decisions.md]
-    note: add_specification_if_actual_design_or_development
-  develop:
-    workflow_refs: [behavior/specification.md, behavior/execution.md, behavior/diagnosis.md, behavior/evidence.md]
-    phase_gate: task_specification_approved_for_dependent_implementation
-  diagnose:
-    workflow_refs: [behavior/diagnosis.md, behavior/evidence.md]
-  review:
-    workflow_refs: [behavior/review.md, behavior/evidence.md]
-  validate:
-    workflow_refs: [behavior/review.md, behavior/evidence.md]
-  operate:
-    workflow_refs: [behavior/execution.md, behavior/decisions.md, behavior/diagnosis.md, behavior/evidence.md]
-  resume:
-    workflow_refs: [behavior/task-records.md]
-    resolution: verified_handoff_then_state
-  create:
-    workflow_refs: [behavior/intent.md]
-    note: add_specification_if_actual_design_or_development
-  unknown:
-    workflow_refs: []
-    resolution: investigate_or_clarify_only_if_consequential
+# Other families have methods but NO completed phase workflow in this alpha.
+# A request may combine multiple families without inventing another workflow.
+method_fallbacks:
+  research: [behavior/research.md, behavior/evidence.md]
+  develop: [behavior/specification.md, behavior/execution.md, behavior/evidence.md]
+  diagnose: [behavior/diagnosis.md, behavior/evidence.md]
+  validate: [behavior/review.md, behavior/evidence.md]
+  operate: [behavior/execution.md, behavior/decisions.md]
+  other: [behavior/intent.md]
 
-modality_specializations:
-  image_generation:
-    condition: requested_image_output
-    capability: host_image_generation
-  image_analysis:
-    condition: supplied_image_for_interpretation
-    capability: host_visual_understanding
-
-routing_principles:
-  - preserve_multi_label_multi_dimensional_selection
-  - user_outcome_and_explicit_constraints_before_prior_context
-  - no_keyword_only_routing
-  - compose_methods_only_when_material
-  - no_silent_architectural_commitment
-  - verify_task_identity_before_importing_past_decisions
-  - keep_fast_path_fast
-  - use_task_owned_approval_and_outcomes
-  - execute_authorized_work_to_real_result
-  - diagnose_failures_instead_of_endless_retry
-  - report_real_effects_and_persistence_only
+rules:
+  - outcome_and_scope_before_labels
+  - continuity_controller_before_rerouting
+  - open_set_and_multi_label
+  - input_and_output_are_distinct
+  - modalities_select_capabilities_not_workflow_alone
+  - no_implicit_permission_from_effects
+  - unknown_requires_focused_resolution_only_if_material
+  - no_automatic_implementation_from_design
+  - do_not_resolve_missing_workflow_refs_by_guessing

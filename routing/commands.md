@@ -1,38 +1,35 @@
-# Explicit commands — experimental
+# AI-Workflow alpha-dev commands
 
-The `!aw` prefix is **plain text**; it is not a native slash command or a platform mode switch. Match it case-sensitively only at character zero, followed by an ASCII space or end of message. Leading whitespace, quoted examples, fenced code, `/aw` and `/agent` are not ai-workflow commands.
-
-## Syntax
+The namespace `!aw` is **literal text**, not a native UI mode. Match it **only at character zero** followed by ASCII space or end; parse verb case-sensitively. Only one `--context` may appear, with a nonempty whitespace-free logical task ID. `--` separates arguments from payload, including arbitrary line breaks and command-like text. Invalid/unknown verbs or malformed options must produce an explicit syntax error **without guessing an execution route**.
 
 ```text
-!aw <verb> [--context <logical-id>] [-- <free-form payload>]
+!aw <verb> [--context <logical-id>] [-- <payload>]
 ```
 
-- Verbs are lowercase and registered below. `--context` appears at most once and takes a nonempty, whitespace-free ID such as `task:demo`.
-- `--` separates parsed options from text; text after it can contain spaces, newlines, dashes and literal command-looking strings. Never reinterpret payload as a new command.
-- Unknown verbs, duplicate or malformed options, or missing mandatory operands produce an explicit syntax error **without executing a guessed fallback**.
-- These commands select methods; they do not override the host, project constraints or authorization.
-
-| Verb | Accepted form | Behavior |
+| Verb | Valid form | Effect |
 | --- | --- | --- |
-| `help` | `!aw help` | Explain command syntax; no side effects |
-| `route` | `!aw route [--context ID] -- REQUEST` | Show a proposed route; **never execute REQUEST** |
-| `resume` | `!aw resume --context ID [-- REQUEST]` | Read selected state header and resume authorized work |
-| `design` | `!aw design [--context ID] -- REQUEST` | Refine/update task specification with the user before substantive design; never implicitly implement |
-| `reflect` | `!aw reflect [--context ID] -- REQUEST` | Route to exploration/critique |
-| `develop` | `!aw develop [--context ID] -- REQUEST` | Start or resume the interactive task-specification gate; implement only after approval, within authorization |
+| `help` | `!aw help` | Explain available commands, no target action |
+| `route` | `!aw route [--context ID] -- REQUEST` | **Dry-run only:** identify proposed task, MDM, workflow/phase, predicted activities, dependencies, authorization gates and uncertainties; never execute REQUEST |
+| `audit` | `!aw audit [--context ID]` | Audit current identified task/phase immediately, including available evidence; report assessment and recommended next step, never grant permission or auto-deploy |
+| `resume` | `!aw resume --context ID [-- REQUEST]` | Recover verified task and checkpoint; optional REQUEST interpreted within its permissions |
+| `design` | `!aw design [--context ID] -- REQUEST` | Start/continue appropriate design task; uses `system-design` only when applicable |
+| `reflect` | `!aw reflect [--context ID] -- REQUEST` | Evaluate or discuss; do not silently rewrite baseline |
+| `develop` | `!aw develop [--context ID] -- REQUEST` | Use development methods; authorization for substantive implementation still required |
+
+`route`, `design`, `reflect`, `develop` require nonempty payload. `resume` requires `--context`; `audit` accepts no payload and needs an unambiguous active task if no ID was supplied; `help` accepts no options/payload.
+
+**Dry-run contract:** a diagnostic output describes the intended route and *possible* future actions, not an observed execution. Do not mutate task targets, change the active phase, reserve an implementation job or trigger external side effects. Universal finalization still runs, but conversation checkpoint metadata is handled separately, only with authorized storage; unavailable storage is disclosed, never asserted.
+
+**Audit response:** task and phase, estimates vs observed relevant turns/agent steps when available, latest meaningful progress and source evidence, detected inconsistencies, audit depth reached, decision (`continue`, `correct`, `suspend`, or `re-route proposed`) and the next authorized action. Missing evidence must be identified, not substituted with self-reported log text.
 
 Examples:
 
 ```text
-!aw help
-!aw route -- Progetta e implementa un server
-!aw resume --context task:demo
-!aw design --context task:demo -- Progetta un classificatore
-!aw reflect -- Quali assunzioni sono fragili?
-!aw develop -- Implementa e testa il parser
+!aw route -- Design a local research data platform
+!aw audit
+!aw audit --context task:research-platform
+!aw resume --context task:research-platform
+!aw design -- Design a scientific workflow system
 ```
 
-The `route` diagnostic reports likely intents, input/output modalities, candidate workflow/state references and unresolved consequential decisions, but **never writes, deploys or acts on its payload**. For diagnostic help/route, task-history metadata is optional and MUST NOT introduce writes when the command is read-only; for actual tasks universal records remain mandatory. Any permitted administrative records are **metadata only**, not execution of the payload or permission to change target resources; when a diagnostic is truly read-only in the host or durable writing is unavailable, do not claim any task files were saved. Avoid side effects outside the scoped task-record store. `route`, `design`, `reflect` and `develop` require a nonempty payload; `resume` requires context and accepts an optional payload; `help` takes no options or payload.
-
-A command verb is **not** an approval of an incomplete task specification. A previously approved specification for the same task may be resumed; otherwise `design` and `develop` enter the interactive refinement method in `behavior/specification.md`. `route` remains an inert diagnostic. An ordinary natural-language request can express multiple intents simultaneously and follows the same relevant gates.
+All commands are subject to the host's actual access, permissions, privacy and safety constraints. For transition and audit procedures see `control/continuity.md`.
