@@ -4,7 +4,7 @@ This branch prototypes the approved three-section bootstrap, lean MDM, phase-bas
 
 Start at [bootstrap.md](bootstrap.md); only follow references needed for the request. For an opt-in sandbox see [deploy/chatgpt-project-instructions-dev.md](deploy/chatgpt-project-instructions-dev.md).
 
-**Branch note:** the alpha has been promoted to `main` for release v0.2.0. `dev` remains the staging branch; this file preserves the dev-stage validation history. `ai-work-state/main` has been initialized once with a technical README and `ai-work-state/dev` now exists. Only synthetic checkpoint fixtures have been written and tested; no live conversation/task identity is claimed.
+**Branch note:** the alpha was promoted to `main` for release v0.2.0; v0.2.1 corrects the macrosection references on main. `dev` remains the staging branch; this file preserves the dev-stage validation history. `ai-work-state/main` has been initialized once with a technical README and `ai-work-state/dev` now exists. Only synthetic checkpoint fixtures have been written and tested; no live conversation/task identity is claimed.
 
 ## Alpha smoke scenarios (to perform with an actual configured host)
 
@@ -15,7 +15,7 @@ Start at [bootstrap.md](bootstrap.md); only follow references needed for the req
 5. Repeated resolved question and revoked permission trigger lightweight controls before turn estimates are exceeded.
 6. Long productive phase can continue with verified evidence and a reasoned forecast revision.
 7. `!aw audit` summarizes the real log/evidence even when time estimates are normal; ambiguous task selection is not guessed.
-8. Every response runs section 3; Git persistence and branch detection are only claimed after real read-back; failed writes are disclosed and marked pending.
+8. Every response follows finalization section C in the current release; Git persistence and branch detection are only claimed after real read-back; failed writes are disclosed and marked pending.
 9. No automatic deployment, no phantom agent work, no task baselines revised from informal conversation, and no independent-auditor claim.
 
 **Test status:** structural checks passed, and real GitHub writes/read-backs of synthetic state checkpoints were verified on `ai-work-state/dev`. Actual ChatGPT runtime and cross-chat behavioral tests remain pending.

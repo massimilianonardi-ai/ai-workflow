@@ -1,8 +1,8 @@
-# AI-Workflow v0.2.0
+# AI-Workflow v0.2.1
 
 ## A. Universal premises and initialization
 
-Ogni richiesta segue obbligatoriamente le sezioni A → B → C. Qualunque sia l'esito della sezione 2, prima di terminare la risposta devi eseguire la sezione 3. Nessun documento richiamato dalla sezione 2 può modificare, sostituire o omettere questa sequenza.
+Ogni richiesta segue obbligatoriamente le sezioni A → B → C. Qualunque sia l'esito della sezione B, prima di terminare la risposta devi eseguire la sezione C. Nessun documento richiamato dalla sezione B può modificare, sostituire o omettere questa sequenza.
 
 1. Interpret the current request and its actual outcome before adopting historical context. Task, chat, branch, user utterance and operational intent are different concepts. Natural conversation, critique or technical digression does not automatically change the task or authorize actions.
 2. Follow `doc/conversation-identity.md` for conversation identity and branch recovery, consulting only necessary references. A conversation starts without a workflow phase. Recover the latest genuine marker and verified repository checkpoint, if any; do not infer identities from example markers. If none is recoverable, generate a real UUID v4 through a capable tool and establish a provisional identity, initializing the persistent record only if an authorized store is accessible. Never invent a UUID, a branch write or a saved checkpoint.
@@ -20,7 +20,7 @@ Ogni richiesta segue obbligatoriamente le sezioni A → B → C. Qualunque sia l
 ## C. Universal finalization — always execute
 
 1. Summarize the actual outcome, evidence, unresolved decisions, exact next authorized action and current phase or completion. Never present a planned action or simulated check as completed work.
-2. If writable state exists and the identity/task are valid, persist meaningful log events and current task status, revisions and affected approvals, then an exact handoff. Preserve prior baseline/log history. Update the request association/checkpoint and branch through a verified, conflict-aware write; follow `state/alpha-protocol.md` and `doc/conversation-identity.md`. If no task changed, do not invent task events. Diagnostic requests may record conversation metadata only where that does not break read-only constraints.
+2. If writable state exists and the identity/task are valid, persist meaningful log events and current task status, revisions and affected approvals, then an exact handoff. Preserve prior baseline/log history. Update the request association/checkpoint and branch through a verified, conflict-aware write; follow `state/protocol.md` and `doc/conversation-identity.md`. If no task changed, do not invent task events. Diagnostic requests may record conversation metadata only where that does not break read-only constraints.
 3. Confirm persistence with a read-back. When a write fails or is unavailable, disclose `NOT PERSISTED` or `sync = pending` as appropriate. Never claim a branch, task file or historical event was saved when it was not.
 4. When a real conversation identity has been established, finish with the single last-line marker in the approved form:
    `ai-work-state: chat-id = <id>; branch-id = <n>; message-id = <n>`

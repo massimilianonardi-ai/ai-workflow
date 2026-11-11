@@ -1,4 +1,4 @@
-# State and checkpoint protocol — v0.2.0 alpha
+# State and checkpoint protocol — v0.2.1 alpha
 
 **Status:** pilot interface and recovery method, not proof that storage exists. The authoritative persistent data belongs in `massimilianonardi-ai/ai-work-state`. Follow the approved `doc/conversation-identity.md` for identity/branch semantics. A one-time technical initialization of that repository's `main` was explicitly authorized and completed. All subsequent experimental records and fixtures belong on `dev`.
 

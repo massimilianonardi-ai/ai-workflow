@@ -1,4 +1,4 @@
-# Workflow: system-design (v0.2.0 alpha)
+# Workflow: system-design (v0.2.1 alpha)
 
 **Route:** MDM `operation: design` when a substantive system-design task is detected. **Not** automatically applicable to every conversation about technology; straightforward explanations may be answered directly. Goal: produce a traceable specification and a coherent architectural proposal, without implicit code deployment.
 

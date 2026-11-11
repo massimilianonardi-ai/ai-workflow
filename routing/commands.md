@@ -1,4 +1,4 @@
-# AI-Workflow v0.2.0 alpha commands
+# AI-Workflow v0.2.1 alpha commands
 
 The namespace `!aw` is **literal text**, not a native UI mode. Match it **only at character zero** followed by ASCII space or end; parse verb case-sensitively. Only one `--context` may appear, with a nonempty whitespace-free logical task ID. `--` separates arguments from payload, including arbitrary line breaks and command-like text. Invalid/unknown verbs or malformed options must produce an explicit syntax error **without guessing an execution route**.
 

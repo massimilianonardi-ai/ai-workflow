@@ -9,7 +9,7 @@
 
 Define how to recover or generate the AI-Workflow identity of a conversation, maintain sequential checkpoints, detect branches, synchronize state, and reconcile identifiers created in error. This specification describes an application-level protocol: it does not assume that the host platform exposes a native conversation identifier or branching signals, or that a model always has access to the complete conversation history.
 
-Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state`. This document is referenced by the second instruction of bootstrap section 1. Universal finalization (section 3) applies its persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
+Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state`. This document is referenced by the second instruction of bootstrap section A. Universal finalization (section C) applies its persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
 
 ## 2. Identifiers
 
@@ -181,7 +181,7 @@ For each response, including responses without persistent tasks:
 5. If a new branch was detected, begin the final response with its notice. Disclose any persistence gap before the final marker.
 6. End with the single final state marker, referring to the response actually emitted.
 
-**Invariant:** bootstrap section 3 must run even when section 2 ends in error, blockage, refusal, partial work, or no task. Ending a response is not equivalent to closing a task.
+**Invariant:** bootstrap section C must run even when section B ends in error, blockage, refusal, partial work, or no task. Ending a response is not equivalent to closing a task.
 
 ## 11. Invariants
 
