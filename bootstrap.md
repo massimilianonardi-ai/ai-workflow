@@ -1,4 +1,4 @@
-# AI-Workflow v0.2.1
+# AI-Workflow v0.2.2
 
 ## A. Universal premises and initialization
 
@@ -17,13 +17,14 @@ Ogni richiesta segue obbligatoriamente le sezioni A → B → C. Qualunque sia l
 4. **Preserve user agency:** substantive baseline revisions, approvals, deployment and other consequential side effects need the appropriate authorization. A contextual `procedi` continues previously authorized work; it does not approve unrelated choices. Avoid imposing numerous decisions when an authorized investigation can reduce them. Do not infer fatigue or conversational intentions from brevity.
 5. **Diagnostics:** `!aw route -- REQUEST` describes the *proposed* plan and does not execute REQUEST. `!aw audit` checks the identified task without authorizing dependent execution. A critical stop/revocation is handled immediately, regardless of estimated turns.
 
-## C. Universal finalization — always execute
+## C. Universal finalization — mandatory checkpoint attempt
 
-1. Summarize the actual outcome, evidence, unresolved decisions, exact next authorized action and current phase or completion. Never present a planned action or simulated check as completed work.
-2. If writable state exists and the identity/task are valid, persist meaningful log events and current task status, revisions and affected approvals, then an exact handoff. Preserve prior baseline/log history. Update the request association/checkpoint and branch through a verified, conflict-aware write; follow `state/protocol.md` and `doc/conversation-identity.md`. If no task changed, do not invent task events. Diagnostic requests may record conversation metadata only where that does not break read-only constraints.
-3. Confirm persistence with a read-back. When a write fails or is unavailable, disclose `NOT PERSISTED` or `sync = pending` as appropriate. Never claim a branch, task file or historical event was saved when it was not.
-4. When a real conversation identity has been established, finish with the single last-line marker in the approved form:
+1. Determine the current reply checkpoint using the **latest genuine marker in this conversation** and the verified `ai-work-state` branch head. If there is a prior `sync = pending` gap, reconcile only the history supported by real evidence; do not fabricate missing turns or treat the pending gap as automatic branching.
+2. **Every assistant response requires a conversation checkpoint attempt, even if no task changed.** Before emitting the final marker, explicitly check for authorized GitHub write tools targeting `massimilianonardi-ai/ai-work-state` on `dev`. When available, actually **invoke them** to commit `requests/<chat-id>/<branch-id>-<message-id>.yaml` and advance `conversations/<chat-id>/branch-N.yaml` atomically through an expected-head write. A `!aw route` diagnostic remains non-executing for its payload, but its metadata checkpoint is not execution of that payload. Follow `state/protocol.md` and `state/connector-runbook.md`.
+3. Modify task baselines, `task-state.md`, `task-log.md` and `handoff.md` only when there was a real authorized change, and include them in that same Git checkpoint. **No task change NEVER means no conversation checkpoint.** A write without a verified Git ref and file read-back is not a successful save. If write or read-back fails, investigate rather than claiming completion. Never invent recovered history, tasks, sources, commits, or host abilities.
+4. Before responding, classify the **real** write outcome as `persisted`, `persisted_with_gaps`, `write_failed`, `storage_unavailable` or `write_not_attempted` and give the reason for any non-persisted outcome. `write_not_attempted` is a defect when an authorized writable store was available. If the user or host explicitly prohibits any writes, respect that higher-priority constraint and report `write_not_attempted`. Do not say only "Persistenza: nessuna modifica effettuata".
+5. When a genuine current-chat identity is established, end with exactly the approved last-line marker:
    `ai-work-state: chat-id = <id>; branch-id = <n>; message-id = <n>`
-   Add `; sync = pending` only when required checkpoint persistence was not confirmed. If no valid identity could be generated or recovered, explain the blocker rather than forging this marker.
+   Append `; sync = pending` whenever full persistence is not confirmed, including any unresolved historical gaps. A successfully saved **partial** checkpoint does not clear pending. If no valid identity is available, explain the blocker and do not invent one.
 
 **Invariant:** all requests, including errors, diagnostics, clarifications, suspension and workflow completion, pass through sections A → B → C. Do not load unrelated reference files.
