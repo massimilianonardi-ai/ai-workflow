@@ -19,23 +19,24 @@ export function parseBranch(text) {
   const m = text.match(/^message_id:\s*(\d+)\s*$/m);
   const t = text.match(/^created_at:\s*["']?([^"'\r\n]+)["']?\s*$/m);
   requireValid(m && t, "BAD_STORED_BRANCH", "Stored branch is missing its checkpoint header");
-  const block = text.match(/^tasks:[ \t]*([^\n]*)([\s\S]*?)(?=^sync_gaps:|^synchronization:|\s*$)/m);
-  requireValid(block, "BAD_STORED_BRANCH", "Stored branch is missing task associations");
-  const value = block[1].trim();
+  const taskBlock=text.split(/^tasks:[ \t]*/m)[1];
+  requireValid(taskBlock!==undefined,"BAD_STORED_BRANCH","Stored branch is missing task associations");
+  const taskBody=taskBlock.split(/^sync_gaps:/m)[0].split(/^synchronization:/m)[0];
+  const value=taskBody.split("\n")[0].trim();
   let tasks;
-  if (value === "null") tasks = null;
-  else if (value === "[]") tasks = [];
-  else if (value === "") {
-    const items=[...block[2].matchAll(/^[ \t]+-[ \t]+(.+)$/gm)];
-    requireValid(items.length>0, "BAD_STORED_BRANCH", "Cannot parse task associations");
-    tasks=items.map(x => {
+  if(value==="null") tasks=null;
+  else if(value==="[]") tasks=[];
+  else if(value==="") {
+    const items=[...taskBody.matchAll(/^[ \t]+-[ \t]+(.+)$/gm)];
+    requireValid(items.length>0,"BAD_STORED_BRANCH","Cannot parse task associations");
+    tasks=items.map(x=>{
       try { return JSON.parse(x[1]); }
       catch { return x[1].replace(/^['"]|['"]$/g,""); }
     });
-  } else throw new CheckpointError("BAD_STORED_BRANCH", "Unsupported task representation");
-  const gapBlock = text.match(/^sync_gaps:[ \t]*([^\n]*)([\s\S]*?)(?=^synchronization:|\s*$)/m);
-  const gaps = gapBlock && gapBlock[1].trim() !== "[]" ?
-    [...gapBlock[2].matchAll(/^[ \t]+-[ \t]+\[(\d+),[ \t]*(\d+)\]/gm)].map(x=>[Number(x[1]),Number(x[2])]) : [];
+  } else throw new CheckpointError("BAD_STORED_BRANCH","Unsupported task representation");
+  const gapBlock=text.split(/^sync_gaps:[ \t]*/m)[1];
+  const gaps=gapBlock && gapBlock.split("\n")[0].trim()!=="[]" ?
+    [...gapBlock.split(/^synchronization:/m)[0].matchAll(/^[ \t]+-[ \t]+\[(\d+),[ \t]*(\d+)\]/gm)].map(x=>[Number(x[1]),Number(x[2])]) : [];
   return {messageId:Number(m[1]),createdAt:t[1],tasks,gaps};
 }
 
