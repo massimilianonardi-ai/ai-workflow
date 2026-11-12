@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fix/checkpoint-persistence
+      - fix/state-main
       - main
   pull_request:
     branches: [main]

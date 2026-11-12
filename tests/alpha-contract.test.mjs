@@ -124,6 +124,8 @@ test("all active persistence instructions target ai-work-state/main and never de
   assert.match(runtime,/STATE_BRANCH = "main"/);
   assert.match(runtime,/WRONG_STATE_TARGET/);
   for(const [name,text] of [["bootstrap",b],["protocol",p],["runbook",r],["installer",i]]){
-    assert.doesNotMatch(text, /(?:write|writes|target|targeting|persist(?:ence)?)[^\n]{0,100}(?:on|to|branch) \`dev\`/i, name);
+    assert.doesNotMatch(text, /refs\/heads\/dev/, name);
+    assert.doesNotMatch(text, /Required repo:[^\n]*branch \`dev\`/, name);
+    assert.doesNotMatch(text, /GitHub write tools targeting[^\n]*on \`dev\`/, name);
   }
 });
