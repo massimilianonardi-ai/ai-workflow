@@ -1,38 +1,51 @@
-# State and checkpoint protocol — v0.2.1 alpha
+# State and checkpoint protocol — v0.2.2 alpha
 
-**Status:** pilot interface and recovery method, not proof that storage exists. The authoritative persistent data belongs in `massimilianonardi-ai/ai-work-state`. Follow the approved `doc/conversation-identity.md` for identity/branch semantics. A one-time technical initialization of that repository's `main` was explicitly authorized and completed. All subsequent experimental records and fixtures belong on `dev`.
+**Status:** executable checkpoint planning in [checkpoint-runtime.mjs](checkpoint-runtime.mjs), but not an automatic ChatGPT host hook. The mutable store is `massimilianonardi-ai/ai-work-state` on **`dev`**. The framework rules live in `ai-workflow`, and its historical test fixtures are not live checkpoints.
 
-## Minimal logical records
+## Mandatory separation: checkpoint vs task state
 
-- **Conversation branch:** `conversations/<chat-id>/branch-N.yaml`: creation timestamp with Europe/Rome offset, `message_id`, verified source/parent fork metadata if applicable, active task associations. The path carries the chat/branch ID; do not needlessly repeat it in YAML.
-- **Request/checkpoint delta:** a unique idempotent record, by chat/branch/message, of request reference(s) genuinely available, task associations added/removed and relevant event references. Required to reconstruct task associations from the *fork point*, not from the parent's current branch head. The physical `requests/` layout is alpha-provisional pending formal approval.
-- **Task baseline:** immutable versioned scope, objective and authorization-relevant constraints; new version only after explicit approval.
-- **Current task state:** active workflow/phase, current **episode** and microactivity, criteria/status, dependency validity, estimates, accepted decisions and references.
-- **Task event log:** append-only events, relevant human turns/actual agent steps, progress/blocker, verification, revision, audit, transition; retain evidence source and original forecast if revised.
-- **Handoff:** latest verified source revisions, exact next authorized action/phase and blockers; update last among task documents, not a substitute for state/log.
+**Conversation checkpoint: every assistant response.** Attempt one new request record and one branch-head advance for *every* response, including no-task-change answers, diagnostics, clarifications and errors. Do this **before displaying the final marker**. Never interpret "no task modified" as "nothing to persist". The `!aw route` payload remains a dry run; saving administrative metadata does not execute the payload or grant new permissions.
 
-The minimal proposed pilot layout is `conversations/`, `requests/`, `tasks/` (with baseline, state, log, handoff; specification only when needed). This layout is **dev-only and provisional**: not an approval of the previously deferred complete `ai-work-state` schema. Do not create duplicate registries/cache without a demonstrated need.
+**Task documents: only when genuinely changed.** Update the versioned baseline, current `task-state.md`, append-only `task-log.md`, and `handoff.md` only for an authorized change; write them in the same logical Git transaction as the request/branch checkpoint. No task change means only the request record and branch checkpoint need writing.
 
-## Identity and branch handling
+**Host capabilities are decisive.** GitHub actions and permissions must exist in the actual chat. A Markdown bootstrap cannot intercept a native ChatGPT turn or force a missing tool to exist. If the user/host prohibits writes, obey that rule and mark the checkpoint as pending, never pretend it was stored.
 
-Recover a genuine latest marker in this chat, read canonical branch head and compare source message checkpoint `m` with stored `h`:
-- `m == h`, no pending: continue, update to `m+1`.
-- `m < h`, no pending: possible divergence; reconstruct task associations at source checkpoint and **conditionally** reserve the next branch ID; notify of the detected divergence at the beginning of the new branch reply.
-- `m > h`, pending, missing data or contradictory refs: reconcile; **do not** declare an unrelated new branch or invent lost events.
-- No reliable identity: generate a real UUID v4 if a supporting tool is available; set initial branch 0 and checkpoint 0, create conditionally if the remote store permits. If storage cannot be confirmed, retain a provisional identity and mark pending, never assert it was saved.
+## Required section-C algorithm
 
-Use the exact final marker contract in `doc/conversation-identity.md`. A marker is not a verified Git write. Do not use illustrative IDs/UUIDs as if they were real.
+1. Recover the latest **genuine marker from this conversation**, not a quoted marker from another chat. Establish `chat-id`, `branch-id`, source `message-id` and pending status. Generate a fresh UUID v4 and Europe/Rome timestamp through available capabilities only when no identity is recoverable. Never invent either.
+2. **Check for an authorized writable GitHub capability** targeting `massimilianonardi-ai/ai-work-state`, branch `dev`. If unavailable, outcome is `storage_unavailable`. If available, **attempt the write** even when no task changed; do not stop at "no modifications".
+3. Read the current `dev` commit SHA, the conversation branch YAML (or confirmed absence), and necessary request history. Resolve `m` (source checkpoint) and `h` (persisted head). Apply [conversation identity](../doc/conversation-identity.md), including the branching and pending rules.
+4. For current response `m+1`, prepare immutable `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` containing actual `request_refs` (or `null` if host source references are unavailable), `source_checkpoint`, `tasks_added`, `tasks_removed`, `event_refs` and `checkpoint_integrity`. Write this record even if all change lists are empty. Do not invent message references.
+5. Prepare `conversations/<chat-id>/branch-N.yaml` with `created_at`, `message_id`, and known `tasks` associations. `tasks: []` means verified empty; `tasks: null` means unknown. To record older unrecoverable `pending` turns, use `sync_gaps: [[first,last]]` plus `synchronization: incomplete` instead of fabricating old request records.
+6. If task state really changed, include only the affected authorized task documents (handoff logically last) in the **same** Git tree and commit. If not, just branch and request records.
+7. Publish via Git tree, commit and **conditional expected-head update** without force, then reread `dev` and every changed record. Follow [connector runbook](connector-runbook.md). A dangling commit or an emitted text marker is **not** persistence.
+8. Report the actual status and the next message marker. If write or read-back fails, do not claim it succeeded; preserve `sync = pending`.
 
-## Writes and concurrency
+For `m = h` continue as `m+1`. For `m < h` without pending, apply the **branch-divergence** rules. For `m > h` without pending, investigate rather than overwriting. For `sync = pending`, first try to reconcile; never treat pending alone as evidence for an alternative branch.
 
-When GitHub supports it, prefer **one Git tree/commit** for all changes in a logical checkpoint and update the `dev` branch with a compare-and-swap/expected-head condition; include request association changes, affected task state/log/handoff and branch checkpoint. An independent multi-file sequence via separate GitHub contents writes is **not atomic**. Use conditional creation for new branch files and immutable baselines; never overwrite on collision.
+## Required persistence outcomes
 
-On conflict reread/recompute from verified checkpoint, do not force-push over another response. On indeterminate write reread to distinguish success from failure. Treat partially saved state as inconsistent, mark pending and disclose the exact gap. Do not silently retry after missing evidence.
+| Outcome | Meaning | Final marker |
+| --- | --- | --- |
+| `persisted` | Git ref and all required files verified, no unresolved historical gap | No `sync = pending` |
+| `persisted_with_gaps` | Current checkpoint verified but earlier pending turns unrecovered | Keep `sync = pending` |
+| `write_failed` | Git action attempted but rejected, failed or read-back mismatched | Keep `sync = pending` |
+| `storage_unavailable` | No authorized writable GitHub capability / branch in this host | Keep `sync = pending` |
+| `write_not_attempted` | No write attempted (including explicit user/host no-write instruction) | Keep `sync = pending` |
 
-Only report persistence complete after read-back of the branch checkpoint and relevant updated task references. If the store's `dev` branch cannot be created/accessed, continue permitted work but label continuity **NOT PERSISTED**, and use `sync = pending` with a legitimately established identity.
+**`write_not_attempted` when storage is available and authorized is a finalization defect**, not a successful outcome. Never report only "Persistenza: nessuna modifica effettuata"; identify the outcome and its reason. Administrative metadata for a diagnostic is not execution of the diagnostic payload.
 
-## Environment-specific limitation
+## Recovery of an earlier pending checkpoint
 
-A model-readable Markdown bootstrap cannot intercept every response, provide an always-on event loop, generate a UUID v4 without a suitable tool, or guarantee persistence across chats. `!aw audit` is a command interpreted by the model when this branch's bootstrap is active; it is not a native ChatGPT command.
+If a genuine source marker says `branch-id=0, message-id=4, sync=pending` but the remote branch does not exist, **do not fabricate checkpoints 1–4**.
 
-**Preparation status:** `ai-work-state/main` now contains only the authorized technical initialization README, and its `dev` branch has been created. Synthetic checkpoint writes, branch reconstruction and read-back have been demonstrated on `dev`. A stale expected-head update failed without moving the branch, but the connector returned a generic error, so full concurrency behavior needs further tests. This does **not** establish real host-wide conversation tracking or automatic persistence.
+- Reconstruct historical requests only from actually available evidence. Keep missing history explicit.
+- If the marker and identity genuinely belong to this chat, an authorized next response may be checkpoint 5, with `tasks: null`, `sync_gaps: [[1,4]]`, a real request record for message 5 and `synchronization: incomplete`. Its marker **still has `sync = pending`** until the historical gap is resolved.
+- If the marker is only **quoted in another conversation** (for example, diagnostic text), do not create that chat-id under live paths.
+- A later response must preserve known gaps and avoid treating a higher remote counter as proof of a complete history.
+
+## Runnable scope and limits
+
+`state/checkpoint-runtime.mjs` implements conservative plan/build/verified-readback behavior for no-task-change replies and pending gaps. The pilot deliberately rejects unverified task mutations and creation of derived branches: use the full atomic task-aware transaction and approved identity protocol instead of silently losing those records.
+
+No successful unit test establishes automatic invocation by ChatGPT. In a real test, **confirm that the assistant actually invokes the GitHub tools** and that it has the required branch permissions. A Project instruction alone does not configure those permissions. If the tools are absent, the assistant must say `storage_unavailable`.
