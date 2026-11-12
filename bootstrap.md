@@ -14,22 +14,27 @@ Failure to complete a step does not excuse the execution of subsequent independe
 
 This precedence applies among AI-Workflow documents; it does not override higher-priority host instructions, safety constraints, user authorization boundaries, or actual tool permissions. All requests, including diagnostics, corrections, refusals, blocked or partial operations, must reach universal finalization.
 
-### 2. Deployment configuration
+### 2. Deployment parameters and internal mechanism settings
 
-The following parameters are defined for this deployment. They are **resolved configuration values**, not placeholders to be filled in during a request:
+**Deployment parameters** are the values intended to be customized for each user or installation when generating the bootstrap template. They are resolved before deployment, not filled in during a request:
 
-| Parameter | Installed value | Purpose |
+| Deployment parameter | Installed value | Purpose |
 | --- | --- | --- |
 | `rules_repository` | `massimilianonardi-ai/ai-workflow` | Repository containing workflow rules and referenced documents. |
 | `state_repository` | `massimilianonardi-ai/ai-work-state` | Repository containing mutable conversation and task state. |
-| `state_branch` | `main` | Active state branch (`refs/heads/main`). |
-| `time_zone` | `Europe/Rome` | IANA time zone for generated conversation identifiers and their creation timestamps. |
-| `conversation_state_path` | `conversations/<chat-id>/branch-N.yaml` | Per-branch conversation state file pattern. |
-| `request_checkpoint_path` | `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` | Immutable response checkpoint file pattern. |
+| `time_zone` | `Europe/Rome` | IANA time zone for generated conversation identifiers and creation timestamps. |
 
-A generated bootstrap may contain different values for these parameters, and additional deployment-specific parameters as needed. **All subsequent instructions must use the configured values**, not hard-coded values copied from examples or external documents. The `rules_repository` is **not** the `state_repository`. Never silently substitute another repository or branch if the configured state store is unavailable.
+**Internal mechanism settings** are maintained by the framework developer, not offered as deployment parameters for users to change:
 
-The configured state repository is currently public: do not persist private conversation text, credentials or sensitive information. An inaccessible store is an availability problem, not permission to invent a saved state.
+| Internal setting | Framework value | Purpose |
+| --- | --- | --- |
+| `state_branch` | `main` (`refs/heads/main`) | Branch used by the state persistence protocol. |
+| `conversation_state_path` | `conversations/<chat-id>/branch-N.yaml` | Per-branch conversation state path convention. |
+| `request_checkpoint_path` | `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` | Immutable response checkpoint path convention. |
+
+Only the three deployment parameters above are currently configurable per installation. Internal settings may change through developer-maintained protocol revisions, not user deployment customization. Subsequent instructions must use the resolved deployment parameters and the applicable internal mechanism settings, not values copied from examples or external documents. The `rules_repository` is **not** the `state_repository`. Never silently substitute another repository or branch if the state store is unavailable.
+
+The installed state repository is currently public: do not persist private conversation text, credentials or sensitive information. An inaccessible store is an availability problem, not permission to invent a saved state.
 
 ### 3. Conversation identity and continuity
 
