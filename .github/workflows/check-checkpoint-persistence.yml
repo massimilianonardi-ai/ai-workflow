@@ -19,4 +19,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --test tests/checkpoint-runtime.test.mjs
+      - run: node --test tests/alpha-contract.test.mjs tests/checkpoint-runtime.test.mjs
