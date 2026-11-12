@@ -1,6 +1,6 @@
-# State and checkpoint protocol — v0.2.2 alpha
+# State and checkpoint protocol — v0.2.3 alpha
 
-**Status:** executable checkpoint planning in [checkpoint-runtime.mjs](checkpoint-runtime.mjs), but not an automatic ChatGPT host hook. The mutable store is `massimilianonardi-ai/ai-work-state` on **`dev`**. The framework rules live in `ai-workflow`, and its historical test fixtures are not live checkpoints.
+**Status:** executable checkpoint planning in [checkpoint-runtime.mjs](checkpoint-runtime.mjs), but not an automatic ChatGPT host hook. The mutable store is `massimilianonardi-ai/ai-work-state` on **`main`**. The framework rules live in `ai-workflow`, and its historical test fixtures are not live checkpoints.
 
 ## Mandatory separation: checkpoint vs task state
 
@@ -13,7 +13,7 @@
 ## Required section-C algorithm
 
 1. Recover the latest **genuine marker from this conversation**, not a quoted marker from another chat. Establish `chat-id`, `branch-id`, source `message-id` and pending status. Generate a fresh UUID v4 and Europe/Rome timestamp through available capabilities only when no identity is recoverable. Never invent either.
-2. **Check for an authorized writable GitHub capability** targeting `massimilianonardi-ai/ai-work-state`, branch `dev`. If unavailable, outcome is `storage_unavailable`. If available, **attempt the write** even when no task changed; do not stop at "no modifications".
+2. **Check for an authorized writable GitHub capability** targeting `massimilianonardi-ai/ai-work-state`, branch `main`. Do not use `dev` as a fallback. If unavailable, outcome is `storage_unavailable`. If available, **attempt the write** even when no task changed; do not stop at "no modifications".
 3. Read the current `dev` commit SHA, the conversation branch YAML (or confirmed absence), and necessary request history. Resolve `m` (source checkpoint) and `h` (persisted head). Apply [conversation identity](../doc/conversation-identity.md), including the branching and pending rules.
 4. For current response `m+1`, prepare immutable `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` containing actual `request_refs` (or `null` if host source references are unavailable), `source_checkpoint`, `tasks_added`, `tasks_removed`, `event_refs` and `checkpoint_integrity`. Write this record even if all change lists are empty. Do not invent message references.
 5. Prepare `conversations/<chat-id>/branch-N.yaml` with `created_at`, `message_id`, and known `tasks` associations. `tasks: []` means verified empty; `tasks: null` means unknown. To record older unrecoverable `pending` turns, use `sync_gaps: [[first,last]]` plus `synchronization: incomplete` instead of fabricating old request records.
@@ -49,3 +49,9 @@ If a genuine source marker says `branch-id=0, message-id=4, sync=pending` but th
 `state/checkpoint-runtime.mjs` implements conservative plan/build/verified-readback behavior for no-task-change replies and pending gaps. The pilot deliberately rejects unverified task mutations and creation of derived branches: use the full atomic task-aware transaction and approved identity protocol instead of silently losing those records.
 
 No successful unit test establishes automatic invocation by ChatGPT. In a real test, **confirm that the assistant actually invokes the GitHub tools** and that it has the required branch permissions. A Project instruction alone does not configure those permissions. If the tools are absent, the assistant must say `storage_unavailable`.
+
+## Authoritative state branch and visibility
+
+The sole active write target is `massimilianonardi-ai/ai-work-state`, ref `refs/heads/main`. Before any actual checkpoint, verify that repository and branch. A Git adapter targeting `dev` or another repository must be rejected rather than silently writing elsewhere. `dev` contains older test fixtures and is not a live persistence destination. All new real conversation branch, request, or task state updates belong on `main`.
+
+**Privacy:** the state repository is currently **public**. Do not persist confidential user data, secrets or sensitive task metadata until private visibility is configured. Repository visibility was not changed by this correction.

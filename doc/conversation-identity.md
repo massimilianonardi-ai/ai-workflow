@@ -9,7 +9,7 @@
 
 Define how to recover or generate the AI-Workflow identity of a conversation, maintain sequential checkpoints, detect branches, synchronize state, and reconcile identifiers created in error. This specification describes an application-level protocol: it does not assume that the host platform exposes a native conversation identifier or branching signals, or that a model always has access to the complete conversation history.
 
-Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state`. This document is referenced by the second instruction of bootstrap section A. Universal finalization (section C) applies its persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
+Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state` on its active **`main`** branch. Historical synthetic fixtures on `dev` are not live persistent state. This document is referenced by the second instruction of bootstrap section A. Universal finalization (section C) applies its persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
 
 ## 2. Identifiers
 

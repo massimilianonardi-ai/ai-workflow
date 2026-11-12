@@ -39,3 +39,5 @@ See [alpha state integration verification](evaluations/alpha-dev-state-integrati
 The state repository has a technical README on `main` and a dedicated `dev` branch. In a synthetic fixture only, a multi-file checkpoint was written in one Git commit, and a branch was derived from the historical checkpoint rather than current task associations. A stale expected-head write did not advance the ref, but returned a generic connector error; this is not proof that every concurrency failure is handled.
 
 No experimental Project has been installed, and no live conversation marker or task checkpoint has been established by these tests.
+
+**Update (v0.2.3):** this is historical staging material; active checkpoint persistence now targets `ai-work-state/main`, not `dev`. Previous `dev` fixture commits remain in place and are not migrated into live state.

@@ -81,10 +81,10 @@ test("active docs reference A/B/C and the renamed state protocol", () => {
 });
 
 test("the active release and renamed protocol are self-consistent", () => {
-  assert.match(read("README.md"), /v0\.2\.2/);
+  assert.match(read("README.md"), /v0\.2\.3/);
   assert.match(read("README.md"), /\(sections A → B → C\)/);
   assert.match(read("README.md"), /state\/protocol\.md/);
-  assert.match(read("deploy/chatgpt-project-instructions.md"), /blob\/v0\.2\.2\/bootstrap\.md/);
+  assert.match(read("deploy/chatgpt-project-instructions.md"), /blob\/v0\.2\.3\/bootstrap\.md/);
   assert.match(read("deploy/chatgpt-project-instructions.md"), /sezioni obbligatorie A → B → C/);
   assert.ok(existsSync(resolve(root, "state/protocol.md")));
   assert.equal(existsSync(resolve(root, "state/alpha-protocol.md")), false);
@@ -108,4 +108,22 @@ test("the connector runbook specifies actual Git writes and readback", () => {
   assert.match(read("README.md"),/state\/checkpoint-runtime\.mjs/);
   assert.ok(existsSync(resolve(root,"state/checkpoint-runtime.mjs")));
   assert.ok(existsSync(resolve(root,"tests/checkpoint-runtime.test.mjs")));
+});
+
+test("all active persistence instructions target ai-work-state/main and never dev",()=>{
+  const b=read("bootstrap.md");
+  const p=read("state/protocol.md");
+  const r=read("state/connector-runbook.md");
+  const i=read("deploy/chatgpt-project-instructions.md");
+  const runtime=read("state/checkpoint-runtime.mjs");
+  assert.match(b,/ai-work-state\` on \`main\`/);
+  assert.match(p,/on \*\*\`main\`\*\*/);
+  assert.match(r,/refs\/heads\/main/);
+  assert.match(r,/ai-work-state\/main/);
+  assert.match(i,/branch main/);
+  assert.match(runtime,/STATE_BRANCH = "main"/);
+  assert.match(runtime,/WRONG_STATE_TARGET/);
+  for(const [name,text] of [["bootstrap",b],["protocol",p],["runbook",r],["installer",i]]){
+    assert.doesNotMatch(text, /(?:write|writes|target|targeting|persist(?:ence)?)[^\n]{0,100}(?:on|to|branch) \`dev\`/i, name);
+  }
 });

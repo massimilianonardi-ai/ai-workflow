@@ -2,6 +2,8 @@
  * Deterministic per-response checkpoints. This module is callable by a host;
  * importing it does NOT automatically intercept ChatGPT turns.
  */
+export const STATE_REPOSITORY = "massimilianonardi-ai/ai-work-state";
+export const STATE_BRANCH = "main";
 export const CHAT_ID_RE = /^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const enc = x => JSON.stringify(x);
 const list = xs => xs === null ? "null" : xs.length ? "\n" + xs.map(x => "  - " + enc(x)).join("\n") : "[]";
@@ -92,11 +94,13 @@ export function planCheckpoint(input, storedText=null) {
 
 /**
  * The host must invoke this during section C for EACH response, even if no
- * task changes. API performs an actual CAS commit and readback.
+ * task changes. API targets the exact repository and branch `main`; performs an actual CAS commit and readback.
  */
 export async function persistCheckpoint(api,input) {
   requireValid(api && ["getHead","getFile","atomicCommit"].every(k=>typeof api[k]==="function"),
      "NO_WRITABLE_STORE","Writable Git adapter required");
+  requireValid(api.repositoryFullName===STATE_REPOSITORY && api.branch===STATE_BRANCH,
+     "WRONG_STATE_TARGET","Refusing checkpoint persistence outside ai-work-state/main");
   const head=await api.getHead();
   const branchPath=`conversations/${input.chatId}/branch-${input.branchId??0}.yaml`;
   const oldBranch=await api.getFile(branchPath,head);

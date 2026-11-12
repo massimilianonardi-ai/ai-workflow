@@ -1,5 +1,7 @@
 # AI-Workflow alpha-dev — opt-in installation guide
 
+**HISTORICAL DEV INSTRUCTIONS — NOT FOR CURRENT PERSISTENCE.** The current state target is `ai-work-state/main`, never `dev`. Use `deploy/chatgpt-project-instructions.md` for the current release instead.
+
 This is **not** a statement that any ChatGPT Project has been reconfigured. No native ChatGPT modes, tools, permissions, storage or background jobs are installed by GitHub commits.
 
 ## Suggested experimental Project instructions

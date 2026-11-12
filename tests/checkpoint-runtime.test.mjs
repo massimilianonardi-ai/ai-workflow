@@ -7,7 +7,7 @@ const createdAt="2026-11-12T12:41:00+01:00";
 const input=(sourceMessageId,sourcePending=false,extra={})=>
   ({chatId,branchId:0,sourceMessageId,sourcePending,createdAt,requestRefs:[],...extra});
 class MockGit {
-  constructor(){this.head="H0";this.files={};this.counter=0;this.writes=0}
+  constructor(){this.head="H0";this.files={};this.counter=0;this.writes=0;this.repositoryFullName="massimilianonardi-ai/ai-work-state";this.branch="main"}
   async getHead(){return this.head}
   async getFile(p){return this.files[p]??null}
   async atomicCommit(expected,updates){
@@ -89,4 +89,14 @@ test("unsupported task mutations are refused rather than lost",async()=>{
 
 test("valid identity is mandatory, never replace it with a fabricated one",()=>{
   assert.throws(()=>planCheckpoint({...input(0),chatId:"chat-id-placeholder"},null),e=>e.code==="BAD_CHAT_ID");
+});
+
+test("runtime refuses dev branch and wrong repository even if adapter is writable",async()=>{
+  const db=new MockGit();
+  db.branch="dev";
+  await assert.rejects(persistCheckpoint(db,input(0,false,{tasks:[]})),e=>e.code==="WRONG_STATE_TARGET");
+  assert.equal(db.writes,0);
+  db.branch="main";db.repositoryFullName="massimilianonardi-ai/ai-workflow";
+  await assert.rejects(persistCheckpoint(db,input(0,false,{tasks:[]})),e=>e.code==="WRONG_STATE_TARGET");
+  assert.equal(db.writes,0);
 });

@@ -1,4 +1,4 @@
-# AI-Workflow v0.2.2
+# AI-Workflow v0.2.3
 
 ## A. Universal premises and initialization
 
@@ -20,7 +20,7 @@ Ogni richiesta segue obbligatoriamente le sezioni A → B → C. Qualunque sia l
 ## C. Universal finalization — mandatory checkpoint attempt
 
 1. Determine the current reply checkpoint using the **latest genuine marker in this conversation** and the verified `ai-work-state` branch head. If there is a prior `sync = pending` gap, reconcile only the history supported by real evidence; do not fabricate missing turns or treat the pending gap as automatic branching.
-2. **Every assistant response requires a conversation checkpoint attempt, even if no task changed.** Before emitting the final marker, explicitly check for authorized GitHub write tools targeting `massimilianonardi-ai/ai-work-state` on `dev`. When available, actually **invoke them** to commit `requests/<chat-id>/<branch-id>-<message-id>.yaml` and advance `conversations/<chat-id>/branch-N.yaml` atomically through an expected-head write. A `!aw route` diagnostic remains non-executing for its payload, but its metadata checkpoint is not execution of that payload. Follow `state/protocol.md` and `state/connector-runbook.md`.
+2. **Every assistant response requires a conversation checkpoint attempt, even if no task changed.** Before emitting the final marker, explicitly check for authorized GitHub write tools targeting `massimilianonardi-ai/ai-work-state` on `main`. Do not fall back to `dev` if `main` is inaccessible. When available, actually **invoke them** to commit `requests/<chat-id>/<branch-id>-<message-id>.yaml` and advance `conversations/<chat-id>/branch-N.yaml` atomically through an expected-head write. A `!aw route` diagnostic remains non-executing for its payload, but its metadata checkpoint is not execution of that payload. Follow `state/protocol.md` and `state/connector-runbook.md`.
 3. Modify task baselines, `task-state.md`, `task-log.md` and `handoff.md` only when there was a real authorized change, and include them in that same Git checkpoint. **No task change NEVER means no conversation checkpoint.** A write without a verified Git ref and file read-back is not a successful save. If write or read-back fails, investigate rather than claiming completion. Never invent recovered history, tasks, sources, commits, or host abilities.
 4. Before responding, classify the **real** write outcome as `persisted`, `persisted_with_gaps`, `write_failed`, `storage_unavailable` or `write_not_attempted` and give the reason for any non-persisted outcome. `write_not_attempted` is a defect when an authorized writable store was available. If the user or host explicitly prohibits any writes, respect that higher-priority constraint and report `write_not_attempted`. Do not say only "Persistenza: nessuna modifica effettuata".
 5. When a genuine current-chat identity is established, end with exactly the approved last-line marker:
