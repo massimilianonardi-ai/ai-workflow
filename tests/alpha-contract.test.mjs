@@ -53,9 +53,9 @@ test("continuity distinguishes early critical triggers from quantitative delay",
 test("persistence never claims writes without verification", () => {
   const s = read("state/protocol.md");
   assert.match(s, /read-back/i);
-  assert.match(s, /NOT PERSISTED/);
-  assert.match(s, /dev.*branch.*has been created/i);
-  assert.match(s, /m == h/);
+  assert.match(s, /write_failed/);
+  assert.match(s, /write_not_attempted/);
+  assert.match(s, /m = h/);
   assert.match(s, /m < h/);
 });
 
@@ -81,10 +81,10 @@ test("active docs reference A/B/C and the renamed state protocol", () => {
 });
 
 test("the active release and renamed protocol are self-consistent", () => {
-  assert.match(read("README.md"), /v0\.2\.1/);
+  assert.match(read("README.md"), /v0\.2\.2/);
   assert.match(read("README.md"), /\(sections A → B → C\)/);
   assert.match(read("README.md"), /state\/protocol\.md/);
-  assert.match(read("deploy/chatgpt-project-instructions.md"), /blob\/v0\.2\.1\/bootstrap\.md/);
+  assert.match(read("deploy/chatgpt-project-instructions.md"), /blob\/v0\.2\.2\/bootstrap\.md/);
   assert.match(read("deploy/chatgpt-project-instructions.md"), /sezioni obbligatorie A → B → C/);
   assert.ok(existsSync(resolve(root, "state/protocol.md")));
   assert.equal(existsSync(resolve(root, "state/alpha-protocol.md")), false);
