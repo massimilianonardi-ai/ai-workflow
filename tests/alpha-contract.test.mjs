@@ -89,3 +89,23 @@ test("the active release and renamed protocol are self-consistent", () => {
   assert.ok(existsSync(resolve(root, "state/protocol.md")));
   assert.equal(existsSync(resolve(root, "state/alpha-protocol.md")), false);
 });
+
+test("every response, including no-task-change, must attempt Git persistence", () => {
+  const b=read("bootstrap.md");
+  assert.match(b,/Every assistant response requires a conversation checkpoint attempt/);
+  assert.match(b,/No task change NEVER means no conversation checkpoint/);
+  assert.match(b,/storage_unavailable/);
+  assert.match(b,/write_not_attempted/);
+  assert.match(read("state/protocol.md"),/No task change means only the request record and branch checkpoint need writing/);
+  assert.match(read("routing/commands.md"),/!aw sync/);
+});
+
+test("the connector runbook specifies actual Git writes and readback", () => {
+  const runbook=read("state/connector-runbook.md");
+  for(const required of ["create_tree","create_commit","update_ref","expected_sha","read"]) {
+    assert.match(runbook,new RegExp(required));
+  }
+  assert.match(read("README.md"),/state\/checkpoint-runtime\.mjs/);
+  assert.ok(existsSync(resolve(root,"state/checkpoint-runtime.mjs")));
+  assert.ok(existsSync(resolve(root,"tests/checkpoint-runtime.test.mjs")));
+});

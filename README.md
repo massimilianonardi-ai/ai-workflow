@@ -1,6 +1,6 @@
-# AI-Workflow — v0.2.1 alpha
+# AI-Workflow — v0.2.2 alpha
 
-An independent, **experimental model-readable workflow framework**. The current source is [`main`](https://github.com/massimilianonardi-ai/ai-workflow/tree/main); the current versioned release is [`v0.2.1`](https://github.com/massimilianonardi-ai/ai-workflow/releases/tag/v0.2.1).
+An independent, **experimental model-readable workflow framework**. The current source is [`main`](https://github.com/massimilianonardi-ai/ai-workflow/tree/main); the current versioned release is [`v0.2.2`](https://github.com/massimilianonardi-ai/ai-workflow/releases/tag/v0.2.2).
 
 **Important:** this alpha is not a native ChatGPT feature, persistent agent, authorization engine or background service. It does not automatically alter any ChatGPT Project settings. A deliberately configured host and connected tools are required to exercise the methods.
 
@@ -16,10 +16,21 @@ An independent, **experimental model-readable workflow framework**. The current 
 
 ## Activation
 
-See [ChatGPT Project instructions for v0.2.1](deploy/chatgpt-project-instructions.md). Copy the instructions into a **dedicated experimental environment** only if desired; repository publication does not install them. The `ai-work-state` repository remains a **separate state store**, with synthetic tests so far on [`ai-work-state/dev`](https://github.com/massimilianonardi-ai/ai-work-state/tree/dev).
+See [ChatGPT Project instructions for v0.2.2](deploy/chatgpt-project-instructions.md). Copy the instructions into a **dedicated experimental environment** only if desired; repository publication does not install them. The `ai-work-state` repository remains a **separate state store**, with synthetic tests so far on [`ai-work-state/dev`](https://github.com/massimilianonardi-ai/ai-work-state/tree/dev).
 
 ## Verification status
 
-Structural contract checks: **9/9** passed using read-backed GitHub files and in-memory assertions. Synthetic Git checkpoint fixture checks: **6/6** passed, with a limited stale-head update probe. **Not yet verified:** actual host execution of every command, automatic per-turn finalization, stable live conversation markers, cross-chat recovery and full concurrency behavior. See [evidence and limitations](evaluations/alpha-dev-state-integration-2026-11-10.md).
+Structural contract checks: **11/11** passed using read-backed GitHub files and in-memory assertions. Synthetic Git checkpoint fixture checks: **6/6** passed, with a limited stale-head update probe. **Not yet verified:** actual host execution of every command, automatic per-turn finalization, stable live conversation markers, cross-chat recovery and full concurrency behavior. See [evidence and limitations](evaluations/alpha-dev-state-integration-2026-11-10.md).
 
 The source on `dev` remains the staging branch. Historical `release/2026-11-08-*` branches and `v0.1.0` are preserved. Nothing from RumiAI or another project is inherited by default.
+
+## Per-response state checkpoint (v0.2.2)
+
+Section C now explicitly requires a **real GitHub checkpoint attempt on every response**, even when no task changed: one immutable request record and an updated conversation branch head. Task state/log/handoff remain conditional on actual changes. The outcome must be reported as `persisted`, `persisted_with_gaps`, `write_failed`, `storage_unavailable` or `write_not_attempted`; only fully verified, complete history removes `sync = pending`.
+
+- [Executable checkpoint planner and verification](state/checkpoint-runtime.mjs).
+- [Exact GitHub connector tool sequence](state/connector-runbook.md).
+- [Pending and conflict policy](state/protocol.md).
+- [10 runtime checkpoint tests](tests/checkpoint-runtime.test.mjs).
+
+**Important:** this mechanism only runs when a capable, authorized host explicitly invokes its GitHub tools. A pinned Git tag does not install a host hook or guarantee that ChatGPT calls tools at every turn. Configure a dedicated test Project using the v0.2.2 instructions, confirm write permissions, and inspect actual `ai-work-state/dev` commits. No real conversation checkpoints are assumed to exist from earlier tests.
