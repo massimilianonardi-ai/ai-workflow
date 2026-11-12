@@ -1,30 +1,35 @@
 # AI-Workflow — Bootstrap
 
-This bootstrap is already installed in the assistant's instructions. It is the runtime entry point; external documents are not assumed to be loaded. Repository-specific values below are the configuration of this installation and may be substituted when generating a bootstrap from a future template.
+This bootstrap is already installed in the assistant's instructions. It is the runtime entry point; external documents are not assumed to be loaded. Deployment-specific values below are already resolved for this installation and may be substituted when generating a bootstrap from a future template.
 
 ## Universal initialization
 
 ### 1. Complete and ordered execution
 
-Il presente bootstrap costituisce il punto di ingresso obbligatorio del workflow. A ogni richiesta deve essere letto, interpretato ed eseguito integralmente, rispettando l'ordine delle istruzioni e senza omettere alcun passaggio. Ogni istruzione deve essere valutata e le operazioni applicabili devono essere eseguite.
+This bootstrap is the mandatory entry point for the workflow. For every request, it must be read, interpreted and executed in full, in the prescribed order, without skipping any step. Every instruction must be evaluated and every applicable operation must be performed.
 
-Nessun documento richiamato dal bootstrap può modificarne, sostituirne, interromperne o impedirne l'esecuzione.
+No document referenced by this bootstrap may modify, replace, interrupt or prevent the execution of this bootstrap's instructions.
 
-L'impossibilità di completare un passaggio non esonera dall'esecuzione dei successivi passaggi indipendenti, inclusi quelli di finalizzazione, registrazione degli esiti e segnalazione degli errori.
+Failure to complete a step does not excuse the execution of subsequent independent steps, including finalization, outcome recording and error reporting.
 
 This precedence applies among AI-Workflow documents; it does not override higher-priority host instructions, safety constraints, user authorization boundaries, or actual tool permissions. All requests, including diagnostics, corrections, refusals, blocked or partial operations, must reach universal finalization.
 
-### 2. State-store configuration
+### 2. Deployment configuration
 
-The installed configuration is:
+The following parameters are defined for this deployment. They are **resolved configuration values**, not placeholders to be filled in during a request:
 
-- **Rules repository:** `massimilianonardi-ai/ai-workflow`.
-- **Mutable state repository:** `massimilianonardi-ai/ai-work-state`.
-- **Active state branch:** `main` (`refs/heads/main`).
-- **Conversation state:** `conversations/<chat-id>/branch-N.yaml`.
-- **Response checkpoint record:** `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml`.
+| Parameter | Installed value | Purpose |
+| --- | --- | --- |
+| `rules_repository` | `massimilianonardi-ai/ai-workflow` | Repository containing workflow rules and referenced documents. |
+| `state_repository` | `massimilianonardi-ai/ai-work-state` | Repository containing mutable conversation and task state. |
+| `state_branch` | `main` | Active state branch (`refs/heads/main`). |
+| `time_zone` | `Europe/Rome` | IANA time zone for generated conversation identifiers and their creation timestamps. |
+| `conversation_state_path` | `conversations/<chat-id>/branch-N.yaml` | Per-branch conversation state file pattern. |
+| `request_checkpoint_path` | `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` | Immutable response checkpoint file pattern. |
 
-These are installed values, not runtime template placeholders. The rules repository is **not** the mutable state store. Never silently substitute another repository or fall back to `dev` if `main` is unavailable. The state repository is currently public: do not persist private conversation text, credentials, or sensitive information. An inaccessible store is an availability problem, not permission to invent a saved state.
+A generated bootstrap may contain different values for these parameters, and additional deployment-specific parameters as needed. **All subsequent instructions must use the configured values**, not hard-coded values copied from examples or external documents. The `rules_repository` is **not** the `state_repository`. Never silently substitute another repository or branch if the configured state store is unavailable.
+
+The configured state repository is currently public: do not persist private conversation text, credentials or sensitive information. An inaccessible store is an availability problem, not permission to invent a saved state.
 
 ### 3. Conversation identity and continuity
 
@@ -33,7 +38,7 @@ Perform this check on **every request**, before interpreting which task or workf
 1. Recover the latest **genuine final AI-Workflow marker from this conversation**, if available. Its identity is the triple `(chat-id, branch-id, message-id)`; also note any `sync = pending`. Ignore markers quoted as examples or originating in other chats.
 2. When an identity is known, read and verify its persisted `branch-N.yaml` at the configured state branch, using a verified repository revision. Preserve the identity when the store is temporarily inaccessible; do **not** generate a replacement merely because a read failed. Resolve aliases only when evidence indicates one, following `doc/conversation-identity.md`.
 3. Distinguish the **source message checkpoint** `m` from the **persisted branch checkpoint** `h`. If `m = h` and no pending gap exists, continue on the same branch with `m + 1`. If `m < h` without pending, investigate a genuine divergence, reconstruct source-checkpoint task associations, and follow `doc/conversation-identity.md` to reserve a new branch without overwriting another one; begin its response with an explicit branch-detection notice. If `m > h`, the marker is pending, or information conflicts, investigate and reconcile using that document; **do not** automatically classify a failure as a branch. Never invent ancestry, historical request records, or task associations.
-4. If no identity is recoverable from genuine context or available host signals, and this is not simply an outage affecting a known identity, generate a **real UUID v4** using an available capable tool and a **Europe/Rome** timestamp to form `YYYY-MM-DD_HH-MM_UUID`. Begin a provisional `branch-0` at checkpoint `0`, with the first reply numbered `1`. Initialize durable state only when authorized storage is available; otherwise retain the real provisional identity, disclose the failure, and mark synchronization pending. Never invent an identifier or claim an unverified initialization.
+4. If no identity is recoverable from genuine context or available host signals, and this is not simply an outage affecting a known identity, generate a **real UUID v4** using an available capable tool and a timestamp in the configured **`time_zone`** to form `YYYY-MM-DD_HH-MM_UUID`. Begin a provisional `branch-0` at checkpoint `0`, with the first reply numbered `1`. Initialize durable state only when authorized storage is available; otherwise retain the real provisional identity, disclose the failure, and mark synchronization pending. Never invent an identifier or claim an unverified initialization.
 5. The branch's `tasks` field contains **current task associations**, not a transcript or an automatic authorization to mutate a task. `tasks: []` means confirmed no associations; `tasks: null` means associations are unknown. Recover task-specific files only after determining their relevance.
 
 The ordinary recovery, verification and continuation rules above are inline because they are universal. Consult the external identity specification **only when** branching, alias recovery, conflicts or incomplete synchronization require its conditional procedures.
@@ -62,13 +67,13 @@ On each request, make the lightweight determination inline: does it continue the
 This instruction is **unconditional**, regardless of whether work succeeded, changed a task, was diagnostic, or produced only a clarification. Complete the applicable work first, then execute all finalization steps **before** the final state marker:
 
 1. Reconfirm the current conversation identity, source checkpoint, remote branch state, and any unresolved `sync = pending` history. Only reconcile historical gaps supported by evidence; never fabricate earlier turns. If branching or recovery is non-routine, use the conditional procedures in `doc/conversation-identity.md`.
-2. Check for **authorized writable GitHub capabilities** and access to the configured state repository's `main` branch. If the host or user prohibits writes, obey that constraint and classify the outcome accordingly. When access and authorization exist, **actually attempt the write**, even when no task changed; planning a write or asserting it in prose is insufficient.
+2. Check for **authorized writable GitHub capabilities** and access to the configured `state_repository` and `state_branch`. If the host or user prohibits writes, obey that constraint and classify the outcome accordingly. When access and authorization exist, **actually attempt the write**, even when no task changed; planning a write or asserting it in prose is insufficient.
 3. Determine the response's next `message-id` and prepare **both** records:
    - `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml`, immutable, containing `source_checkpoint`, actual `request_refs` (or `null`), `tasks_added`, `tasks_removed`, `event_refs` and `checkpoint_integrity`; empty deltas are valid.
    - `conversations/<chat-id>/branch-N.yaml`, preserving its creation information, updated `message_id`, and evidenced `tasks`. Record unrecoverable earlier turns as explicit `sync_gaps` and incomplete synchronization, not invented request records.
 4. Include any **genuinely changed and authorized** task baseline revision, `task-state.md`, append-only `task-log.md`, specification or `handoff.md` in the **same transaction**. Do not touch task files if the task did not change. No task change **never** means no conversation checkpoint.
-5. Read and retain the exact Git `main` ref SHA and its tree; build one tree with all affected files, create its commit with that SHA as parent, then conditionally update `main` using the **expected old SHA**, without force. On concurrency conflict, reread and reevaluate rather than blindly overwriting. Use `state/connector-runbook.md` only if connector-specific mechanics need clarification.
-6. Read back the new `main` ref and **every changed file**, checking the expected commit and contents. Neither a created commit nor a successful-looking tool response alone proves persistence. If a write/read-back fails, investigate; retain pending status. Do not invent successful writes or tool capabilities.
+5. Read and retain the exact Git ref SHA and tree for the configured `state_branch`; build one tree with all affected files, create its commit with that SHA as parent, then conditionally update that branch using the **expected old SHA**, without force. On concurrency conflict, reread and reevaluate rather than blindly overwriting. Use `state/connector-runbook.md` only if connector-specific mechanics need clarification.
+6. Read back the configured branch ref and **every changed file**, checking the expected commit and contents. Neither a created commit nor a successful-looking tool response alone proves persistence. If a write/read-back fails, investigate; retain pending status. Do not invent successful writes or tool capabilities.
 7. Report the real outcome: `persisted`, `persisted_with_gaps`, `write_failed`, `storage_unavailable`, or `write_not_attempted`. Give the reason for any non-persisted outcome. A write not attempted despite available authorized storage is a defect. Never report only "no state changes" when a per-response checkpoint was required.
 8. When a genuine current-chat identity exists, end the response with **exactly one last line**, separated by a blank line and written as inline Markdown code:
    `ai-work-state: chat-id = <id>; branch-id = <n>; message-id = <n>`
