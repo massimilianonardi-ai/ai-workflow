@@ -59,7 +59,7 @@ tasks:
   - task-B
 ```
 
-For branch 0, `created_at` is the time the identity was generated. `message_id` denotes the latest assistant-response checkpoint **persisted** for that branch. `tasks` contains only the active associations at that persisted checkpoint.
+For branch 0, `created_at` is the time the identity was generated. `message_id` denotes the latest assistant-response checkpoint **persisted** for that branch, which may be partial after recovered pending gaps. `tasks` contains only the active associations that were confirmed at the persisted checkpoint. For incomplete history, add `sync_gaps: [[first,last]]` and `synchronization: incomplete`; a higher stored counter **does not** certify the missing historical records.
 
 ### 3.2 Derived branch
 
@@ -79,7 +79,7 @@ tasks:
 
 ### 3.3 Request index
 
-Request history preserves the relationship among prompts, branches, checkpoints, and one or more tasks, including **changes to task associations**. It must allow reconstruction of the tasks associated at an earlier checkpoint. The request index's exact paths and format will be established by the persistence specification; this document defines an interface requirement, not a newly approved file schema. The complete chat archive remains independent for now.
+Request history preserves the relationship among prompts, branches, checkpoints, and task associations, including **unchanged-task replies**. The alpha writes one immutable record at `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` for **each response**, even with no task changes. That record includes `source_checkpoint`, `request_refs` (actual references or `null` when unavailable), `tasks_added`, `tasks_removed`, `event_refs`, and `checkpoint_integrity`. The complete chat archive remains independent; do not invent transcript content or native message identifiers.
 
 ## 4. Initialization and identity recovery
 
@@ -129,9 +129,9 @@ The `message-id` identifies the current response even when persistence fails. A 
 
 1. Following a failed or indeterminate write, **reread the repository when possible**: a communications error may occur after a successful write.
 2. If the checkpoint cannot be verified, disclose the problem in the response and append `sync = pending` to its final marker. Preserve the local identity and any chain of pending checkpoints.
-3. At the next prompt, first attempt to recover and synchronize whatever pending updates are available, without fabricating deltas, messages, or decisions that cannot be recovered. A marker alone does not necessarily contain enough data to replay updates to tasks and indexes.
+3. At the next prompt, first attempt to recover and synchronize whatever pending updates are available, without fabricating deltas, messages, or decisions that cannot be recovered. A marker alone does not necessarily contain enough data to replay updates to tasks and indexes. If the host can verify the identity and source but cannot reconstruct earlier requests, it MAY persist the **current** response with explicit `sync_gaps` and `tasks: null` as necessary; do **not** create fabricated request files for the missing turns.
 4. An explicitly pending checkpoint **must not automatically be classified as a branch** because its number differs from persisted state.
-5. If recovery succeeds and is verified, proceed with the next checkpoint and remove `sync = pending`. Otherwise, continue local numbering where possible, preserve `sync = pending`, and disclose limitations.
+5. Remove `sync = pending` only after the current checkpoint **and all required historical records** have been verified. A newly persisted response with unresolved `sync_gaps` is `persisted_with_gaps`, and its final marker remains pending. If recovery is impossible, continue local numbering where safe, and disclose the exact gap.
 6. If another path has meanwhile modified persisted state, do not overwrite it: compare verifiable checkpoint provenance and reconcile, or treat the conflict as an alternative evolution when appropriate.
 
 The availability of conversation context or an event log sufficient to reconstruct deltas is not guaranteed. When information required for recovery is missing, disclose the gap; do not certify an incomplete history as synchronized.
@@ -176,8 +176,8 @@ For each response, including responses without persistent tasks:
 
 1. Identify the source checkpoint and any divergence, reserving a branch when necessary.
 2. Carry out the requested work within authorizations and verified sources; determine relevant task associations.
-3. Record the request reference and association changes; update only task documents actually affected; write the relevant handoffs last among task documents.
-4. Conditionally advance the branch checkpoint and verify the outcomes. If any required update fails, do not claim complete persistence and retain `sync = pending`.
+3. **For EVERY response**, create a request checkpoint record and update the branch checkpoint; zero task changes still require both files. Include task state/log/handoff only when the task genuinely changed (handoff last logically). Write all affected records in one authorized Git tree/commit and conditionally advance the ref.
+4. Actually attempt GitHub persistence when writable tools are available and authorized; then read back the ref and changed files. Report `persisted`, `persisted_with_gaps`, `write_failed`, `storage_unavailable`, or `write_not_attempted` with its reason. If any required save fails or historical gaps remain, retain `sync = pending`.
 5. If a new branch was detected, begin the final response with its notice. Disclose any persistence gap before the final marker.
 6. End with the single final state marker, referring to the response actually emitted.
 
@@ -188,6 +188,8 @@ For each response, including responses without persistent tasks:
 - A logical conversation retains its `chat-id`, including all known branches.
 - `chat-id` and `branch-id` are not repeated inside `branch-N.yaml`.
 - `message-id` increments by one per response along a path even when persistence is pending.
+- **Every assistant response requires a conversation checkpoint write attempt**, even with no task change; task files themselves are conditional.
+- An explicit `sync_gaps` record indicates incomplete historical persistence; never clear `sync = pending` solely because the latest branch head advanced.
 - `tasks: []` and `tasks: null` are different: confirmed absence versus unrecovered information.
 - No branch overwrites another branch's state.
 - No new branch inherits the parent's present task list when it differs from the task associations at the source checkpoint.
