@@ -1,0 +1,22 @@
+name: Verify per-response persistence
+
+on:
+  push:
+    branches:
+      - fix/checkpoint-persistence
+      - main
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/checkpoint-runtime.test.mjs
