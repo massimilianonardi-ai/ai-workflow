@@ -1,44 +1,60 @@
-# Task model — universal task identity and relationships
+# Task model — universal task persistence and relationships
 
-## Scope and approval
+## Scope and authority
 
-This is the approved task model for AI-Workflow persistence. It defines the logical structure, not an autonomous scheduler or a deterministic runtime. The assistant applies it through the authorized GitHub tools and the bootstrap's universal checkpoint protocol.
+This is the approved task model for AI-Workflow persistence. It defines assistant-executed operations using authorized GitHub tools, not a scheduler or deterministic runtime. The [bootstrap](../bootstrap.md) remains responsible for the unconditional per-response conversation checkpoint; task files change only when work actually changes and is authorized.
 
-## One entity, not predefined task levels
+## Universal identity, hierarchy and dependencies
 
-- Every independently tracked unit of work is a **task**. A project, workstream or subtask may be described in natural language, but none has a special mandatory entity type or hierarchy level.
-- Do **not** add a required `kind`, `type`, `project`, or `subtask` discriminator to task state. A document's purpose is identified by its filename and contract, not by a `kind` field.
-- Assign each task a unique, stable, scoped logical `id`; changing its parent or position never changes that ID. Use `tasks/<stable-task-id>/` in the configured state repository, without nested parent directories.
-- Persist a new task only when its identity, progress, dependencies or outcome warrants independent tracking. Research steps, tool calls and microactivities otherwise remain events or evidence in an existing task log.
+- **One entity:** every independently tracked unit of work is a task. Labels such as project, workstream, milestone and subtask are natural-language descriptions, not mandatory types or levels. Do not introduce `kind` or `type` for task or document classification.
+- Give each task a stable scoped ID, independent of its position. Store it at `tasks/<stable-task-id>/` in the configured `state_repository`, not within its parent's directory.
+- The task's canonical `task-state.md` contains `id`, `parent` (one verified task ID or `null`), `depends_on` (verified task ID list), `status`, and optionally `active_plan`. Scope, objective, workflow, provenance and approvals remain in its records.
+- Parent links represent **composition**: at most one parent, unlimited conceptual depth, no self-link or ancestry cycle. Direct children are derived by finding tasks whose canonical parent is this task.
+- `depends_on` links represent **execution prerequisites**, independently of parentage: zero or more verified task IDs, no self-link or dependency cycle (DAG). Dependencies can cross branches of the task hierarchy when target identity and permission are verified. A satisfied dependency is not permission to execute.
+- Do not turn every user utterance, research step, tool invocation, or microactivity into a task. Persist a separate task only when independently tracking objective, progress, dependencies or completion is useful.
 
-## Two independent sets of relationships
+## Task status, readiness and rollups
 
-Canonical `task-state.md` fields include:
+- The task's own persisted `status` expresses its **actual confirmed lifecycle state**. It is independent of the statuses of its children and is changed only on evidenced, authorized progress or validation.
+- Derive a child rollup **on demand** by reading necessary verified children (or their verified relevant descendants). It may report which children are complete, incomplete, blocked or unknown; do not persist an aggregate status or completion percentage on the parent. Missing/unverified children must be reported as unknown, not completed.
+- Determine readiness to begin or resume a task from its verified dependencies, relevant plan gates, applicable workflow and actual authorization. Readiness is computed; it is not an automatic state transition or new execution permission.
+- Even when every child is `completed`, **do not automatically mark the parent completed**. Parent-specific acceptance, integration, verification or approval may still be outstanding. Completion requires that task's own acceptance evidence and applicable user authority.
+- If a change invalidates a previously confirmed outcome, retain the historic evidence and flag the affected work for revalidation; never silently erase completion evidence or automatically rewrite every ancestor. Keep the parent status independently justified.
 
-```yaml
-id: task:application
-parent: null
-depends_on: []
+## Minimal derived navigation indexes
+
+Keep authoritative relationships in each child's `task-state.md`, with **small, derived** lookup files in the configured state repository:
+
+```text
+tasks/roots.yaml                      # { roots: [task IDs with parent: null] }
+tasks/<stable-task-id>/children.yaml  # { children: [direct task IDs] }
+tasks/<stable-task-id>/task-state.md
+tasks/<stable-task-id>/task-log.md
+tasks/<stable-task-id>/handoff.md
+tasks/<stable-task-id>/task-specification.md  # when needed
 ```
 
-- **Composition:** `parent` is either `null` or one existing, verified task ID. A task has at most one direct parent, with no restriction on ancestry depth. Parent links must not contain cycles or refer to self. Direct children are derived by looking up tasks whose `parent` equals the current ID; do not store a competing authoritative children list.
-- **Execution dependencies:** `depends_on` lists zero or more verified task IDs, independent of their parentage. No self-dependency or cycle is permitted: dependencies form a directed acyclic graph (DAG). Cross-branch/cross-scope references require explicit verified identity and authority; do not guess targets.
-- Both relationship sets must remain valid after a change. Reparenting changes metadata, not the task ID or filesystem path. Persist only affected records/index entries with the current conversation checkpoint in the same atomic Git transaction.
+- `tasks/roots.yaml` lists only verified root task IDs. `children.yaml` lists only direct child IDs. Each is a **derived index**, never an independent source of hierarchy truth; check the target tasks' canonical parent fields before consequential action.
+- Create/update the relevant index entries on task creation, deletion/retirement (if authorized), and reparenting. Include the affected index files with task state/log/handoff, optional plan revisions, and the current conversation request/branch checkpoint **in one atomic Git transaction**.
+- Keep indexes concise (IDs only), not replicas of task details, approval state or percentages. Read only the requested task, necessary ancestors/children, relevant dependency edges and plan. Do not load or rewrite the whole graph by default.
+- A missing, stale or contradictory index is an **integrity gap**, not proof that no tasks/children exist. Reconcile it against verified canonical task records before claiming completeness or modifying the graph. `routing/index.yaml` in the rules repository is not a live task registry; live navigation data belongs in the state repository.
 
-## Execution plan is distinct
+## Separately versioned execution plans
 
-An execution plan describes a proposed/revisioned order, concurrency, gates, dependencies and verification for some task IDs. It does not define task identity, parentage, or authority; changing a plan does not automatically restructure tasks. For complex work it may be a separately versioned task artifact referenced from `task-state.md`. No plan file is mandatory for a simple task, and an approved design does not by itself authorize implementation or deployment.
+- An execution plan describes **how** known tasks may be executed: sequencing, concurrency, readiness/verification gates and revisions. It does not define task identity or hierarchy, rewrite canonical `depends_on`, or authorize otherwise unapproved actions.
+- For a complex owning task, store optional immutable files `tasks/<id>/plans/plan-NNN.yaml` (see [execution-plan template](../templates/execution-plan.yaml)); use `active_plan: plans/plan-NNN.yaml` in its canonical task state, or `null` for no plan. A simple task need not have a plan.
+- Each plan records an ID, owning task ID, revision, optional `supersedes` pointer, referenced existing task IDs, optional parallel groups and completion gates. The next approved revision creates a **new file**, preserving previous plans and changing only the owning task's active pointer and meaningful log/handoff entries.
+- Generate detailed tasks progressively when their independent tracking becomes useful. The plan may describe future work in prose, but must not assert that a not-yet-created task ID already has persisted records.
+- A revision or `parallel_groups` entry must not conflict with canonical dependencies or existing authorizations. Plan changes and dependency changes require their own proper approvals. Keep planned vs observed execution distinct.
 
-## Lifecycle and completion
+## Reparenting, concurrent writes and safe persistence
 
-- Every task has its own objective, current state, evidence, authorization boundary, history and resume checkpoint under [task-records](../behavior/task-records.md). Existing task status values remain workflow-specific until a lifecycle rule is explicitly approved.
-- Completing all children **does not automatically complete the parent**: parent-specific acceptance, integration, review or approval gates may remain. Similarly, dependency completion is not authority to start dependent work.
-- A parent's state must not be inferred merely from a child's state, and changes should not trigger wholesale rewrites of other tasks. Read only the relevant task(s) and relationships needed for the current decision.
+1. Identify the task, old parent, proposed new parent, relevant ancestor chain, and any affected dependency edges from a verified state-repository revision. Confirm the change is authorized, all identifiers exist, and neither parent nor dependency cycles would result.
+2. Preserve the task ID, history and directory. Update only its canonical `parent`, the old/new parents' `children.yaml` indexes (and `tasks/roots.yaml` if a root is involved), plus meaningful task-log and handoff entries. Do not needlessly rewrite unrelated parent status files.
+3. Publish all changed files **with** the current conversation request record and branch-head change in one Git tree/commit. Update the state branch ref conditionally with the exact old SHA, without force.
+4. On concurrent ref rejection, reread the new state and revalidate authorization, ancestry, dependencies and indexes; retry only after reconciling, never blindly overwrite. Read back the committed branch ref and **all affected files**.
+5. Inaccessible or inconsistent sources block assertions of completed task mutations. Report the actual persistence outcome without fabricating task history, approvals, ancestry, or successful commits.
 
-## Persistence boundary
+## Verification status
 
-Task mutations are separate from the mandatory per-assistant-response conversation checkpoint. Record meaningful task changes with actual source and approval evidence, then write the affected task records and request/branch checkpoint atomically; verify the new branch HEAD and every changed record. Never fabricate task IDs, dependencies, completed work, user approvals or historical events. The configured state repository is currently public: do not persist secrets or sensitive task content.
-
-## Remaining decisions
-
-Exact parent-state aggregation policy, indexing strategy for large task graphs, execution-plan revision format, and task reparenting/concurrency conflict UX require further design and end-to-end verification. This model does not pre-approve those mechanisms.
+The data model, computed parent rollup, derived indexes, immutable plans, progressive decomposition and atomic reparenting rules are **approved and specified**. They are **not yet proven by live end-to-end tests** of task creation, recovery, large-graph traversal, plan revision, reparenting, concurrency, or interrupted writes. No additional runtime or background worker is approved by this specification.

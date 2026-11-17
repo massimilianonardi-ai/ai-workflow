@@ -1,9 +1,0 @@
-# Task context registry
-# Only verified active task records in the configured state_repository belong here.
-# This registry is currently empty; do not infer task identity from historical fixtures.
-version: 1
-contexts: []
-
-# Add a scoped logical task ID only after its state and handoff are durably
-# written to the configured state_repository and their paths verified.
-# An index entry is a locator, never authorization to inherit a task.

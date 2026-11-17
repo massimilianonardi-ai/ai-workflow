@@ -11,7 +11,8 @@ Read and execute [bootstrap.md](bootstrap.md) in full for every request. Its uni
 - [bootstrap.md](bootstrap.md): mandatory per-request execution and finalization.
 - [doc/conversation-identity.md](doc/conversation-identity.md): conditional branch, alias, and synchronization recovery.
 - [state/protocol.md](state/protocol.md) and [state/connector-runbook.md](state/connector-runbook.md): verified GitHub checkpoint semantics and connector operations.
-- [state/task-model.md](state/task-model.md): unified recursive task model, composition, dependencies and execution-plan separation.
+- [state/task-model.md](state/task-model.md): approved recursive task persistence, computed parent rollups, minimal root/child indexes, immutable revisioned execution plans, and safe reparenting.
+- [templates/execution-plan.yaml](templates/execution-plan.yaml): optional immutable plan revision template.
 - [routing/](routing/): optional `!aw` commands, intent routing, and context resolution.
 - [control/continuity.md](control/continuity.md): task continuity and conditional audit.
 - [workflows/system-design.md](workflows/system-design.md): the only complete phase workflow at present.

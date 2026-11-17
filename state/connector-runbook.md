@@ -16,7 +16,7 @@ If write tools are absent, report `storage_unavailable`. Do not report "no task 
 4. **Even if no task changed, include TWO files:**
    - `conversations/<chat-id>/branch-N.yaml`: existing creation date, updated response counter, task associations and gap information.
    - `requests/<chat-id>/N-00000M.yaml`: source counter, actual request refs or null, empty task deltas if unchanged, integrity status.
-5. If task state changed, add **all affected task files** in the same transaction; do not use the no-task-change helper to discard such changes.
+5. If task state changed, add **all affected task files**, changed derived root/children indexes, and any new immutable execution-plan revision in the same transaction; do not use the no-task-change helper to discard such changes. Verify the relationships and the selected plan pointer first. No parent rollup write is required merely because a child changed.
 6. Call the GitHub connector's **create_tree** with `base_tree_sha` from `H` and the intended file contents, then **create_commit** with `parent_sha=H` and the new tree.
 7. Call **update_ref** for `ai-work-state/main` using the exact `expected_sha=H` and `force=false`. A create_commit response alone does not publish anything. On collision/rejection, read the new head and reevaluate; do not blindly retry or force overwrite.
 8. Read the new `main` ref and both changed files **from that ref**, compare against the intended contents, and inspect task files if changed. Only then report `persisted`, or `persisted_with_gaps` if earlier history remains unrecovered.

@@ -1,4 +1,4 @@
-# State and checkpoint protocol — v0.2.3 alpha
+# State and checkpoint protocol — active
 
 **Status:** assistant-executed checkpoint protocol through authorized GitHub tools. Former deterministic prototypes have been removed from the active tree and remain recoverable through Git history. The mutable store is `massimilianonardi-ai/ai-work-state` on **`main`**. The framework rules live in `ai-workflow`, and its historical test fixtures are not live checkpoints.
 
@@ -6,7 +6,7 @@
 
 **Conversation checkpoint: every assistant response.** Attempt one new request record and one branch-head advance for *every* response, including no-task-change answers, diagnostics, clarifications and errors. Do this **before displaying the final marker**. Never interpret "no task modified" as "nothing to persist". The `!aw route` payload remains a dry run; saving administrative metadata does not execute the payload or grant new permissions.
 
-**Task documents: only when genuinely changed.** Follow the [universal task model](task-model.md): every task has a stable identity, optional parent, and independent dependency edges, with no task-type hierarchy. Update the versioned baseline, current `task-state.md`, append-only `task-log.md`, and `handoff.md` only for an authorized change; write them in the same logical Git transaction as the request/branch checkpoint. Validate any affected parent/dependency links before writing; do not load or rewrite unrelated tasks. No task change means only the request record and branch checkpoint need writing.
+**Task documents: only when genuinely changed.** Follow the [universal task model](task-model.md): every task has a stable identity, optional parent, and independent dependency edges, with no task-type hierarchy. Update the versioned baseline, current `task-state.md`, append-only `task-log.md`, and `handoff.md` only for an authorized change; write them in the same logical Git transaction as the request/branch checkpoint. Validate any affected parent/dependency links, changed `tasks/roots.yaml` or `children.yaml` derived indexes, and any new immutable `plans/plan-NNN.yaml` before writing; do not load or rewrite unrelated tasks. Task progress rollups are computed on demand, not written into parent statuses. No task change means only the request record and branch checkpoint need writing.
 
 **Host capabilities are decisive.** GitHub actions and permissions must exist in the actual chat. A Markdown bootstrap cannot intercept a native ChatGPT turn or force a missing tool to exist. If the user/host prohibits writes, obey that rule and mark the checkpoint as pending, never pretend it was stored.
 
@@ -17,7 +17,7 @@
 3. Read the current configured state-branch commit SHA, the conversation branch YAML (or confirmed absence), and necessary request history. Resolve `m` (source checkpoint) and `h` (persisted head). Apply [conversation identity](../doc/conversation-identity.md), including the branching and pending rules.
 4. For current response `m+1`, prepare immutable `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` containing actual `request_refs` (or `null` if host source references are unavailable), `source_checkpoint`, `tasks_added`, `tasks_removed`, `event_refs` and `checkpoint_integrity`. Write this record even if all change lists are empty. Do not invent message references.
 5. Prepare `conversations/<chat-id>/branch-N.yaml` with `created_at`, `message_id`, and known `tasks` associations. `tasks: []` means verified empty; `tasks: null` means unknown. To record older unrecoverable `pending` turns, use `sync_gaps: [[first,last]]` plus `synchronization: incomplete` instead of fabricating old request records.
-6. If task state really changed, include only the affected authorized task documents (handoff logically last) in the **same** Git tree and commit. If not, just branch and request records.
+6. If task state really changed, include only the affected authorized task documents, derived root/children indexes, and optional new immutable execution-plan version (handoff prepared logically last) in the **same** Git tree and commit. The active plan pointer is stored on the owning task. Verify integrity and permissions of all referenced task IDs and edges before creating the tree. If not, just branch and request records.
 7. Publish via Git tree, commit and **conditional expected-head update** without force, then reread the configured state branch and every changed record. Follow [connector runbook](connector-runbook.md). A dangling commit or an emitted text marker is **not** persistence.
 8. Report the actual status and the next message marker. If write or read-back fails, do not claim it succeeded; preserve `sync = pending`.
 

@@ -22,6 +22,7 @@ Checkpoint: <timestamp or revision>
 - **Task state:** `task-state.md` @ <observed revision or "unverified">
 - **Latest log event:** `task-log.md#EV-0001` @ <observed revision or "unverified">
 - **Specification (when applicable):** `task-specification.md` @ <revision and actual approval status>
+- **Active execution plan (when applicable):** <immutable plans/plan-NNN.yaml revision and confirmed approval status>
 - **Source/implementation revisions:** <exact repository/commit or accessible artifact ID>
 
 ## Where the work stopped
