@@ -1,9 +1,10 @@
 ---
 id: "task:<stable-logical-id>"
-kind: task
 status: draft
 scope: "<declared project / subject scope>"
 subject: "<specific task subject>"
+parent: null  # or another verified stable task ID
+depends_on: []  # zero or more independently verified task IDs
 workflow_refs:
   - behavior/intent.md
   - behavior/task-records.md
@@ -42,6 +43,13 @@ Updated: <timestamp/revision>
 
 <What has been completed, what is under way, what remains; distinguish plans from observed results.>
 
+## Task relationships
+
+- Parent: <null or verified parent task ID>
+- Direct children: <derived by finding tasks whose parent equals this task ID; not required in canonical state>
+- Dependencies: <the verified `depends_on` task IDs, or none>
+- Execution plan: <optional separate, revisioned plan reference; not an inferred task type>
+
 ## Active dependencies and references
 
 - <blocking question or resource>
@@ -50,4 +58,4 @@ Updated: <timestamp/revision>
 
 ## State header rules
 
-Replace all placeholders with the actual scoped identity, current phase and verified source. Include only the workflow_refs genuinely needed for the task, and state_refs to explicitly related contexts with known relation and authority. Header fields are not a reason to infer implicit hierarchy or copy obsolete project assumptions.
+Replace all placeholders with the actual scoped identity, current phase and verified source. Include only the workflow_refs genuinely needed for the task, and state_refs to explicitly related contexts with known relation and authority. Never add `kind` or `type` to classify a task or document. Validate parent links as a single-parent acyclic hierarchy and `depends_on` as an acyclic dependency graph before changes. Header fields are not a reason to infer implicit hierarchy or copy obsolete project assumptions.

@@ -1,6 +1,5 @@
 ---
 id: "task:<stable-logical-id>"
-kind: task_log
 status: draft
 scope: "<declared project / subject scope>"
 subject: "<specific task subject>"
