@@ -12,7 +12,7 @@ If write tools are absent, report `storage_unavailable`. Do not report "no task 
 
 1. Read `refs/heads/main`, capturing its exact SHA `H`. Read the commit at `H` and capture its tree SHA.
 2. Recover the current chat's genuine marker and read `conversations/<chat-id>/branch-N.yaml` at **exactly `H`**. A 404 from the confirmed repository is different from an unreachable connection. Check any existing immutable request path before creation.
-3. Compute the next response checkpoint using `state/checkpoint-runtime.mjs` or equivalent conservative planning, including the `sync_gaps` rule for earlier pending messages. Preserve existing task associations (or mark `tasks: null` when genuinely unknown).
+3. Compute the next response checkpoint directly from the bootstrap and verified state, including the `sync_gaps` rule for earlier pending messages. Do not invoke auxiliary deterministic scripts or runtimes. Preserve existing task associations (or mark `tasks: null` when genuinely unknown).
 4. **Even if no task changed, include TWO files:**
    - `conversations/<chat-id>/branch-N.yaml`: existing creation date, updated response counter, task associations and gap information.
    - `requests/<chat-id>/N-00000M.yaml`: source counter, actual request refs or null, empty task deltas if unchanged, integrity status.
@@ -37,6 +37,6 @@ Do not invent a missing old event or write a checkpoint under an ID **quoted fro
 
 In an **experimental ChatGPT conversation** with the current bootstrap **installed as Project instructions** and GitHub write permission, send two ordinary messages with no task changes. For each response expect one new `requests/...` file and an incremented `branch-0.yaml` on `ai-work-state/main`. Confirm the files on GitHub. Then issue `!aw sync` and verify the next checkpoint or an explicit actionable error.
 
-The tests in `tests/checkpoint-runtime.test.mjs` verify the code's deterministic rules. They do **not** prove automatic model invocation. A GitHub repository, Project instructions, and a state model are three separate layers of capability.
+The prototype and its tests (`state/checkpoint-runtime.mjs`, `tests/checkpoint-runtime.test.mjs`) are retained for possible future use, but are **not part of the active execution path**. Their results do not prove assistant invocation. Verify the assistant's actual GitHub operations and readbacks instead.
 
 **Never fall back to `dev`:** if `refs/heads/main` cannot be read, updated or verified, report `storage_unavailable` or `write_failed`; do not write live state on `dev`. `ai-work-state` is currently public, so real checkpoints must not contain private or sensitive content.
