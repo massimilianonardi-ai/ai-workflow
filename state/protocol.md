@@ -21,7 +21,7 @@
 7. Publish via Git tree, commit and **conditional expected-head update** without force, then reread the configured state branch and every changed record. Follow [connector runbook](connector-runbook.md). A dangling commit or an emitted text marker is **not** persistence.
 8. Report the actual status and the next message marker. If write or read-back fails, do not claim it succeeded; preserve `sync = pending`.
 
-For `m = h` continue as `m+1`. For `m < h` without pending, apply the **branch-divergence** rules. For `m > h` without pending, investigate rather than overwriting. For `sync = pending`, first try to reconcile; never treat pending alone as evidence for an alternative branch.
+For `m = h` continue as `m+1`. At the next checkpoint attempt, `m < h` plus verified independent continuation of the same canonical branch establishes **branch divergence**, without requiring continuous synchronization or complete recovery of unrelated missing history. For `m > h`, investigate lag or lost writes rather than overwriting. For `sync = pending`, reconcile enough evidence to distinguish an actual fork from missing persistence; never treat pending or a counter mismatch alone as proof of a branch.
 
 ## Required persistence outcomes
 

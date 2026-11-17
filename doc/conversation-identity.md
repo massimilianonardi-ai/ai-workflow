@@ -100,18 +100,18 @@ Always distinguish three values: the **source checkpoint** from the preceding ma
 | Comparison | Operational interpretation | Action |
 | --- | --- | --- |
 | `m = h`, no pending flag | Ordinary continuation | Process and save `m + 1` on the same branch. |
-| `m < h`, no pending flag | Path resumes from an earlier checkpoint: detectable divergence | Create a new branch from checkpoint `m`. |
+| `m < h`, verified independent remote continuation | Source resumes from an earlier checkpoint while the same canonical branch has advanced | Create a new branch from checkpoint `m`; continuous synchronization is not required. |
 | `m > h` | Persisted state is behind, a write was lost, or information is inconsistent | Recover; **do not** assume branching. |
 | `sync = pending` | Unconfirmed local checkpoint | Apply section 7 before classifying differences as new branches. |
 | Inconsistent state/marker or missing file | Identity or persistence requires verification | Do not overwrite; apply section 8. |
 
-Numerical equality is meaningful only for the same **canonical** identity and branch. Responses regenerated from an earlier checkpoint may be treated as alternative evolutions; there is no need to distinguish an "original" path from a "derived" one.
+**Branch detection is evaluated when the next checkpoint is attempted; it does not require continuously synchronized conversation state.** A missing or delayed save alone is not evidence of a fork. Numerical equality is meaningful only for the same **canonical** identity and branch. Responses regenerated from an earlier checkpoint may be treated as alternative evolutions; there is no need to distinguish an "original" path from a "derived" one.
 
 A derived branch continues numbering after the shared checkpoint: if the fork originates at `0/3`, its first response on `branch-1` is `1/4`. Messages 1–3 remain part of the parent branch's history; do not fabricate them as responses physically emitted on `branch-1`.
 
 ## 6. Branch detection and creation
 
-If `m < h` and a pending synchronization that could explain the discrepancy has been ruled out:
+If `m < h` and verified source lineage and remote continuation establish two distinct evolutions of the same canonical branch, create a branch even if unrelated historical checkpoints remain unsynchronized. A pending flag or numerical mismatch alone is insufficient; investigate whether missing writes or inconsistent identity explain the discrepancy. Do not require complete replay of unrelated missing checkpoints before recognizing an already evidenced fork:
 
 1. Reconstruct the task associations **effective at checkpoint `m`** from the history of association changes. Do not automatically copy the parent branch's task list from its current head `h`.
 2. Allocate the next available `branch-id` greater than the maximum existing one; reserve it through conditional creation of `branch-N.yaml` without overwriting existing files. On collision, reread and retry.
