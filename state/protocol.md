@@ -1,6 +1,6 @@
 # State and checkpoint protocol — v0.2.3 alpha
 
-**Status:** assistant-executed checkpoint protocol through authorized GitHub tools. The existing [checkpoint-runtime.mjs](checkpoint-runtime.mjs) is a deferred, inactive prototype, not an execution dependency. The mutable store is `massimilianonardi-ai/ai-work-state` on **`main`**. The framework rules live in `ai-workflow`, and its historical test fixtures are not live checkpoints.
+**Status:** assistant-executed checkpoint protocol through authorized GitHub tools. Former deterministic prototypes have been removed from the active tree and remain recoverable through Git history. The mutable store is `massimilianonardi-ai/ai-work-state` on **`main`**. The framework rules live in `ai-workflow`, and its historical test fixtures are not live checkpoints.
 
 ## Mandatory separation: checkpoint vs task state
 
@@ -46,7 +46,7 @@ If a genuine source marker says `branch-id=0, message-id=4, sync=pending` but th
 
 ## Execution scope and deferred prototype
 
-The assistant directly applies this protocol using authorized GitHub capabilities. Do not invoke or depend on `state/checkpoint-runtime.mjs` or add other deterministic helper runtimes for current operations. Preserve the existing prototype and its tests as inactive research artifacts for possible future reconsideration; they do not establish live execution, automatic invocation, or branch-handling coverage.
+The assistant directly applies this protocol using authorized GitHub capabilities. Do not invoke or depend on auxiliary deterministic helper runtimes for current operations. Historical prototypes and tests are available through Git history, not in the active tree; they do not establish live execution, automatic invocation, or branch-handling coverage.
 
 Verify actual GitHub tool access and branch permissions before acting; do not assert that a tool is unavailable without checking the currently exposed capabilities. If authorized write capabilities are genuinely absent, report `storage_unavailable` rather than pretending to persist. A Project instruction alone does not grant connector permissions.
 

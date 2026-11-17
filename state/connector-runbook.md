@@ -37,6 +37,6 @@ Do not invent a missing old event or write a checkpoint under an ID **quoted fro
 
 In an **experimental ChatGPT conversation** with the current bootstrap **installed as Project instructions** and GitHub write permission, send two ordinary messages with no task changes. For each response expect one new `requests/...` file and an incremented `branch-0.yaml` on `ai-work-state/main`. Confirm the files on GitHub. Then issue `!aw sync` and verify the next checkpoint or an explicit actionable error.
 
-The prototype and its tests (`state/checkpoint-runtime.mjs`, `tests/checkpoint-runtime.test.mjs`) are retained for possible future use, but are **not part of the active execution path**. Their results do not prove assistant invocation. Verify the assistant's actual GitHub operations and readbacks instead.
+Historical deterministic prototypes and tests were removed from the active tree and can be restored from Git history if a future architectural decision requires them. Verify the assistant's actual GitHub operations and readbacks.
 
 **Never fall back to `dev`:** if `refs/heads/main` cannot be read, updated or verified, report `storage_unavailable` or `write_failed`; do not write live state on `dev`. `ai-work-state` is currently public, so real checkpoints must not contain private or sensitive content.

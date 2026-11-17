@@ -1,28 +1,11 @@
-# AI-Workflow v0.2.3 alpha — opt-in ChatGPT Project setup
+# ChatGPT Project installation — current AI-Workflow
 
-This document is an installation **instruction**, not a claim that any ChatGPT Project has already been reconfigured. No GitHub commit creates host capabilities, tools, persistent automation or authorization.
+Use the current [bootstrap](../bootstrap.md) as the installed Project entry point. Installing instructions does not itself grant GitHub permissions or enable background execution.
 
-## Suggested experimental Project instructions
+Suggested Project instruction:
 
-```text
-Per questo progetto utilizza il bootstrap sperimentale AI-Workflow v0.2.3 disponibile alla revisione:
-https://github.com/massimilianonardi-ai/ai-workflow/blob/v0.2.3/bootstrap.md
+> For every request, read and execute the complete AI-Workflow bootstrap at https://github.com/massimilianonardi-ai/ai-workflow/blob/main/bootstrap.md. Follow its universal initialization, request execution, and finalization rules, and load only the conditional documents needed for the request. Use the configured state repository and verify actual GitHub write/read-back operations. Do not use auxiliary deterministic scripts or runtimes. Respect host permissions and never claim unverified persistence.
 
-Per ogni richiesta leggi il bootstrap e segui le sezioni obbligatorie A → B → C, selezionando soltanto i riferimenti necessari della stessa revisione. Rispetta le istruzioni dell'host: il bootstrap non attiva modalità native o permessi aggiuntivi.
+The deployment parameters currently installed in the bootstrap are `rules_repository=massimilianonardi-ai/ai-workflow`, `state_repository=massimilianonardi-ai/ai-work-state`, and `time_zone=Europe/Rome`.
 
-Il progetto AI-Workflow è indipendente da RumiAI. Identifica sempre task e obiettivo attuale prima di riprendere stati storici; non importare automaticamente un task dal solo progetto/chat.
-
-Per la persistenza usa soltanto il repository GitHub autorizzato massimilianonardi-ai/ai-work-state, branch main. Non usare il branch dev come fallback. La sezione C deve TENTARE UNA VERA SCRITTURA GITHUB A OGNI RISPOSTA: aggiorna branch-N.yaml e crea un record immutabile in requests/ anche quando nessun task è cambiato. Usa state/protocol.md e state/connector-runbook.md della versione v0.2.3. PRIMA DI RISPONDERE controlla le azioni GitHub scrivibili concesse alla conversazione e, se ci sono, CHIAMALE effettivamente; non limitarti a generare un marker. Modifica gli altri file task solo quando necessario. Dopo il commit verifica con una lettura GitHub del branch e del record. Segnala esplicitamente l'esito: persisted, persisted_with_gaps, write_failed, storage_unavailable o write_not_attempted; non dichiarare salvato ciò che non è verificato. Non inventare identità, checkpoint, log, approvazioni o eventi storici. Se mancano permessi o strumenti, non puoi garantire persistenza: dichiara storage_unavailable. In presenza di lacune storiche usa sync = pending anche se il nuovo checkpoint è stato scritto.
-
-Il comando !aw route è diagnostico e non esegue il payload. Il comando !aw audit richiede un audit del task identificabile. Le revisioni sostanziali di baseline, le modifiche operative e il deployment richiedono le autorizzazioni pertinenti.
-```
-
-## Pilot boundaries
-
-- Enable only in an isolated test Project or equivalent configured host.
-- The `v0.2.3` tag is fixed after publication; the `main` branch may advance.
-- Verify WRITE-capable GitHub connector actions to `massimilianonardi-ai/ai-work-state` **on `main`** in the actual chat, not just repository browsing. A connected GitHub account does not by itself prove per-turn writes are being invoked. Inspect the remote branch and request file after every reply.
-- Complete live routing, two no-task-change checkpoint writes, `!aw sync`, workflow transition, audit, failure recovery and cross-chat resume before expanding the pilot.
-- To roll back in an experimental Project, restore its previous instruction URL; reverting repository code does not automatically change installed Project instructions.
-
-**Privacy warning:** `ai-work-state` is currently PUBLIC; do not write private conversations or confidential task data until the repository has been made private.
+The state repository is currently public; do not persist confidential conversation text, credentials, or sensitive task metadata. A historical tagged bootstrap may not reflect current instructions.

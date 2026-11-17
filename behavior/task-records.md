@@ -4,9 +4,9 @@ Status: experimental workflow method; applies **to every request type**, indepen
 
 ## Ownership and storage
 
-Use one stable, scoped logical task ID. Resolve whether the current request **continues the same objective** or starts a materially distinct task; same ChatGPT Project, same subject or same chat does not by itself prove identity. The initial experimental durable store is `contexts/tasks/<task-id>/` in this repository. A path is a storage convention, **not** an inferred hierarchy of scope or authority. Sanitize a task ID into a stable, non-colliding directory name; record the logical ID in the documents. Do not merge distinct tasks, invent historical decisions or overwrite somebody else's task.
+Use one stable, scoped logical task ID. Resolve whether the current request **continues the same objective** or starts a materially distinct task; same ChatGPT Project, same subject or same chat does not by itself prove identity. The durable store is the configured `state_repository`; task paths are resolved from verified task state and the active registry, not from historical examples in the rules repository. A path is a storage convention, **not** an inferred hierarchy of scope or authority. Sanitize a task ID into a stable, non-colliding directory name; record the logical ID in the documents. Do not merge distinct tasks, invent historical decisions or overwrite somebody else's task.
 
-For **every task**, keep these three files together:
+For **every durable task**, keep these three files together in the configured state repository:
 
 - **`task-state.md`** — canonical **current** task meaning: outcome, boundaries, clarified distinctions, **accepted** decisions with origin, actual status and current dependencies. Do not copy discarded options, rejected proposals or the complete chat here. It may point to an additional specification when applicable.
 - **`task-log.md`** — append-only **chronology** of meaningful user turns, assistant actions, questions/answers, design alternatives (including rejected ones), changes, errors, verifications and observed results. Use monotonic event IDs and source links/commit IDs when available. A log entry is evidence of a claim or event, **not** approval of its proposal.
