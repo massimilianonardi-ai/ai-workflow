@@ -1,4 +1,4 @@
-# GitHub connector write procedure for section C
+# GitHub connector write procedure for universal finalization
 
 **Purpose:** execute a real per-response conversation checkpoint, even if no task changed. This document is an **action recipe**, not a background service. Use the authorized GitHub connector in the *actual* host conversation. Required repo: `massimilianonardi-ai/ai-work-state`, branch `main`.
 
@@ -35,7 +35,7 @@ Do not invent a missing old event or write a checkpoint under an ID **quoted fro
 
 ## Manual verification scenario
 
-In an **experimental ChatGPT conversation** with the v0.2.3 bootstrap **installed as Project instructions** and GitHub write permission, send two ordinary messages with no task changes. For each response expect one new `requests/...` file and an incremented `branch-0.yaml` on `ai-work-state/main`. Confirm the files on GitHub. Then issue `!aw sync` and verify the next checkpoint or an explicit actionable error.
+In an **experimental ChatGPT conversation** with the current bootstrap **installed as Project instructions** and GitHub write permission, send two ordinary messages with no task changes. For each response expect one new `requests/...` file and an incremented `branch-0.yaml` on `ai-work-state/main`. Confirm the files on GitHub. Then issue `!aw sync` and verify the next checkpoint or an explicit actionable error.
 
 The tests in `tests/checkpoint-runtime.test.mjs` verify the code's deterministic rules. They do **not** prove automatic model invocation. A GitHub repository, Project instructions, and a state model are three separate layers of capability.
 

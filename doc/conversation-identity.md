@@ -9,7 +9,7 @@
 
 Define how to recover or generate the AI-Workflow identity of a conversation, maintain sequential checkpoints, detect branches, synchronize state, and reconcile identifiers created in error. This specification describes an application-level protocol: it does not assume that the host platform exposes a native conversation identifier or branching signals, or that a model always has access to the complete conversation history.
 
-Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state` on its active **`main`** branch. Historical synthetic fixtures on `dev` are not live persistent state. This document is referenced by the second instruction of bootstrap section A. Universal finalization (section C) applies its persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
+Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state` on its active **`main`** branch. Historical synthetic fixtures on `dev` are not live persistent state. The bootstrap handles ordinary conversation identity and continuity inline. Consult this document for conditional branching, alias resolution, conflicts, and incomplete synchronization. Universal finalization in the bootstrap performs persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
 
 ## 2. Identifiers
 
@@ -19,7 +19,7 @@ Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-s
 | `branch-id` | Nonnegative integer, starting at 0 for the first path; subsequent values are assigned monotonically and never reused within a `chat-id`. |
 | `message-id` | Integer, first response = 1, incremented for **each assistant response** along a path; a branch continues numbering from its originating checkpoint. |
 
-The readable timestamp in `chat-id` uses the `Europe/Rome` time zone; the full timestamp, including its offset, is stored in the initial branch. The pair `(branch-id, message-id)` is meaningful only within a given `chat-id`. These identifiers do not automatically identify native messages on the host platform.
+The readable timestamp in `chat-id` uses the bootstrap's configured `time_zone`; the full timestamp, including its offset, is stored in the initial branch. The pair `(branch-id, message-id)` is meaningful only within a given `chat-id`. These identifiers do not automatically identify native messages on the host platform.
 
 The final marker of every response uses this ordinary format:
 
@@ -181,7 +181,7 @@ For each response, including responses without persistent tasks:
 5. If a new branch was detected, begin the final response with its notice. Disclose any persistence gap before the final marker.
 6. End with the single final state marker, referring to the response actually emitted.
 
-**Invariant:** bootstrap section C must run even when section B ends in error, blockage, refusal, partial work, or no task. Ending a response is not equivalent to closing a task.
+**Invariant:** universal bootstrap finalization must run even when request execution ends in error, blockage, refusal, partial work, or no task. Ending a response is not equivalent to closing a task.
 
 ## 11. Invariants
 
