@@ -34,10 +34,10 @@ tasks/<stable-task-id>/handoff.md
 tasks/<stable-task-id>/task-specification.md  # when needed
 ```
 
-- `tasks/roots.yaml` lists only verified root task IDs. `children.yaml` lists only direct child IDs. Each is a **derived index**, never an independent source of hierarchy truth; check the target tasks' canonical parent fields before consequential action.
+- `tasks/roots.yaml` lists only verified root task IDs. **Create `children.yaml` for every new task, including an empty `children: []` file for leaves.** Each `children.yaml` lists only direct child IDs. Each is a **derived index**, never an independent source of hierarchy truth; check the target tasks' canonical parent fields before consequential action.
 - Create/update the relevant index entries on task creation, deletion/retirement (if authorized), and reparenting. Include the affected index files with task state/log/handoff, optional plan revisions, and the current conversation request/branch checkpoint **in one atomic Git transaction**.
 - Keep indexes concise (IDs only), not replicas of task details, approval state or percentages. Read only the requested task, necessary ancestors/children, relevant dependency edges and plan. Do not load or rewrite the whole graph by default.
-- A missing, stale or contradictory index is an **integrity gap**, not proof that no tasks/children exist. Reconcile it against verified canonical task records before claiming completeness or modifying the graph. `routing/index.yaml` in the rules repository is not a live task registry; live navigation data belongs in the state repository.
+- A missing, stale or contradictory index is an **integrity gap**, not proof that no tasks/children exist. Reconcile it against verified canonical task records before claiming completeness or modifying the graph. No mutable live task registry belongs in the rules repository; live navigation data belongs in the state repository.
 
 ## Separately versioned execution plans
 
