@@ -13,13 +13,11 @@ If write tools are absent, report `storage_unavailable`. Do not report "no task 
 1. Read `refs/heads/main`, capturing its exact SHA `H`. Read the commit at `H` and capture its tree SHA.
 2. Recover the current chat's genuine marker and read `conversations/<chat-id>/branch-N.yaml` at **exactly `H`**. A 404 from the confirmed repository is different from an unreachable connection. Check any existing immutable request path before creation.
 3. Compute the next response checkpoint directly from the bootstrap and verified state, including the `sync_gaps` rule for earlier pending messages. Do not invoke auxiliary deterministic scripts or runtimes. Preserve existing task associations (or mark `tasks: null` when genuinely unknown).
-4. **Even if no task changed, include TWO files:**
-   - `conversations/<chat-id>/branch-N.yaml`: existing creation date, updated response counter, task associations and gap information.
-   - `requests/<chat-id>/N-00000M.yaml`: source counter, actual request refs or null, empty task deltas if unchanged, integrity status.
-5. If task state changed, add **all affected task files**, changed derived root/children indexes, and any new immutable execution-plan revision in the same transaction; do not use the no-task-change helper to discard such changes. Verify the relationships and the selected plan pointer first. No parent rollup write is required merely because a child changed.
+4. **Every response updates** `conversations/<chat-id>/branch-N.yaml`: preserve its creation date and branch semantics; advance the response counter and retain evidenced task associations and gap information. Do not create a `requests/` record.
+5. If meaningful conversation state changed, include an immutable event under `conversations/<chat-id>/events/`. If recovery needs a concise context photograph, include a snapshot under `conversations/<chat-id>/snapshots/`. Create the subdirectories when used. If task state changed, include **all affected authorized task files**, derived root/children indexes and new immutable execution-plan revisions in the same transaction. No empty events or snapshots for routine replies; no parent rollup write solely because a child changed.
 6. Call the GitHub connector's **create_tree** with `base_tree_sha` from `H` and the intended file contents, then **create_commit** with `parent_sha=H` and the new tree.
 7. Call **update_ref** for `ai-work-state/main` using the exact `expected_sha=H` and `force=false`. A create_commit response alone does not publish anything. On collision/rejection, read the new head and reevaluate; do not blindly retry or force overwrite.
-8. Read the new `main` ref and both changed files **from that ref**, compare against the intended contents, and inspect task files if changed. Only then report `persisted`, or `persisted_with_gaps` if earlier history remains unrecovered.
+8. Read the new `main` ref and **every changed file** from that ref, compare against the intended contents, and inspect task files if changed. Only then report `persisted`, or `persisted_with_gaps` if earlier history remains unrecovered.
 
 Tool signatures can vary between hosts; select available actions matching these operations rather than assuming the model always has a particular connector. Do not expose credentials in chat.
 
@@ -35,7 +33,7 @@ Do not invent a missing old event or write a checkpoint under an ID **quoted fro
 
 ## Manual verification scenario
 
-In an **experimental ChatGPT conversation** with the current bootstrap **installed as Project instructions** and GitHub write permission, send two ordinary messages with no task changes. For each response expect one new `requests/...` file and an incremented `branch-0.yaml` on `ai-work-state/main`. Confirm the files on GitHub. Then issue `!aw sync` and verify the next checkpoint or an explicit actionable error.
+In an **experimental ChatGPT conversation** with the current bootstrap **installed as Project instructions** and GitHub write permission, send two ordinary messages with no task changes. For each response expect an incremented `branch-0.yaml` on `ai-work-state/main`, with no mandatory auxiliary file. Then verify `events/` for a genuine state change and `snapshots/` for a warranted resume-context save. Confirm each Git write. Then issue `!aw sync` and verify the next checkpoint or an explicit actionable error.
 
 Historical deterministic prototypes and tests were removed from the active tree and can be restored from Git history if a future architectural decision requires them. Verify the assistant's actual GitHub operations and readbacks.
 

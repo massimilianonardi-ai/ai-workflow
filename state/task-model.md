@@ -51,7 +51,7 @@ tasks/<stable-task-id>/task-specification.md  # when needed
 
 1. Identify the task, old parent, proposed new parent, relevant ancestor chain, and any affected dependency edges from a verified state-repository revision. Confirm the change is authorized, all identifiers exist, and neither parent nor dependency cycles would result.
 2. Preserve the task ID, history and directory. Update only its canonical `parent`, the old/new parents' `children.yaml` indexes (and `tasks/roots.yaml` if a root is involved), plus meaningful task-log and handoff entries. Do not needlessly rewrite unrelated parent status files.
-3. Publish all changed files **with** the current conversation request record and branch-head change in one Git tree/commit. Update the state branch ref conditionally with the exact old SHA, without force.
+3. Publish all changed files **with** the conversation branch-head checkpoint and any relevant state-change event or resume snapshot in one Git tree/commit. Update the state branch ref conditionally with the exact old SHA, without force.
 4. On concurrent ref rejection, reread the new state and revalidate authorization, ancestry, dependencies and indexes; retry only after reconciling, never blindly overwrite. Read back the committed branch ref and **all affected files**.
 5. Inaccessible or inconsistent sources block assertions of completed task mutations. Report the actual persistence outcome without fabricating task history, approvals, ancestry, or successful commits.
 

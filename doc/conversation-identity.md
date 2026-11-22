@@ -77,9 +77,14 @@ tasks:
 
 `tasks: []` means **no associated tasks**; `tasks: null` means task associations cannot be reconstructed with sufficient confidence. Do not silently turn uncertainty into an empty list.
 
-### 3.3 Request index
+### 3.3 Events and snapshots under the conversation
 
-Request history preserves the relationship among prompts, branches, checkpoints, and task associations, including **unchanged-task replies**. The alpha writes one immutable record at `requests/<chat-id>/<branch-id>-<six-digit-message-id>.yaml` for **each response**, even with no task changes. That record includes `source_checkpoint`, `request_refs` (actual references or `null` when unavailable), `tasks_added`, `tasks_removed`, `event_refs`, and `checkpoint_integrity`. The complete chat archive remains independent; do not invent transcript content or native message identifiers.
+All conversation-specific data belongs under `conversations/<chat-id>/`. The existing `branch-N.yaml` files retain their structure and checkpoint behavior. Two on-demand subdirectories replace the old global request index:
+
+- `events/`: immutable, checkpoint-referenced records of **real state changes** (task associations, verified forks, approved workflow decisions, recovery events). Record only meaningful changes, not every reply.
+- `snapshots/`: concise photographs of the context **needed to resume work**, created when useful for continuity or handoff; not an automatic transcript archive and not a required record per reply.
+
+Choose stable branch/message-indexed filenames for created records and use idempotent conditional writes. Preserve actual source evidence and explicitly mark unknown information; do not invent full conversation content. The former `requests/` files are retired from the active tree; historical commits remain available for archival audit. Reconstruction of task associations at a fork must rely on verified branch history and state-change events, or disclose uncertainty rather than guessing.
 
 ## 4. Initialization and identity recovery
 
@@ -129,9 +134,9 @@ The `message-id` identifies the current response even when persistence fails. A 
 
 1. Following a failed or indeterminate write, **reread the repository when possible**: a communications error may occur after a successful write.
 2. If the checkpoint cannot be verified, disclose the problem in the response and append `sync = pending` to its final marker. Preserve the local identity and any chain of pending checkpoints.
-3. At the next prompt, first attempt to recover and synchronize whatever pending updates are available, without fabricating deltas, messages, or decisions that cannot be recovered. A marker alone does not necessarily contain enough data to replay updates to tasks and indexes. If the host can verify the identity and source but cannot reconstruct earlier requests, it MAY persist the **current** response with explicit `sync_gaps` and `tasks: null` as necessary; do **not** create fabricated request files for the missing turns.
+3. At the next prompt, first attempt to recover and synchronize whatever pending updates are available, without fabricating deltas, messages, or decisions that cannot be recovered. A marker alone does not necessarily contain enough data to replay updates to tasks and indexes. If the host can verify the identity and source but cannot reconstruct earlier state changes, it MAY persist the **current** response with explicit `sync_gaps` and `tasks: null` as necessary; do **not** fabricate missing events or snapshots.
 4. An explicitly pending checkpoint **must not automatically be classified as a branch** because its number differs from persisted state.
-5. Remove `sync = pending` only after the current checkpoint **and all required historical records** have been verified. A newly persisted response with unresolved `sync_gaps` is `persisted_with_gaps`, and its final marker remains pending. If recovery is impossible, continue local numbering where safe, and disclose the exact gap.
+5. Remove `sync = pending` only after the current branch checkpoint **and all required continuity evidence** have been verified. A newly persisted response with unresolved `sync_gaps` is `persisted_with_gaps`, and its final marker remains pending. If recovery is impossible, continue local numbering where safe, and disclose the exact gap.
 6. If another path has meanwhile modified persisted state, do not overwrite it: compare verifiable checkpoint provenance and reconcile, or treat the conflict as an alternative evolution when appropriate.
 
 The availability of conversation context or an event log sufficient to reconstruct deltas is not guaranteed. When information required for recovery is missing, disclose the gap; do not certify an incomplete history as synchronized.
@@ -144,7 +149,7 @@ For every modification to an existing branch, use a conditional write against th
 - Creating a new `branch-N.yaml` must fail when the file already exists; never overwrite it, and retry with a different ID.
 - Do not interpret failed reads as proof of a new conversation or create a new `chat-id` to work around an outage affecting an identity already known.
 - If `m > h` without a verifiable explanation, or if aliases are inconsistent, suspend potentially destructive updates and disclose uncertainty.
-- An event or historical modification written twice during a retry must be recognizable as a duplicate; exact record idempotency is defined by the request-index specification.
+- An event or historical modification written twice during a retry must be recognizable as a duplicate; use stable event/snapshot paths and conditional commits for idempotency.
 
 A conditional write of an individual file does not automatically make updates to tasks, indexes, and handoffs atomic. Universal finalization must prescribe write order, retry behavior, and reference verification.
 
@@ -176,7 +181,7 @@ For each response, including responses without persistent tasks:
 
 1. Identify the source checkpoint and any divergence, reserving a branch when necessary.
 2. Carry out the requested work within authorizations and verified sources; determine relevant task associations.
-3. **For EVERY response**, create a request checkpoint record and update the branch checkpoint; zero task changes still require both files. Include task state/log/handoff only when the task genuinely changed (handoff last logically). Write all affected records in one authorized Git tree/commit and conditionally advance the ref.
+3. **For EVERY response**, update the existing conversation branch checkpoint. When state genuinely changes, record the relevant immutable event; when resuming needs context, save a snapshot under the same chat directory. Include task state/log/handoff only when the task genuinely changed (handoff last logically). Write all affected records in one authorized Git tree/commit and conditionally advance the ref.
 4. Actually attempt GitHub persistence when writable tools are available and authorized; then read back the ref and changed files. Report `persisted`, `persisted_with_gaps`, `write_failed`, `storage_unavailable`, or `write_not_attempted` with its reason. If any required save fails or historical gaps remain, retain `sync = pending`.
 5. If a new branch was detected, begin the final response with its notice. Disclose any persistence gap before the final marker.
 6. End with the single final state marker, referring to the response actually emitted.
@@ -219,7 +224,7 @@ For each response, including responses without persistent tasks:
 
 The following items do not alter approved decisions, but require companion specifications before activation:
 
-- Request-index schema and location, including the reconstruction of historical task associations.
+- Event and snapshot schemas, including reconstruction of historical task associations from verified branch history and state-change events.
 - Multi-file finalization protocol and write idempotency following retry or crash.
 - Recoverable representation of pending updates when chat context alone is insufficient.
 - Exact format of provenance references in imported branches and how uncertain merges are approved.
