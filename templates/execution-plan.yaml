@@ -5,7 +5,15 @@ id: "plan-001"
 task: "task:<owner-stable-logical-id>"
 revision: 1
 supersedes: null  # or "plans/plan-000.yaml"
-steps: []  # ordered existing, verified task IDs, not promises that tasks already exist
+steps: []  # existing verified task IDs only; not implementation microsteps
+milestones: []  # descriptive plan steps, not task entities:
+# - id: STEP-01
+#   after: []                 # other STEP IDs inside this plan
+#   deliverable: "a usable vertical slice; product docs alongside code"
+#   artifacts: []             # product source/docs paths or refs
+#   checks: []                # test/acceptance IDs and observable done conditions
+#   review_when: "milestone complete or material design drift"
+#   status: planned           # proposed/current plan, not proof of execution
 parallel_groups: []  # groups of existing task IDs; canonical depends_on still applies
 completion_gates: []  # owner-specific acceptance/verification gates
 # Descriptive future work can be kept in the owning task specification;

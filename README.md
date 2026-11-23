@@ -15,7 +15,11 @@ Read and execute [bootstrap.md](bootstrap.md) in full for every request. Its uni
 - [templates/execution-plan.yaml](templates/execution-plan.yaml): optional immutable plan revision template.
 - [routing/](routing/): optional `!aw` commands, intent routing, and context resolution.
 - [control/continuity.md](control/continuity.md): task continuity and conditional audit.
-- [workflows/system-design.md](workflows/system-design.md): the only complete phase workflow at present.
+- [workflows/system-design.md](workflows/system-design.md): design-only specification and architecture workflow.
+- [workflows/develop.md](workflows/develop.md): complete development-to-delivery workflow, including implementation, verification and handoff.
+- [workflows/progressive-levels.md](workflows/progressive-levels.md): L1–L11 formalization/checkpoint contracts, adaptive depth and authority.
+- [behavior/product-documentation.md](behavior/product-documentation.md) and [templates/product-docs](templates/product-docs/README.md): independently useful, concise but extensive product documentation and 17 focused document templates.
+- [behavior/execution-supervision.md](behavior/execution-supervision.md): evidence-based plan supervision and independent cross-chat review.
 - [behavior/](behavior/) and [templates/](templates/): conditional methods and task-record templates.
 - [deploy/chatgpt-project-instructions.md](deploy/chatgpt-project-instructions.md): current installation guidance.
 
@@ -25,5 +29,5 @@ The assistant executes workflow and checkpoint operations directly through avail
 
 ## Verification status
 
-Publication of instructions is not proof of host execution. Actual checkpoints require successful GitHub writes and read-back verification; full branching, failure, and concurrency behavior still needs end-to-end validation.
+Publication and structural validation verify rule integration, not automatic agent compliance in a real development chat. Actual checkpoints require successful GitHub writes and read-back verification; live develop-workflow behavior, failure/recovery and concurrency still need end-to-end tests. See [progressive workflow acceptance matrix](doc/progressive-workflow-validation.md).
 

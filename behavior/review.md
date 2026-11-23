@@ -10,4 +10,6 @@ Use for reviews, assessment of completion, validation claims and comparisons of 
 6. **Make a discriminating verdict.** Identify precise supported success, contradiction or remaining uncertainty, with actual evidence and scope. Do not automatically praise a baseline simply because its referenced files exist; do not mark unknown as pass.
 7. **Return only actionable corrections needed for this result.** Feed a confirmed conceptual defect into decisions/specification/diagnosis, not a free-standing general test campaign. The operator's agreed acceptance remains the completion authority.
 
+For plan-milestone and cross-chat reviews, use [execution-supervision](execution-supervision.md): pin task/chat/plan/code revisions, check independent evidence, and return `continue`, `correct`, or `suspend` without silent writes to the target. Inspect the actual product docs against the code revision; complete task-state records alone do not establish that users can understand, operate or evolve the product.
+
 Review is a working method, not a mandate to create new regression suites, assessment paperwork or a global evaluator product.

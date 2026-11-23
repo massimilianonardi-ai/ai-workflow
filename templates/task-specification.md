@@ -72,6 +72,14 @@ For a new implementation or consequential redesign, include **one consolidated a
 
 Cover **all material** explicit and implicit decisions: outcome and scope, public API, major components, **which module owns which responsibility and which existing interfaces are reused**, source/reference-code interpretation, major technical implementation strategy, relevant alternatives and tradeoffs, data/credentials/security handling, compatibility, deliberate exclusions and acceptance evidence. Judge the choice against the project's outcomes, simplicity, reliability, security, maintainability and lifecycle costs—not the assistant's convenience. Clearly flag any two plausible interpretations with materially different architectures and request operator resolution. Technical microchoices remain the assistant's responsibility. Reuse the already-approved synthesis if unchanged; do not generate approval paperwork per commit.
 
+## 6a. Product documentation and verified source links
+
+**Product repository / revision:** <actual URL/ref or unavailable>  
+**Document entry point:** <link to product docs overview/index>  
+**Relevant artifacts:** <short links to objectives, requirements, use cases, architecture, component ownership, interfaces, flows, code design, tests and operations, as appropriate>.
+
+Use [the product documentation method](../behavior/product-documentation.md) and [L1–L11 contracts](../workflows/progressive-levels.md). These are separately useful product deliverables, not copies of this specification. Keep canonical approval/authority here, and reference the product documents and actual code revisions.
+
 ## 7. Readiness and approval
 
 - [ ] Objective and scope are understandable.

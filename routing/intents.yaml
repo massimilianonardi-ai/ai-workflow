@@ -1,7 +1,7 @@
 # AI-Workflow alpha-dev — open, multi-label MDM routing catalog.
 # Modality/effects are hints, NEVER authority. No forced match.
 version: 3
-status: alpha_0_2_0_experimental
+status: progressive_design_and_develop_active
 dimensions:
   operation: [research, design, develop, diagnose, validate, operate, other]
   input: [text, structured, image, audio, video, other]
@@ -11,12 +11,12 @@ dimensions:
 # Only real, present workflow definitions belong here.
 workflow_routes:
   design: workflows/system-design.md
+  develop: workflows/develop.md
 
-# Other families have methods but NO completed phase workflow in this alpha.
-# A request may combine multiple families without inventing another workflow.
+# Research/diagnosis/validation/operations use conditional methods; no invented phase workflow.
+# A request may combine operations; when genuine development is authorized, develop owns delivery.
 method_fallbacks:
   research: [behavior/research.md, behavior/evidence.md]
-  develop: [behavior/specification.md, behavior/execution.md, behavior/evidence.md]
   diagnose: [behavior/diagnosis.md, behavior/evidence.md]
   validate: [behavior/review.md, behavior/evidence.md]
   operate: [behavior/execution.md, behavior/decisions.md]

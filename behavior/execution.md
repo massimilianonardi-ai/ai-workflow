@@ -10,6 +10,10 @@ On a new implementation or substantive redesign, inspect the source and verify t
 
 This gate is one architectural review, not a request for permission on every function or commit. After it is passed, choose and execute routine coding and tests autonomously. Reopen it only if new evidence changes the agreed public contract, major components or consequential constraints.
 
+## Development workflow and product documentation
+
+For a genuine development objective use [the develop workflow](../workflows/develop.md) and its L1–L11 level gates, not a design-only stop. Produce and maintain the relevant **user-facing product documentation** according to [product-documentation](product-documentation.md): short, multiple, complete documents in the product repository alongside affected source changes. Task logs, handoffs and conversation snapshots do not replace product documentation. At meaningful milestones or observed drift use [execution supervision](execution-supervision.md) with verified plan/spec/code revisions; do not turn it into a constant permission request.
+
 ## Code ownership and simplicity
 
 Before editing, inspect the relevant source and calling interfaces. Map **which existing component owns each required responsibility** (for example transport, authentication, protocol client, business operation, persistence and presentation, as applicable). Place behavior in its owning module and interact through existing contracts; do not duplicate or relocate another module's responsibility for convenience. Avoid changing unrelated modules or expanding public APIs without a requirement or an authorized architectural change. When a needed capability already exists, reuse it if the dependency is appropriate; when it does not, implement it at the correct boundary. Do not create a generic framework or extra abstraction merely to avoid a small amount of local code.
@@ -25,7 +29,7 @@ Before claiming a code change is ready, perform a **focused internal self-review
 3. **Expose a full usage path early** when feasible: invocation/input, processing, output, integration/deployment and operator observation. Supporting units and checks do not replace that path.
 4. **Handle failures as information.** Record the exact symptom and evidence; use behavior/diagnosis.md to find the failing assumption or dependency. Do not blindly rerun the same script or generate an ever-expanding correction/check cycle. Change strategy when the previous causal hypothesis is falsified.
 5. **Escalate only actual blockers:** missing essential authorization, inaccessible necessary source, a consequential choice outside the approved contract, blocked external system, or an action beyond host capability. State precisely what decision/access is required, include a grounded recommendation when it is a decision, and continue independent approved work. Technical uncertainty within scope is for the assistant to investigate and resolve, not a reason to delegate implementation to the operator.
-6. **Stop at the agreed outcome,** not at a documentation milestone or a self-invented suite of checks. If incomplete, distinguish delivered part, residual gap and exact next action. Do not call unexecuted instructions, test plans or fictional data a working product.
+6. **Stop at the agreed outcome,** not at a documentation milestone or a self-invented suite of checks. Ensure the affected product docs and interface/flow/test descriptions match the delivered code revision. If incomplete, distinguish delivered part, residual gap and exact next action. Do not call unexecuted instructions, test plans or fictional data a working product.
 
 ## Scope control
 
