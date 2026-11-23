@@ -15,7 +15,7 @@ The namespace `!aw` is **literal text**, not a native UI mode. Match it **only a
 | `resume` | `!aw resume --context ID [-- REQUEST]` | Recover verified task and checkpoint; optional REQUEST interpreted within its permissions |
 | `design` | `!aw design [--context ID] -- REQUEST` | Start/continue appropriate design task; uses `system-design` only when applicable |
 | `reflect` | `!aw reflect [--context ID] -- REQUEST` | Evaluate or discuss; do not silently rewrite baseline |
-| `develop` | `!aw develop [--context ID] -- REQUEST` | Use development methods; authorization for substantive implementation still required |
+| `develop` | `!aw develop [--context ID] -- REQUEST` | Use the progressive `workflows/develop.md` through delivery; substantive product writes require actual authorization |
 
 `route`, `design`, `reflect`, `develop` require nonempty payload. `sync` accepts no options or payload and uses the current conversation's genuine marker; `resume` requires `--context`; `audit` accepts no payload and needs an unambiguous active task if no ID was supplied; `help` accepts no options/payload.
 
