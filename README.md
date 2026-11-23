@@ -1,6 +1,6 @@
 # AI-Workflow
 
-AI-Workflow is an assistant-executed workflow framework. The **active source** is the `main` branch. This tree contains only current operational instructions, specifications, and templates; older releases, experiments, tests, and deterministic prototypes remain available through Git history.
+AI-Workflow is an assistant-executed workflow framework. The **active source** is the `main` branch. This repository contains the current operational instructions, specifications, and templates.
 
 ## Entry point
 
@@ -21,12 +21,9 @@ Read and execute [bootstrap.md](bootstrap.md) in full for every request. Its uni
 
 ## Runtime policy
 
-ChatGPT applies the protocol directly using authorized tools, especially GitHub for persistence. **No auxiliary deterministic script or runtime is part of the active execution path.** Do not assume tools are unavailable without checking current capabilities. The mutable store is [ai-work-state/main](https://github.com/massimilianonardi-ai/ai-work-state/tree/main), separate from this rules repository. Its current public visibility means confidential or sensitive information must not be persisted there.
+The assistant executes workflow and checkpoint operations directly through available, authorized tools. Verify current capabilities and access before acting. The mutable store is [ai-work-state/main](https://github.com/massimilianonardi-ai/ai-work-state/tree/main), separate from this rules repository. Since the state repository is public, store only information suitable for public disclosure.
 
 ## Verification status
 
 Publication of instructions is not proof of host execution. Actual checkpoints require successful GitHub writes and read-back verification; full branching, failure, and concurrency behavior still needs end-to-end validation.
 
-## Historical material
-
-Deleted working-tree files remain retrievable from earlier commits and release tags through Git history. They are **not active guidance** and must not be loaded or executed by default.

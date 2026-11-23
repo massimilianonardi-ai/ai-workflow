@@ -1,6 +1,6 @@
 # State and checkpoint protocol — active
 
-**Status:** assistant-executed checkpoint protocol through authorized GitHub tools. Former deterministic prototypes have been removed from the active tree and remain recoverable through Git history. The mutable store is `massimilianonardi-ai/ai-work-state` on **`main`**. The framework rules live in `ai-workflow`, and its historical test fixtures are not live checkpoints.
+**Status:** active checkpoint protocol executed by the assistant through authorized GitHub tools. The mutable store is `massimilianonardi-ai/ai-work-state` on **`main`**; framework rules live in `ai-workflow`.
 
 ## Mandatory separation: checkpoint vs task state
 
@@ -13,8 +13,8 @@
 ## Required universal-finalization algorithm
 
 1. Recover the latest **genuine marker from this conversation**, not a quoted marker from another chat. Establish `chat-id`, `branch-id`, source `message-id` and pending status. Generate a fresh UUID v4 and timestamp in the configured `time_zone` through available capabilities only when no identity is recoverable. Never invent either.
-2. **Check for an authorized writable GitHub capability** targeting `massimilianonardi-ai/ai-work-state`, branch `main`. Do not use `dev` as a fallback. If unavailable, outcome is `storage_unavailable`. If available, **attempt the write** even when no task changed; do not stop at "no modifications".
-3. Read the current configured state-branch commit SHA, the conversation branch YAML (or confirmed absence), and necessary request history. Resolve `m` (source checkpoint) and `h` (persisted head). Apply [conversation identity](../doc/conversation-identity.md), including the branching and pending rules.
+2. **Check for an authorized writable GitHub capability** targeting `massimilianonardi-ai/ai-work-state`, branch `main`. If unavailable, outcome is `storage_unavailable`. If available, **attempt the write** even when no task changed; do not stop at "no modifications".
+3. Read the current configured state-branch commit SHA, the conversation branch YAML (or confirmed absence), and relevant verified state-change events or snapshots. Resolve `m` (source checkpoint) and `h` (persisted head). Apply [conversation identity](../doc/conversation-identity.md), including the branching and pending rules.
 4. For current response `m+1`, prepare `conversations/<chat-id>/branch-N.yaml` with `created_at`, the next `message_id`, and known `tasks` associations, preserving the existing branch semantics. `tasks: []` means verified empty; `tasks: null` means unknown. Represent unrecoverable `pending` turns with `sync_gaps: [[first,last]]` and `synchronization: incomplete`, without inventing missing history.
 5. For a verified significant state transition (including task-association changes, confirmed forks, or approved workflow decisions), add an immutable event under `conversations/<chat-id>/events/` tied to the branch and message checkpoint. For a handoff or where continuation needs context not supplied by task documents, save a concise snapshot under `conversations/<chat-id>/snapshots/`. Neither is mandatory for ordinary replies; the full chat transcript is not assumed available.
 6. If task state really changed, include the relevant event and only affected authorized task documents, derived root/children indexes, and optional new immutable execution-plan version (handoff prepared logically last) in the **same** Git tree and commit as the branch checkpoint. Verify task IDs and relationships before writing. Otherwise, write only the branch checkpoint and any genuinely needed event or snapshot.
@@ -39,19 +39,17 @@ For `m = h` continue as `m+1`. At the next checkpoint attempt, `m < h` plus veri
 
 If a genuine source marker says `branch-id=0, message-id=4, sync=pending` but the remote branch does not exist, **do not fabricate checkpoints 1–4**.
 
-- Reconstruct historical requests only from actually available evidence. Keep missing history explicit.
+- Reconstruct prior state changes only from actually available evidence. Keep missing history explicit.
 - If the marker and identity genuinely belong to this chat, an authorized next response may be checkpoint 5, with `tasks: null`, `sync_gaps: [[1,4]]` and `synchronization: incomplete`. Its marker **still has `sync = pending`** until the historical gap is resolved.
 - If the marker is only **quoted in another conversation** (for example, diagnostic text), do not create that chat-id under live paths.
 - A later response must preserve known gaps and avoid treating a higher remote counter as proof of a complete history.
 
-## Execution scope and deferred prototype
+## Execution capabilities
 
-The assistant directly applies this protocol using authorized GitHub capabilities. Do not invoke or depend on auxiliary deterministic helper runtimes for current operations. Historical prototypes and tests are available through Git history, not in the active tree; they do not establish live execution, automatic invocation, or branch-handling coverage.
-
-Verify actual GitHub tool access and branch permissions before acting; do not assert that a tool is unavailable without checking the currently exposed capabilities. If authorized write capabilities are genuinely absent, report `storage_unavailable` rather than pretending to persist. A Project instruction alone does not grant connector permissions.
+The assistant applies this protocol through the authorized GitHub capabilities available in the current conversation. Verify tool access and branch permissions before acting. When storage is unavailable, report `storage_unavailable` and preserve the pending marker. Project instructions define behavior; actual host permissions determine available operations.
 
 ## Authoritative state branch and visibility
 
-The sole active write target is `massimilianonardi-ai/ai-work-state`, ref `refs/heads/main`. Before any actual checkpoint, verify that repository and branch. A Git adapter targeting `dev` or another repository must be rejected rather than silently writing elsewhere. `dev` contains older test fixtures and is not a live persistence destination. All new real conversation branch, request, or task state updates belong on `main`.
+The active write target is `massimilianonardi-ai/ai-work-state`, ref `refs/heads/main`. Verify this exact repository and branch before each checkpoint. All conversation branch, event, snapshot and authorized task-state updates are committed to this ref.
 
-**Privacy:** the state repository is currently **public**. Do not persist confidential user data, secrets or sensitive task metadata until private visibility is configured. Repository visibility was not changed by this correction.
+**Privacy:** the state repository is currently **public**. Do not persist confidential user data, secrets or sensitive task metadata until private visibility is configured. Use an appropriately protected repository before saving nonpublic content.

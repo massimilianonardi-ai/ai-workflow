@@ -2,11 +2,11 @@
 
 ## Scope and authority
 
-This is the approved task model for AI-Workflow persistence. It defines assistant-executed operations using authorized GitHub tools, not a scheduler or deterministic runtime. The [bootstrap](../bootstrap.md) remains responsible for the unconditional per-response conversation checkpoint; task files change only when work actually changes and is authorized.
+This is the approved task model for AI-Workflow persistence. It defines assistant-executed operations using authorized GitHub tools. The [bootstrap](../bootstrap.md) remains responsible for the unconditional per-response conversation checkpoint; task files change only when work actually changes and is authorized.
 
 ## Universal identity, hierarchy and dependencies
 
-- **One entity:** every independently tracked unit of work is a task. Labels such as project, workstream, milestone and subtask are natural-language descriptions, not mandatory types or levels. Do not introduce `kind` or `type` for task or document classification.
+- **One entity:** every independently tracked unit of work is a task. Task relationships are represented by the canonical `parent` and `depends_on` fields; names such as project, workstream, milestone and subtask are descriptive.
 - Give each task a stable scoped ID, independent of its position. Store it at `tasks/<stable-task-id>/` in the configured `state_repository`, not within its parent's directory.
 - The task's canonical `task-state.md` contains `id`, `parent` (one verified task ID or `null`), `depends_on` (verified task ID list), `status`, and optionally `active_plan`. Scope, objective, workflow, provenance and approvals remain in its records.
 - Parent links represent **composition**: at most one parent, unlimited conceptual depth, no self-link or ancestry cycle. Direct children are derived by finding tasks whose canonical parent is this task.
@@ -35,7 +35,7 @@ tasks/<stable-task-id>/task-specification.md  # when needed
 ```
 
 - `tasks/roots.yaml` lists only verified root task IDs. **Create `children.yaml` for every new task, including an empty `children: []` file for leaves.** Each `children.yaml` lists only direct child IDs. Each is a **derived index**, never an independent source of hierarchy truth; check the target tasks' canonical parent fields before consequential action.
-- Create/update the relevant index entries on task creation, deletion/retirement (if authorized), and reparenting. Include the affected index files with task state/log/handoff, optional plan revisions, and the current conversation request/branch checkpoint **in one atomic Git transaction**.
+- Create/update the relevant index entries on task creation, deletion/retirement (if authorized), and reparenting. Include the affected index files with task state/log/handoff, optional plan revisions, and the current conversation branch checkpoint **in one atomic Git transaction**.
 - Keep indexes concise (IDs only), not replicas of task details, approval state or percentages. Read only the requested task, necessary ancestors/children, relevant dependency edges and plan. Do not load or rewrite the whole graph by default.
 - A missing, stale or contradictory index is an **integrity gap**, not proof that no tasks/children exist. Reconcile it against verified canonical task records before claiming completeness or modifying the graph. No mutable live task registry belongs in the rules repository; live navigation data belongs in the state repository.
 

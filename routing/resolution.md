@@ -17,7 +17,7 @@ This document defines retrieval and routing mechanics, not the global behavior o
 
 A ChatGPT Project, workspace or context collection can be organized around **one stable subject** (for example, a specific managed server fleet) or around **a family of independent tasks/subjects** (for example, deployments to many unrelated clusters). Those are different applicability rules, not different universal hierarchies. **Project membership means relevant material may be discoverable; it is not by itself proof of the same task identity.** The same applies to adjacent messages in a chat, although continuity there is a reasonable starting hypothesis.
 
-Use the project's declared purpose and scope **when available**: what subjects it covers; which facts are shared invariants; which tasks/resources are independent; and what constitutes an explicit link or distinction. If scope is absent or vague, do not invent a single-project topology or assume that every prior decision applies to every new request. A project can validly be single-subject, multi-subject or mixed; there is no mandatory type field or fixed folder hierarchy. Historical illustrative scope declarations are available in Git history; they are not active configuration.
+Use the project's declared purpose and scope **when available**: what subjects it covers; which facts are shared invariants; which tasks/resources are independent; and what constitutes an explicit link or distinction. If scope is absent or vague, do not invent a single-project topology or assume that every prior decision applies to every new request. A project can validly be single-subject, multi-subject or mixed; there is no mandatory type field or fixed folder hierarchy. Use the current project's explicit scope declaration and verified task identifiers.
 
 Before allowing retrieved task state to determine the requested action:
 
@@ -35,7 +35,7 @@ This is a **decision method**, not a deterministic classifier, global cross-chat
 
 ## Operational state/header compatibility and staleness
 
-The current task's state, log, specification and handoff use explicit headers and links under behavior/task-records.md. Real task templates and files use workflow_refs/state_refs; historical demonstration fixtures are not active state. Treat missing headers in older documents as a format gap to normalize when authorized, **not** as a license to infer implicit workflow inheritance. Resolve referenced state and method independently and only when relevant.
+The current task's state, log, specification and handoff use explicit headers and links under behavior/task-records.md. Task templates and files use `workflow_refs` and `state_refs`. When a relevant document lacks required headers, normalize it only during an authorized update, with explicit provenance. Resolve referenced state and method independently and only when relevant.
 
 A handoff is a resume checkpoint, not immortal authority. Compare its recorded last event and next action with the current repository state, current user instruction and later observed effects. If a branch, deployment or artifact named as pending has already been verified, do not perform it again; update the checkpoint before continuation. If a source is inaccessible, report the exact gap.
 
@@ -43,4 +43,4 @@ A user who approves an explicit task specification does not need to approve unch
 
 ## Limits
 
-This Markdown/YAML prototype is not a deterministic LLM classifier, semantic search system, permission engine, persistent orchestrator or automatic background executor. Static or paper tests do not establish client behavior; validate opt-in new-chat routing separately.
+These instructions provide selective context resolution and routing decisions. Validate behavior through actual client/tool executions and verified results.

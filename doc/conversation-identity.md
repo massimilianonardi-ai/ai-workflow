@@ -1,15 +1,13 @@
 # AI-Workflow — Conversation Identity and Continuity
 
-**Intended repository path:** `doc/conversation-identity.md` in `ai-workflow`  
-**Status:** approved design specification; publication does not activate the workflow  
-**Date:** 2026-11-09  
-**Scope:** Chat, Work, and Codex, subject to actually available access and execution capabilities
+**Status:** active conditional identity and continuity specification  
+**Scope:** supported ChatGPT environments with the necessary access and execution capabilities
 
 ## 1. Purpose and boundaries
 
 Define how to recover or generate the AI-Workflow identity of a conversation, maintain sequential checkpoints, detect branches, synchronize state, and reconcile identifiers created in error. This specification describes an application-level protocol: it does not assume that the host platform exposes a native conversation identifier or branching signals, or that a model always has access to the complete conversation history.
 
-Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state` on its active **`main`** branch. Historical synthetic fixtures on `dev` are not live persistent state. The bootstrap handles ordinary conversation identity and continuity inline. Consult this document for conditional branching, alias resolution, conflicts, and incomplete synchronization. Universal finalization in the bootstrap performs persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
+Rules reside in the `ai-workflow` repository; mutable data resides in `ai-work-state` on its active **`main`** branch. The bootstrap handles ordinary conversation identity and continuity inline. Consult this document for conditional branching, alias resolution, conflicts, and incomplete synchronization. Universal finalization in the bootstrap performs persistence operations and emits the marker. Host-environment rules and actual permissions take precedence over the operational possibilities described here.
 
 ## 2. Identifiers
 
@@ -37,14 +35,15 @@ The marker is the **last line of the response**, separated from the content by a
 
 ## 3. Persistence and file model
 
-Minimum structure in `ai-work-state`:
+Conversation structure in `ai-work-state`:
 
 ```text
 conversations/
-  2026-11-09_14-11_<uuid>/
+  <chat-id>/
     branch-0.yaml
     branch-1.yaml
-    ...
+    events/       # populated on meaningful state changes
+    snapshots/    # populated when recovery context is needed
 ```
 
 There are no branch subdirectories. The directory supplies the `chat-id`; the filename supplies the `branch-id`. Neither is repeated in the file contents.

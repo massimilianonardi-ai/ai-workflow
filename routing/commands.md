@@ -1,4 +1,4 @@
-# AI-Workflow v0.2.2 alpha commands
+# AI-Workflow — Command grammar
 
 The namespace `!aw` is **literal text**, not a native UI mode. Match it **only at character zero** followed by ASCII space or end; parse verb case-sensitively. Only one `--context` may appear, with a nonempty whitespace-free logical task ID. `--` separates arguments from payload, including arbitrary line breaks and command-like text. Invalid/unknown verbs or malformed options must produce an explicit syntax error **without guessing an execution route**.
 
@@ -19,9 +19,9 @@ The namespace `!aw` is **literal text**, not a native UI mode. Match it **only a
 
 `route`, `design`, `reflect`, `develop` require nonempty payload. `sync` accepts no options or payload and uses the current conversation's genuine marker; `resume` requires `--context`; `audit` accepts no payload and needs an unambiguous active task if no ID was supplied; `help` accepts no options/payload.
 
-**Administrative checkpoint exception:** every response, including `help` and `route`, attempts its own conversation metadata checkpoint when the user/host has authorized a writable state store. This **does not** execute the diagnostic payload, change the task or authorize target side effects; explicit no-write constraints still take precedence. Report `storage_unavailable` or `write_not_attempted` truthfully if the checkpoint cannot be attempted.
+**Command checkpointing:** universal finalization applies to every command response, including `help` and `route`, subject to actual storage authorization and availability. A diagnostic command updates conversation state only; its target payload remains a dry run.
 
-**Dry-run contract:** a diagnostic output describes the intended route and *possible* future actions, not an observed execution. Do not mutate task targets, change the active phase, reserve an implementation job or trigger external side effects. Universal finalization still runs, but conversation checkpoint metadata is handled separately, only with authorized storage; unavailable storage is disclosed, never asserted.
+**Dry-run contract:** a diagnostic output describes the intended route and *possible* future actions, not an observed execution. Do not mutate task targets, change the active phase, reserve an implementation job or trigger external side effects. Universal finalization follows the bootstrap and reports the verified storage outcome.
 
 **Audit response:** task and phase, estimates vs observed relevant turns/agent steps when available, latest meaningful progress and source evidence, detected inconsistencies, audit depth reached, decision (`continue`, `correct`, `suspend`, or `re-route proposed`) and the next authorized action. Missing evidence must be identified, not substituted with self-reported log text.
 

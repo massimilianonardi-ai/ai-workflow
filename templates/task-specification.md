@@ -60,7 +60,7 @@ Include the primary path and important failures. Do **not** generate a speculati
 | --- | --- | --- | --- |
 | V-01 | UC-01 | <realistic setup + action> | <specific result, how it can be observed> |
 
-Define checks that are feasible in the actual environment. Automated checks, manual observations and isolated demonstrations are all possible; mark which are real and which are unavailable. No unrelated historical test program becomes a task acceptance condition by default.
+Define checks that are feasible in the actual environment. Automated checks, manual observations and isolated demonstrations are all possible; mark which are real and which are unavailable. Acceptance conditions derive from the current task's agreed outcomes and constraints.
 
 ## 6. Proposed solution and implementation boundaries
 

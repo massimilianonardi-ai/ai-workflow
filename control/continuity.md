@@ -1,6 +1,6 @@
-# Continuity controller — v0.2.3 alpha
+# Continuity controller
 
-**Responsibility, not a separate always-running agent.** Evaluate the *current* message against the relevant task, active phase, recent verified decisions, checkpoint and authorization boundary. Do not assume background monitoring or a reliable independent watchdog.
+**Responsibility:** evaluate the *current* message against the relevant task, active phase, recent verified decisions, checkpoint and authorization boundary whenever continuity checks are applicable.
 
 ## Lightweight review at each pertinent prompt
 
