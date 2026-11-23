@@ -79,12 +79,12 @@ tasks:
 
 ### 3.3 Events and snapshots under the conversation
 
-All conversation-specific data belongs under `conversations/<chat-id>/`. The existing `branch-N.yaml` files retain their structure and checkpoint behavior. Two on-demand subdirectories replace the old global request index:
+All conversation-specific data belongs under `conversations/<chat-id>/`. The existing `branch-N.yaml` files retain their structure and checkpoint behavior. Two on-demand subdirectories organize the conversation's complementary persistence records:
 
 - `events/`: immutable, checkpoint-referenced records of **real state changes** (task associations, verified forks, approved workflow decisions, recovery events). Record only meaningful changes, not every reply.
 - `snapshots/`: concise photographs of the context **needed to resume work**, created when useful for continuity or handoff; not an automatic transcript archive and not a required record per reply.
 
-Choose stable branch/message-indexed filenames for created records and use idempotent conditional writes. Preserve actual source evidence and explicitly mark unknown information; do not invent full conversation content. The former `requests/` files are retired from the active tree; historical commits remain available for archival audit. Reconstruction of task associations at a fork must rely on verified branch history and state-change events, or disclose uncertainty rather than guessing.
+Choose stable branch/message-indexed filenames for created records and use idempotent conditional writes. Preserve actual source evidence and explicitly mark unknown information; do not invent full conversation content. Reconstruction of task associations at a fork must rely on verified branch history and state-change events, or disclose uncertainty rather than guessing.
 
 ## 4. Initialization and identity recovery
 
