@@ -64,16 +64,22 @@ Define checks that are feasible in the actual environment. Automated checks, man
 
 ## 6. Proposed solution and implementation boundaries
 
-<Design alternatives, selected approach and reasoning, interfaces/dependencies, safety/authorization boundaries. Keep uncertain aspects provisional.>
+For a new implementation or consequential redesign, include **one consolidated architectural decision synthesis for operator review before coding**:
+
+| Decision | Explicit requirement / inferred interpretation | Source or inspected evidence | Selected solution and reason | Status |
+| --- | --- | --- | --- | --- |
+| A-01 | <public contract, component boundary, legacy example, security or consequential choice> | <source/revision> | <recommended option, impact and alternatives> | approved / proposed / unresolved |
+
+Cover **all material** explicit and implicit decisions: outcome and scope, public API, major components and integration boundaries, source/reference-code interpretation, major technical implementation strategy, relevant alternatives and tradeoffs, data/credentials/security handling, compatibility, deliberate exclusions and acceptance evidence. Judge the choice against the project's outcomes, simplicity, reliability, security, maintainability and lifecycle costs—not the assistant's convenience. Clearly flag any two plausible interpretations with materially different architectures and request operator resolution. Technical microchoices remain the assistant's responsibility. Reuse the already-approved synthesis if unchanged; do not generate approval paperwork per commit.
 
 ## 7. Readiness and approval
 
 - [ ] Objective and scope are understandable.
 - [ ] Main use cases have observable expected results.
 - [ ] Each main use case has relevant verification scenario(s).
-- [ ] Choices that could redirect implementation are resolved or intentionally excluded.
+- [ ] All consequential explicit and inferred architecture decisions have been exposed together; conflicting interpretations are resolved or intentionally excluded.
 - [ ] Verification means are available or their limitations are explicitly accepted.
-- [ ] **User has reviewed and accepted the current specification for the next phase.**
+- [ ] **User has reviewed and accepted the current specification and material architecture decision synthesis for the next phase.**
 
 **Approval evidence:** <explicit user go-ahead identifying the accepted specification revision, or "not yet approved">  
 **Permitted next phase:** <refine / design only / develop within specifically approved bounds>; explicit go-ahead required for substantive dependent implementation  
