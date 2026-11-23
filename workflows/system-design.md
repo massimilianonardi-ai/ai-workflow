@@ -26,9 +26,9 @@ Expose at each meaningful checkpoint: active phase, current microactivity and ne
 
 **Entry:** verified sufficient specification, source decisions and necessary tool permissions.
 
-**Work:** compare meaningful alternatives and trade-offs, design components/interfaces/dependencies, map requirements to design, review risks and evidence. Research remains subordinate. Do not implement, install or deploy merely because architecture is ready.
+**Work:** inspect the actual repository and relevant interfaces, compare only meaningful product-level alternatives, and develop a complete, minimal architecture consistent with the approved requirements. Independently solve technical realization questions (module structure, data flow, quoting/streams, error propagation and integration details) and justify them against current code. Ask the operator to decide only materially different public behavior, architectural boundaries, risks or permissions; include a reasoned recommendation. Map requirements to design and review actual risks/evidence. Research remains subordinate. Implementation and deployment still require their applicable authorization.
 
-**Outputs:** inspectable architecture, rationale, requirements traceability, risks, performed vs planned verification, accepted vs outstanding consequential decisions.
+**Outputs:** inspectable architecture anchored to verified code/interfaces, rationale, requirements traceability, technical decisions made by the assistant, risks, performed vs planned verification, and only genuinely consequential operator decisions outstanding.
 
 **Completion gate:** (a) a coherent inspectable proposal exists; (b) critical requirements are covered or blockers declared; (c) actual verification distinguished from hypotheses and planned tests; (d) needed approvals are scoped to the exact decisions/versions; (e) the record says `ready for review` vs `approved`, with any required final gate satisfied. End **design workflow**, not automatic `develop`.
 
